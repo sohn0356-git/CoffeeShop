@@ -1,6 +1,6 @@
-# Small Casino Project
+# CoffeeShop Project
 
-
+　
 
 ## 개요
 
