@@ -19,5 +19,9 @@ from django.conf.urls import url
 from cfuser.views import *
 
 urlpatterns = [
-    url(r'^$', UserLV.as_view(), name='index')
+    url(r'^$', index, name='index'),
+    url(r'^user/$', UserLV.as_view(), name='userlist'),
+    url(r'^register/$', RegisterView.as_view(), name='register'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^logout/$', logout, name='logout'),
 ]
