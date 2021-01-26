@@ -1,20 +1,20 @@
-# Small Casino Project
+# CoffeeShop Project
 
 
 
 ## 개요
 
-
+　
 
 * 1조의 Web 프로젝트
 * Django를 사용하여 온라인 커피숍을 구축한다.
 * 일반적인 회원가입, 로그인부터 시작해서 커피의 구매와 문의 기능까지 추가할 예정이다.
 
-
+　
 
 ## 팀원
 
-
+　
 
 * 손경주
   * 사용가능 언어 : Python, Java, C++
