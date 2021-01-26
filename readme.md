@@ -67,25 +67,34 @@
 
 #### 작업/코딩 순서
 
-| 작업순서          | 관련 명령/파일   | 필요한 작업 내용                                             |
-| ----------------- | ---------------- | ------------------------------------------------------------ |
-| 뼈대 만들기 💀     | startproject     | coffeeshop project생성                                       |
-|                   | settings.py      | templates, static경로 지정                                   |
-|                   | migrate          |                                                              |
-|                   | createsuperuser  | root 계정생성                                                |
-|                   | startapp         | cfuser생성                                                   |
-|                   | settings.py      | cfuser app 추가-----(210125)-----                            |
-| 모델 코딩하기 📚   | cfuser.models.py | email, name, password, phone, level, register_date를 맴버로 갖는 Cfuser 클래스 생성(models.Model상속) |
-|                   | cfuser.admin.py  | admin페이지에 Cfuser 추가                                    |
-|                   | makemigrations   | -----(210125)-----                                           |
-| URLconf 코딩하기🔧 | Coffeeshop.urls  | admin과 cfuser url 정리                                      |
-|                   | cfuser.urls      | cfuser의 url정리                                             |
-|                   | cfuser.views     | index, RegisterView, LoginView, logout, UserLV 생성          |
-|                   | cfuser.forms     | RegisterForm, LoginForm 생성                                 |
-|                   | templates        | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
-|                   |                  |                                                              |
-|                   |                  |                                                              |
-|                   |                  |                                                              |
-|                   |                  |                                                              |
-|                   |                  |                                                              |
+| 작업순서          | 관련 명령/파일    | 필요한 작업 내용                                             |
+| ----------------- | ----------------- | ------------------------------------------------------------ |
+| 뼈대 만들기 💀     | startproject      | coffeeshop project생성                                       |
+|                   | settings.py       | templates, static경로 지정                                   |
+|                   | migrate           |                                                              |
+|                   | createsuperuser   | root 계정생성                                                |
+|                   | startapp          | cfuser생성                                                   |
+|                   | settings.py       | cfuser app 추가-----(210125)-----                            |
+|                   | startapp          | cfboard생성                                                  |
+|                   | settings.py       | cfboard app 추가-----(210126)-----                           |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
+| 모델 코딩하기 📚   | cfuser.models.py  | email, name, password, phone, level, register_date를 맴버로 갖는 Cfuser 클래스 생성(models.Model상속) |
+|                   | cfuser.admin.py   | admin페이지에 Cfuser 추가                                    |
+|                   | makemigrations    |                                                              |
+|                   | migrate           | -----(210125)-----                                           |
+|                   | cfboard.models.py | category, boardname, userid, title, reg_date, views, content, displosure을 맴버로 갖는 Cfboard 클래스 생성(models.Model상속) |
+|                   | cfboard.admin.py  | admin페이지에 Cfboard,Boardcode,Boardcate 추가               |
+|                   | makemigrations    |                                                              |
+|                   | migrate           | -----(210126)-----                                           |
+| URLconf 코딩하기🔧 | Coffeeshop.urls   | admin과 cfuser url 정리                                      |
+|                   | cfuser.urls       | cfuser의 url정리                                             |
+|                   | cfuser.views      | index, RegisterView, LoginView, logout, UserLV 생성          |
+|                   | cfuser.forms      | RegisterForm, LoginForm 생성                                 |
+|                   | templates         | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
+|                   | Coffeeshop.urls   | admin과 cfboard url 정리                                     |
+|                   | cfuser.urls       | cfboard의 url정리-----(210126)-----                          |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
 

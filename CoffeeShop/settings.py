@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cfuser.apps.CfuserConfig',
+    'cfboard.apps.CfboardConfig',
 ]
 
 MIDDLEWARE = [
