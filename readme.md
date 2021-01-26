@@ -37,10 +37,7 @@
 
 * 한재영
 
-  * 사용가능 언어: python, c 다 부족
-  * 취미: 헬스, 영화, 요리
-  * 개발 분야: 미정 미정
-  * Contact: han042601@naver.com
+  * 
 
 　
 
@@ -77,15 +74,19 @@
 |                   | migrate          |                                                              |
 |                   | createsuperuser  | root 계정생성                                                |
 |                   | startapp         | cfuser생성                                                   |
-|                   | settings.py      | cfuser app 추가-----(210126)-----                            |
+|                   | settings.py      | cfuser app 추가-----(210125)-----                            |
+|                   | startapp         | cfboard생성                                                  |
+|                   | settings.py      | cfboard app 추가                                             |
+|                   |                  |                                                              |
+|                   |                  |                                                              |
 | 모델 코딩하기 📚   | cfuser.models.py | email, name, password, phone, level, register_date를 맴버로 갖는 Cfuser 클래스 생성(models.Model상속) |
 |                   | cfuser.admin.py  | admin페이지에 Cfuser 추가                                    |
-|                   | makemigrations   | -----(210126)-----                                           |
+|                   | makemigrations   | -----(210125)-----                                           |
 | URLconf 코딩하기🔧 | Coffeeshop.urls  | admin과 cfuser url 정리                                      |
 |                   | cfuser.urls      | cfuser의 url정리                                             |
 |                   | cfuser.views     | index, RegisterView, LoginView, logout, UserLV 생성          |
 |                   | cfuser.forms     | RegisterForm, LoginForm 생성                                 |
-|                   | templates        | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210126)----- |
+|                   | templates        | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
