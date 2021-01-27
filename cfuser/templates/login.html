@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
-{% block contents %}
 
-<head class="loginForm">
+{% block header %}
   <link href="{% static 'css/login.css' %}" rel="stylesheet" />
   
-</head>
+{% endblock %}
+
+{% block contents %}
 
     {{ error }}
-<body width="100%" height="100%">
   <div  class="loginForm">
   <h2>Login</h2>
     <form method="POST" action=".">
@@ -26,5 +26,4 @@
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
   </div>
-</body>
 {% endblock %}
