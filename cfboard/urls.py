@@ -16,8 +16,10 @@ Including another URLconf
 
 from django.conf.urls import url
 
-from cfuser.views import *
+from cfboard.views import *
 
 urlpatterns = [
     url(r'^$', index, name='index'),
+    url(r'^(?P<b>\d{1})/$',boards, name='boards'),
+    url(r'^list/$',BoardLV.as_view(), name='boardlist'),
 ]

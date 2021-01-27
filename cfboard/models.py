@@ -22,11 +22,27 @@ class Cfboard(models.Model):
 
     class Meta:
         db_table = 'coffeeshop board'
-        verbose_name = 'cfboard'
-        verbose_name_plural = 'cfboards'
+        verbose_name = '게시판'
+        verbose_name_plural = '게시판'
 
 class Boardcode(models.Model):
     boardname = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.boardname
+    
+    class Meta:
+        db_table = 'board name'
+        verbose_name = '게시판종류'
+        verbose_name_plural = '게시판종류'
 
 class Boardcate(models.Model):
     catename = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.catename
+    
+    class Meta:
+        db_table = 'board category'
+        verbose_name = '카테고리'
+        verbose_name_plural = '카테고리'
