@@ -7,10 +7,6 @@
     font-family:sans-serif;
   }
   
-  body{
-    background-image: url("{% static 'img/background.png' %}");
-  }
-
   .loginForm{
     position:absolute;
     width:600px;
@@ -21,7 +17,6 @@
     left:50%;
     transform: translate(-50%,-50%);
     border-radius: 15px;
-   
   }
   
   .loginForm h2{
@@ -29,40 +24,27 @@
     margin: 80px;
     font-size: 2em;
   }
-  
+
+
+
   .idForm{
-    border-bottom: 2px solid #adadad;
-    margin: 30px 150px;
+    border-bottom: 2px solid #3d203d;
+    margin: 50px 200px;
     padding: 10px 10px;
+  
   }
+
+
   
   .passForm{
     border-bottom: 2px solid #adadad;
     margin: 30px;
-    padding: 10px 10px;
-    width: 300px;
+    padding: 20px 20px;
+    width: 400px;
     height: 50px;
   }
   
-  .id {
-    width: 100%;
-    border:none;
-    outline:none;
-    color: #636e72;
-    font-size:16px;
-    height:25px;
-    background: none;
-  }
-  
-  .pw {
-    width: 100%;
-    border:none;
-    outline:none;
-    color: #636e72;
-    font-size:16px;
-    height:25px;
-    background: none;
-  }
+
   
   .btn {
     position:relative;
@@ -86,7 +68,4 @@
   .btn:hover {
     background-position: right;
   }
-  
-  .bottomText {
-    text-align: center;
-  }
+

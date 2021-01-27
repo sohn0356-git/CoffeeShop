@@ -3,7 +3,7 @@
 
 {% block header %}
   <link href="{% static 'css/login.css' %}" rel="stylesheet" />
-  
+
 {% endblock %}
 
 {% block contents %}
@@ -16,14 +16,14 @@
       {% for field in form %}
       <div>
         <label class= "idForm" for="{{ field.id_for_label }}">{{ field.label }}</label>
-        <input class= "passForm" type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+        <input class= "passForm" type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}"
           placeholder="{{ field.label }}" name="{{ field.name }}" />
       </div>
       {% if field.errors %}
       <!-- <span style="color: red">{{ field.errors }}</span> -->
       {% endif %}
       {% endfor %}
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn">Login</button>
     </form>
   </div>
 {% endblock %}
