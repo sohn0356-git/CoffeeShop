@@ -87,7 +87,7 @@
 |                   | cfuser.views     | index, RegisterView, LoginView, logout, UserLV 생성          |
 |                   | cfuser.forms     | RegisterForm, LoginForm 생성                                 |
 |                   | templates        | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
-|                   |                  |                                                              |
+|                   | login.html       | login.html 생성                                              |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
