@@ -75,6 +75,10 @@
 |                   | createsuperuser  | root 계정생성                                                |
 |                   | startapp         | cfuser생성                                                   |
 |                   | settings.py      | cfuser app 추가-----(210125)-----                            |
+|                   | startapp         | cfboard생성                                                  |
+|                   | settings.py      | cfboard app 추가                                             |
+|                   |                  |                                                              |
+|                   |                  |                                                              |
 | 모델 코딩하기 📚   | cfuser.models.py | email, name, password, phone, level, register_date를 맴버로 갖는 Cfuser 클래스 생성(models.Model상속) |
 |                   | cfuser.admin.py  | admin페이지에 Cfuser 추가                                    |
 |                   | makemigrations   | -----(210125)-----                                           |
@@ -83,6 +87,9 @@
 |                   | cfuser.views     | index, RegisterView, LoginView, logout, UserLV 생성          |
 |                   | cfuser.forms     | RegisterForm, LoginForm 생성                                 |
 |                   | templates        | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
+|                   | login.html       | login.html 생성 및 수정                                      |
+|                   | register.html    | legister.html 생성 및 수정                                   |
+|                   | base.html        | login 이후 mypage, logout 네비게이션 바 생성                  |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
