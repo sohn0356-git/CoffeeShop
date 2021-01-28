@@ -87,9 +87,9 @@
 |                   | cfuser.views     | index, RegisterView, LoginView, logout, UserLV 생성          |
 |                   | cfuser.forms     | RegisterForm, LoginForm 생성                                 |
 |                   | templates        | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
-|                   | login.html       | login.html 생성                                              |
-|                   |                  |                                                              |
-|                   |                  |                                                              |
+|                   | login.html       | login.html 생성 및 수정                                      |
+|                   | register.html    | legister.html 생성 및 수정                                   |
+|                   | base.html        | login 이후 mypage, logout 네비게이션 바 생성                 |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
 
