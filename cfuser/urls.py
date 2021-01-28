@@ -13,11 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include
+
 from django.conf.urls import url
 
+from cfuser.views import *
+app_name = 'cfuser'
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('cfuser.urls')),
+    url(r'^$', index, name='index'),
+    url(r'^user/$', UserLV.as_view(), name='userlist'),
+    url(r'^register/$', RegisterView.as_view(), name='register'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^logout/$', logout, name='logout'),
 ]
