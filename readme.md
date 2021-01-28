@@ -89,7 +89,10 @@
 |                   | templates        | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
 |                   | login.html       | login.html 생성 및 수정                                      |
 |                   | register.html    | legister.html 생성 및 수정                                   |
-|                   | base.html        | login 이후 mypage, logout 네비게이션 바 생성                 |
+|                   | base.html        | login 이후 mypage, logout 네비게이션 바 생성                  |
+|                   |                  |                                                              |
+|                   |                  |                                                              |
+|                   |                  |                                                              |
 |                   |                  |                                                              |
 |                   |                  |                                                              |
 
