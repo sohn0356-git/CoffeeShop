@@ -13,12 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include
+
 from django.conf.urls import url
 
+from cfboard.views import *
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('cfuser.urls')),
-    url(r'^board/', include('cfboard.urls')),
+    url(r'^$', index, name='index'),
+    url(r'^(?P<b>\d{1})/$',boards, name='boards'),
+    url(r'^list/$',BoardLV.as_view(), name='boardlist'),
 ]
