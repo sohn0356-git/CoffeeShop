@@ -16,5 +16,9 @@
             {% endfor %}
         </ul>
     {% endif %}
+    <p>{{ request.session.user }}</p>
+    {% if request.session.user %}
+        <a href="{% url 'cfboard:boardcreate' pk %}">Write</a>
+    {% endif %}
 </body>
 </html>
