@@ -11,14 +11,17 @@
     <h2>{{ boardname }}</h2>
        <ul class="list-group">
             {% for board in boards %}
-                <li class="list-group-item col-md-6">{{ board.title }}</li>
-                    <p>{{ board.contents }}</p>
+                <li class="list-group-item col-md-6">
+                    <a href="{% url 'cfboard:boarddetail' pk %}">{{ board.title }}</a> 
+                    <span>{{ board.writer }}</span>
+                    <span>{{ board.registered_dttm }}</span>
+                </li>
+                    
             {% endfor %}
         </ul>
     {% endif %}
-    <p>{{ request.session.user }}</p>
     {% if request.session.user %}
-        <a href="{% url 'cfboard:boardcreate' pk %}">Write</a>
+        <button><a href="{% url 'cfboard:boardcreate' pk %}">Write</a></button>
     {% endif %}
 </body>
 </html>

@@ -14,7 +14,7 @@ def board_detail(request, pk):
     except Cfboard.DoesNotExist:
         raise Http404('게시글을 찾을 수 없습니다')
 
-    return render(request, 'board_detail.html', {'board': board})
+    return render(request, 'cfboard_detail.html', {'board': board})
     
 
 def boards(request, pk):
