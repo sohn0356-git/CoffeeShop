@@ -12,7 +12,7 @@
        <ul class="list-group">
             {% for board in boards %}
                 <li class="list-group-item col-md-6">
-                    <a href="{% url 'cfboard:boarddetail' pk %}">{{ board.title }}</a> 
+                    <a href="{% url 'cfboard:boarddetail' pk board.id %}">{{ board.title }}</a> 
                     <span>{{ board.writer }}</span>
                     <span>{{ board.registered_dttm }}</span>
                 </li>

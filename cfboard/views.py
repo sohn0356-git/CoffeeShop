@@ -8,13 +8,13 @@ from cfuser.models import Cfuser
 def index(request):
     return render(request, 'board.html')
 
-def board_detail(request, pk):
+def board_detail(request, pk, id):
     try:
-        board = Board.objects.get(pk=pk)
+        board = Cfboard.objects.get(id=id)
     except Cfboard.DoesNotExist:
         raise Http404('게시글을 찾을 수 없습니다')
 
-    return render(request, 'cfboard_detail.html', {'board': board})
+    return render(request, 'cfboard/cfboard_detail.html', {'board': board, 'pk' : pk})
     
 
 def boards(request, pk):
