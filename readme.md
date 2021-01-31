@@ -103,6 +103,6 @@
 |                   | cfboard_list.html | boardlist를 출력하는 html생성                                |
 |                   | cfboard.urls      | cfboard의 url정리-----(210126)-----                          |
 |                   | board.html        | board.html 생성 (게시판 틀)                                  |
-|                   |                   |                                                              |
+|                   | boardwrite.html   | boardwrite.html 생성(게시판 글쓰기 틀), base.html 수정       |
 |                   |                   |                                                              |
 
