@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<style>
+  h1{
+    color: burlywood;
+    text-align: center;
+    font-size: 1.5em;
+  }
+  .table{
+    background-color: burlywood;
+    color: black;
+    border-radius: 8px;
+    opacity: 0.7;
+  }
+  tr{
+    font-size: 15px;
+  }
+  .btn{
+    background-color: burlywood;
+    opacity: 0.7;
+  }
+
+</style>
+<br>
+
+<table class="table table-hover">
+  <h1>자주 하는 질문 (FAQ)</h1>
+  <br>
+    <thead>
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">카테고리</th>
+        <th scope="col">제목</th>
+        <th scope="col">작성자</th>
+        <th scope="col">작성일</th>
+        <th scope="col">조회</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">4</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+        <td>@twitter</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">5</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+        <td>@twitter</td>
+        <td>@mdo</td>
+      </tr>
+    </tbody>
+  </table>
+
+    <hr/>
+    <div class="form-row float-right">
+    <button type="button" class="btn">글쓰기</button>
+    </div>
+    <br>
+    <br>
+    <br>
+    <hr/>
+    <nav aria-label="pagination-button">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+
+{% endblock %}

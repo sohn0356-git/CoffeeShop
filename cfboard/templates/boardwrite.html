@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">제목</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="제목">
+  </div>
+  <br>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">내용</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+
+
+<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+  <option selected>게시판 분류</option>
+  <option value="1">자주 하는 질문(FAQ)</option>
+  <option value="2">도매 납품 상담</option>
+  <option value="3">Q&A</option>
+</select>
+
+<br>
+
+<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+  <option selected>공개 여부</option>
+  <option value="1">공개</option>
+  <option value="2">비공개</option>
+</select>
+
+
+{% endblock %}

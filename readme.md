@@ -140,6 +140,9 @@
 |                   | Coffeeshop.urls   | admin과 cfboard url 정리                                     |
 |                   | cfboard_list.html | boardlist를 출력하는 html생성                                |
 |                   | cfboard.urls      | cfboard의 url정리-----(210126)-----                          |
+|                   | board.html        | board.html 생성 (게시판 틀)                                  |
+|                   | boardwrite.html   | boardwrite.html 생성(게시판 글쓰기 틀), base.html 수정       |
+|                   |                   |                                                              |
 |                   | cfboard.views     | board_write기능 추가                                         |
 |                   | templates         | cfboard_list.html, cfboard_write.html, cfboard.html 추가     |
 |                   | cfboard.views     | board_detail 추가 -----(210130)-----                         |
