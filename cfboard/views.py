@@ -34,6 +34,7 @@ def boards(request, pk):
 
 def board_write(request, pk):
     errors = []
+    boardname = Boardcode.objects.get(id=pk)
     print('here',request)
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
@@ -54,12 +55,12 @@ def board_write(request, pk):
         if not errors and 'user' in request.session:
             user = Cfuser.objects.get(email=request.session['user'])
             catename = Boardcate.objects.get(id=category)
-            boardname = Boardcode.objects.get(id=pk)
+            
             cfboard = Cfboard.objects.create(writer=user, title=title, contents=content, catename=catename, boardname=boardname, hits=0, disclosure=disclosure)
 
             return redirect(reverse('cfboard:boards', kwargs={'pk': pk}))
     
-    return render(request, 'cfboard/cfboard_write.html', {'errors':errors, 'pk':pk})
+    return render(request, 'boardwrite.html', {'errors':errors, 'pk':pk, 'boardname' : boardname})
 
 class BoardLV(ListView):
     model = Cfboard
