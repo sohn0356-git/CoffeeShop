@@ -59,7 +59,7 @@ def board_write(request, pk):
 
             return redirect(reverse('cfboard:boards', kwargs={'pk': pk}))
     
-    return render(request, 'cfboard/cfboard_write.html', {'errors':errors, 'pk':pk})
+    return render(request, 'boardwrite.html', {'errors':errors, 'pk':pk})
 
 class BoardLV(ListView):
     model = Cfboard

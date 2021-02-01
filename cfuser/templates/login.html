@@ -3,7 +3,8 @@
 {% block header %}
 <style>
 
-.btn-primary{
+.btn{
+  background-color: #e6a756;
   margin: 50px 0 50px 0;
   border-radius: 10px;
   padding: 10px 30px 10px 30px;
@@ -11,13 +12,15 @@
 h1{
   color: #e6a756;
   font-size: 2em;
+  text-align: center;
 }
 .center_div{
   margin-top: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 .btn-register{
   margin-left: 15px;
+  margin-bottom: 50px;
   font-size: 20px;
   text-decoration: none;
   color: lightsalmon;
@@ -32,16 +35,16 @@ h1{
 {% block contents %}
 
 <div>
-  <div class="row-mt-7">
+  <div class="row">
     <h1 class="col-md-6 container center_div">LOGIN</h1>
   </div>
 </div>
-<div class="row-mt-7">
+<div class="row">
   <div class="col-md-6 container center_div">
     {{ error }}
   </div>
 </div>
-<div class="row-mt-7">
+<div class="row">
   <div class="col-md-6 container center_div">
 
     <form method="POST" action=".">
@@ -56,7 +59,7 @@ h1{
       <span style="color: rgb(184, 41, 6)">{{ field.errors }}</span>
       {% endif %}
       {% endfor %}
-      <button type="submit" class="btn-primary btn-block">Login</button>
+      <button type="submit" class="btn btn-block">Login</button>
       <a class="btn-register" href="{% url 'cfuser:register' %}">Create Account?</a>
     </form>
   </div>
