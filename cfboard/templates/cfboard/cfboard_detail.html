@@ -120,6 +120,7 @@
 
 
 </style>
+
 {% if errors %}
       <script>
         alert('빈칸을 다 채워주세요!');
@@ -127,11 +128,13 @@
 {% endif %}
 <h2>{{ boardname }}</h2>
 
+
 <div class="container">
   <div class="well">
       <div class="media-body">
         <div class="media-header">
         <br>
+
         <h4 id="media-heading">{{ board.title }}</h4>
         <p class="text-right">작성자 : {{ board.writer }}</p>
       </div>
@@ -140,13 +143,12 @@
           </p>
           <hr/>
           <ul class="list-inline list-unstyled">
-        <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : {{ board.registered_dttm }} </span></li>
-        <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : {{ board.hits }}</span></li>
-
-          
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : {{ board.registered_dttm }} </span></li>
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : {{ board.hits }}</span></li>         
 			    </ul>
       </div>
   </div>
+
   <a class="btn btn-primary float-right" href="{% url 'cfboard:boards' pk %}" role="button">목록</a>
 </div>
 

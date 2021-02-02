@@ -44,6 +44,7 @@
   .dropdown-menu{
     background-color: #e6a958;
     background-color: rgba(255, 255, 255, 0.1);
+    text-align: center;
   }
   #list-1{
     color: #e6a958;
@@ -55,6 +56,12 @@
   #list-3{
     color: #e6a958;
   }
+  #site-heading-link{
+    text-decoration: none;
+    color:white;
+    font-size: 65px;
+  }
+
 
 </style>
 
@@ -62,7 +69,7 @@
 
   <h1 class="site-heading text-center text-white d-none d-lg-block">
     <span class="site-heading-upper md-5">LOVE(CAFE)</span>
-    <span class="site-heading-lower" ><a href="{% url 'cfuser:index' %}">Coffee & Beans</a></span>
+    <span class="site-heading-lower"><a href="{% url 'cfuser:index' %}" id="site-heading-link">Coffee & Beans</a></span>
   </h1>
 
   <!-- Navigation -->
