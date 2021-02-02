@@ -30,6 +30,18 @@
   .pagination{
     margin-top: 100px;
   }
+  #title-link{
+    color: black;
+  }
+  #btn-write{
+    color: black;
+  }
+  span{
+    color: #ce8f3d;
+  }
+  span > a{
+    color: #ce8f3d;
+  }
 
 </style>
 
@@ -57,7 +69,7 @@
       <tr>
         <th scope="row">{{ board.row_number }}</th>
         <td>{{ board.catename }}</td>
-        <td><a href="{% url 'cfboard:board_detail' pk board.id %}">{{ board.title }}</a></td>
+        <td><a href="{% url 'cfboard:board_detail' pk board.id %}" id="title-link">{{ board.title }}</a></td>
         <td>{{ board.writer }}</td>
         <td>{{ board.registered_dttm }}</td>
         <td>{{ board.hits }}</td>
@@ -69,7 +81,7 @@
   
   {% if request.session.user %}
     <div class="form-row float-right">
-      <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}">글쓰기</a></button>
+      <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}" id="btn-write">글쓰기</a></button>
     </div>
   {% endif %}
 
@@ -89,26 +101,6 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
-</div>
-
-
-    <nav aria-label="pagination-button">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
+  </div>
 
 {% endblock %}

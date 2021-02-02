@@ -48,6 +48,9 @@
       #btn-save:hover{
         background-color: rgb(196, 133, 18);
       }
+      #cancel-btn{
+        color: black;
+      }
     </style>
 {% endblock %}
 
@@ -93,7 +96,7 @@
     <option value="2">비공개</option>
   </select>
   <div class="float-right">
-    <button type="button" class="btn btn-secondary btn-sm"><a href="{% url 'cfboard:boards' pk %}">취소</a></button>
+    <button type="button" class="btn btn-secondary btn-sm"><a href="{% url 'cfboard:boards' pk %}" id="cancel-btn">취소</a></button>
     <button type="submit" class="btn btn-sm" id="btn-save">저장</button>
     </div>
   </form>
