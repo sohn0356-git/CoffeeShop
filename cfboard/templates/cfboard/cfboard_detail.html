@@ -30,7 +30,7 @@
     opacity: 0.8;
   }
   span{
-    font-size: 11px;
+    font-size: 15px;
   }
   p{
     font-size: 15px;
@@ -38,7 +38,7 @@
   }
   .reply-form {
     opacity: 0.8;
-    margin-top: 80px;
+    margin-top: 40px;
     padding: 37px;
     width: 1000px;
   }
@@ -46,6 +46,7 @@
   .textInput {
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
+      width: 500px;
       height: 45px;
       margin: 0 !important;
   }
@@ -53,7 +54,7 @@
       box-shadow: none;
       outline: none
   }
-  .commentBox ul li .profileBox {
+  .commentBox ul .profileBox {
       width: 50px;
       height: 50px;
       border-radius: 50%;
@@ -64,7 +65,7 @@
       color: #fff;
       font-weight: 700;
   }
-  .commentBox ul li:nth-child(even) .profileBox {
+  .commentBox ul li .profileBox {
       background-color: #222;
   }
 
@@ -90,29 +91,40 @@
       border-right: 10px solid #e0efff;
       z-index: 1;
   }
+  .commentBox{
+    margin: 60px 0 0 40px;
+  }
   .commentBox ul li {
       display: flex;
       align-items: center;
   }
-  .commentBox ul li:nth-child(even) .profileText::before {
+  .commentBox ul ol .profileText::before {
       left: unset;
       right: -9px;
       transform: translateY(-50%) rotate(175deg);
   }
-  .commentBox ul li:nth-child(even) .profileText {
-      text-align: left;
+  .commentBox ul ol .profileText {
+      text-align: right;
+  }
+  .commentBox ul li .profileText {
+    text-align: left;
   }
   div#div_id_username {
       margin-top: 2%;
   }
-  .commentBox ul li:nth-child(even) .profileText {
+  .commentBox ul .profileText {
       margin-left: 0;
       margin-right: 15px
   }
-  .commentBox ul li:nth-child(even) {
+  .commentBox ul ol{
       text-align: right;
       margin: 20px 0;
-      justify-content: flex-end;
+      justify-content: right;
+  }
+  .commentBox ul li{
+    text-align: left;
+    margin: 20px 0;
+    justify-content: left;
   }
   .btn{
     background-color: #e6a756;
@@ -120,6 +132,7 @@
 
 
 </style>
+
 {% if errors %}
       <script>
         alert('빈칸을 다 채워주세요!');
@@ -127,11 +140,13 @@
 {% endif %}
 <h2>{{ boardname }}</h2>
 
+
 <div class="container">
   <div class="well">
       <div class="media-body">
         <div class="media-header">
         <br>
+
         <h4 id="media-heading">{{ board.title }}</h4>
         <p class="text-right">작성자 : {{ board.writer }}</p>
       </div>
@@ -140,13 +155,12 @@
           </p>
           <hr/>
           <ul class="list-inline list-unstyled">
-        <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : {{ board.registered_dttm }} </span></li>
-        <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : {{ board.hits }}</span></li>
-
-          
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : {{ board.registered_dttm }} </span></li>
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : {{ board.hits }}</span></li>         
 			    </ul>
       </div>
   </div>
+
   <a class="btn btn-primary float-right" href="{% url 'cfboard:boards' pk %}" role="button">목록</a>
 </div>
 
@@ -157,8 +171,14 @@
           {% if comments %}
               <div class="commentBox">
                   <ul class="list-unstyled">
+                    
                       {% for comment in comments %}
-                        <li><span class="profileBox">{{ comment.user }}</span> <span class="profileText">{{ comment.contents }}</span></li>
+                        
+                        {% if comment.user == user %}
+                          <li><span class="profileBox">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
+                        {% else%}
+                          <ol><span class="profileText">{{ comment.contents }}</span><span class="profileBox">{{ comment.user }}</span></ol>
+                        {% endif %}
                       {% endfor %}
                   </ul>
               </div>
