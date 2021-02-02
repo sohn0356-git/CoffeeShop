@@ -15,6 +15,7 @@ Including another URLconf
 """
 
 from django.conf.urls import url
+from django.urls import include
 
 from cfboard.views import *
 
@@ -27,4 +28,5 @@ urlpatterns = [
     url(r'^(?P<pk>\d{1})/detail/(?P<id>\d+)/comment/$',comment_write, name='board_comment'),
     url(r'^list/$',BoardLV.as_view(), name='board_list'),
     url(r'^(?P<pk>\d{1})/create$',board_write, name='board_create'),
+    
 ]

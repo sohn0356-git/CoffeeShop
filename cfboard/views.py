@@ -1,6 +1,10 @@
 from django.shortcuts import render, reverse, redirect
 from django.views.generic import ListView, TemplateView
+from django.core.paginator import Paginator
 
+from django.db.models.expressions import Window
+from django.db.models.functions import RowNumber
+from django.db.models import F
 from cfboard.models import *
 from cfuser.models import Cfuser
 
@@ -14,21 +18,31 @@ def board_detail(request, pk, id):
         res_data = {'board' : board, 'pk' : pk, 'id' : id}
         comments = Boardcomment.objects.filter(board=board)
         res_data['comments'] = comments
+        board.hits = board.hits+1
+        board.save()
     except Cfboard.DoesNotExist:
         raise Http404('게시글을 찾을 수 없습니다')
 
 
-    return render(request, 'boarddetail.html', {'board': board, 'pk' : pk})
+    return render(request, 'cfboard/cfboard_detail.html', {'board': board, 'pk' : pk, 'id' : id})
     
 
 def boards(request, pk):
     res_data = {'pk' : pk}
+    boardname = Boardcode.objects.get(id=pk)
     try:
-        boardname = pk
-        boards = Cfboard.objects.filter(boardname=boardname)
-        if boards:
-            res_data['boardname'] = boards[0].boardname
-        res_data['boards'] = boards
+        board_list = Cfboard.objects.filter(boardname=boardname).order_by('-id')
+        board_list = board_list.annotate(row_number=Window(
+            expression=RowNumber(),
+            partition_by=[F('boardname')],
+            order_by=F('id').desc())
+        )
+        res_data['boardname'] = boardname
+        res_data['boards'] = board_list
+        paginator = Paginator(board_list, 8) # Show 25 contacts per page.
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        res_data['page_obj'] = page_obj
         
     except Cfboard.DoesNotExist:
         raise Http404('게시글을 찾을 수 없습니다')
@@ -41,7 +55,7 @@ def board_write(request, pk):
     print('here',request)
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
-        contents = request.POST.get('content', '').strip()
+        contents = request.POST.get('contents', '').strip()
         category = request.POST.get('category')
         image = request.FILES.get('image')
         disclosure = request.POST.get('disclosure')
@@ -64,7 +78,7 @@ def board_write(request, pk):
             return redirect(reverse('cfboard:boards', kwargs={'pk': pk}))
     
 
-    return render(request, 'boardwrite.html', {'errors':errors, 'pk':pk})
+    return render(request, 'cfboard/cfboard_write.html', {'errors':errors, 'pk':pk})
 
 
 def comment_write(request, pk, id):
