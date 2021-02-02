@@ -121,55 +121,55 @@
 
 </style>
 
-<h2>게시판 이름</h2>
+{% if errors %}
+      <script>
+        alert('빈칸을 다 채워주세요!');
+      </script>
+{% endif %}
+<h2>{{ boardname }}</h2>
+
 
 <div class="container">
   <div class="well">
       <div class="media-body">
         <div class="media-header">
         <br>
-        <h4 id="media-heading">커피 꿀맛</h4>
-        <p class="text-right">작성자 : 상범</p>
+
+        <h4 id="media-heading">{{ board.title }}</h4>
+        <p class="text-right">작성자 : {{ board.writer }}</p>
       </div>
-          <p>본문이 들어갑니다.
-            sdklfjdskjf
-            sldkfjksdfjsdkdgdfgdfg
-            lksdfjkdsjfgdfgfdgfdg
-            dslkfjsdkertdfgd
-            sdflkdjslkfjsddfgdfgdfg
-            sdklfjsdlkfjsddfdgdgdg
-            sdklfjsdlkfjsdsdfsddgdgdg
-            fsddgdgdgd
-            fjsdgdgdgdf
-            fkdsljflksdjfdfg
-            dslfjsdlkfj
+          <p>
+            {{ board.contents }}
           </p>
           <hr/>
           <ul class="list-inline list-unstyled">
-        <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : </span></li>
-        <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : </span></li>
-
-          
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : {{ board.registered_dttm }} </span></li>
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : {{ board.hits }}</span></li>         
 			    </ul>
       </div>
   </div>
-  <a class="btn btn-primary float-right" href="#" role="button">목록</a>
+
+  <a class="btn btn-primary float-right" href="{% url 'cfboard:boards' pk %}" role="button">목록</a>
 </div>
 
 
 <div class="container my-2">
   <div class="row mt-4">
     <div class="col-md-9">
-          <form class=" reply-form ">
+          {% if comments %}
               <div class="commentBox">
                   <ul class="list-unstyled">
-                      <li><span class="profileBox">작성자이름</span> <span class="profileText">여기는 내용</span></li>
-                      <li><span class="profileText">여기도 내용</span> <span class="profileBox">작성자 이름</span> </li>
+                      {% for comment in comments %}
+                        <li><span class="profileBox">{{ comment.user }}</span> <span class="profileText">{{ comment.contents }}</span></li>
+                      {% endfor %}
                   </ul>
               </div>
+          {% endif %}
+          <form class="reply-form" method="post" action="{% url 'cfboard:board_comment' pk id %}">
+            {% csrf_token %}
               <div id="div_id_username" class="form-group required">
                   <div class="controls form-group d-flex w-100 ">
-                      <input class="input-md  textinput textInput form-control" id="id_username" placeholder="Write your review" type="text" />
+                      <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
                       <button type="submit" class="btn border-radius-0  m-0 w-25">POST</button>
                   </div>
               </div>

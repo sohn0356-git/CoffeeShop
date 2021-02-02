@@ -13,9 +13,11 @@ def index(request):
     return render(request, 'board.html')
 
 def board_detail(request, pk, id):
+    boardname = Boardcode.objects.get(id=pk)
+    res_data = {'boardname' : boardname, 'pk' : pk, 'id' : id}
     try:
         board = Cfboard.objects.get(id=id)
-        res_data = {'board' : board, 'pk' : pk, 'id' : id}
+        res_data['board'] = board
         comments = Boardcomment.objects.filter(board=board)
         res_data['comments'] = comments
         board.hits = board.hits+1
@@ -24,7 +26,7 @@ def board_detail(request, pk, id):
         raise Http404('게시글을 찾을 수 없습니다')
 
 
-    return render(request, 'cfboard/cfboard_detail.html', {'board': board, 'pk' : pk, 'id' : id})
+    return render(request, 'cfboard/cfboard_detail.html', res_data)
     
 
 def boards(request, pk):
@@ -57,7 +59,6 @@ def board_write(request, pk):
         title = request.POST.get('title', '').strip()
         contents = request.POST.get('contents', '').strip()
         category = request.POST.get('category')
-        image = request.FILES.get('image')
         disclosure = request.POST.get('disclosure')
 
         if not title:
@@ -65,9 +66,6 @@ def board_write(request, pk):
 
         if not contents:
             errors.append('내용을 입력해주세요.')
-        
-        if not category:
-            errors.append('카테고리를 정해주세요.')
 
         if not errors and 'user' in request.session:
             user = Cfuser.objects.get(email=request.session['user'])
@@ -95,7 +93,8 @@ def comment_write(request, pk, id):
             comment = Boardcomment.objects.create(board=board, user=user, contents=contents)
             return redirect(reverse('cfboard:board_detail', kwargs={'pk': pk, 'id' : id}))
 
-    return render(request, 'cfboard/cfboard_detail.html', {'board' : board, 'pk' : pk, 'id' : id,  'errors':errors})
+    return redirect(reverse('cfboard:board_detail', kwargs={'pk': pk, 'id' : id}))
+    # return render(request, 'cfboard/cfboard_detail.html', {'board' : board, 'pk' : pk, 'id' : id,  'errors':errors})
 
 
 class BoardLV(ListView):
