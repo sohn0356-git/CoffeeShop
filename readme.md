@@ -142,8 +142,15 @@
 |                   | cfboard.urls      | cfboard의 url정리-----(210126)-----                          |
 |                   | board.html        | board.html 생성 (게시판 틀)                                  |
 |                   | boardwrite.html   | boardwrite.html 생성(게시판 글쓰기 틀), base.html 수정       |
+|                   | boarddetail.html  | boarddetail.html 생성(게시판 상세보기 폼),  글쓰기 폼에 summernote 적용 |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
 |                   |                   |                                                              |
 |                   | cfboard.views     | board_write기능 추가                                         |
 |                   | templates         | cfboard_list.html, cfboard_write.html, cfboard.html 추가     |
 |                   | cfboard.views     | board_detail 추가 -----(210130)-----                         |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
 

@@ -6,16 +6,20 @@
     input{
         margin-bottom: 30px;
     }
-    .btn-primary{
+    .btn{
         border-radius: 10px;
-        padding: 10px 30px 10px 30px;
+        padding: 10px 15px 10px 15px;
+        background-color: #e6a756;
+    }
+    .btn:hover{
+      background-color: rgb(231, 157, 45);
     }
     h1{
         color: #e6a756;
         font-size: 2em;
     }
     #form-wrap{
-        margin: 50px 0 50px 0;
+        margin: 15px 0 15px 0;
     }
     .center_div{
         margin-top: 20px;
@@ -47,7 +51,7 @@
       <span style="color: rgb(184, 41, 6)">{{ field.errors }}</span>
       {% endif %}
       {% endfor %}
-      <button type="submit" class="btn-primary btn-block">회원가입</button>
+      <button type="submit" class="btn btn-block">회원가입</button>
     </form>
   </div>
 </div>

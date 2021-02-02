@@ -2,7 +2,68 @@
 
 {% block contents %}
 
-
-
+    <h1>자주 묻는 사항</h1>
+    <table>
+      <tr>
+        <th>번호</th>
+        <td></td>
+        <th>조회수</th>
+        <td>#</td>
+      </tr>
+      <tr>
+        <th>제목</th>
+        <td>이거 너무 써요</td>
+      </tr>
+      <tr>
+        <th>글쓴이</th>
+        <td>한상범</td>
+      </tr>
+      <tr>
+        <th>작성일</th>
+        <td>2020.03.05</td>
+      </tr>
+      <tr>
+        <td>여기에는 내용이 들어가요!!</td>
+      </tr>
+      <tr>
+        <td>
+          <a class="btn btn-primary" href="#" role="button">목록</a>
+        </td>
+      </tr>
+    </table>
+        
+    <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <h2 class="page-header">Comments</h2>
+              <section class="comment-list">
+                <!-- First Comment -->
+                <article class="row">
+                  <div class="col-md-2 col-sm-2 hidden-xs">
+                    <figure class="thumbnail">
+                      <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+                      <figcaption class="text-center">썸네일 사진의 이름 아마도 닉네임?</figcaption>
+                    </figure>
+                  </div>
+                  <div class="col-md-10 col-sm-10">
+                    <div class="panel panel-default arrow left">
+                      <div class="panel-body">
+                        <header class="text-left">
+                          <div class="comment-user"><i class="fa fa-user"></i> 유저의 아이디</div>
+                          <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>여기는 날짜를 넣어야 하는데 어떻게 하죠?</time>
+                        </header>
+                        <div class="comment-post row='7'">
+                          <textarea>
+                            여기는 내용이 들어갑니다.
+                          </textarea>
+                        </div>
+                        <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+          </div>
+        </div>
+      </div>
 
 {% endblock %}

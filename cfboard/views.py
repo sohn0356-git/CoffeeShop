@@ -17,7 +17,8 @@ def board_detail(request, pk, id):
     except Cfboard.DoesNotExist:
         raise Http404('게시글을 찾을 수 없습니다')
 
-    return render(request, 'cfboard/cfboard_detail.html', res_data)
+
+    return render(request, 'boarddetail.html', {'board': board, 'pk' : pk})
     
 
 def boards(request, pk):
@@ -62,7 +63,9 @@ def board_write(request, pk):
 
             return redirect(reverse('cfboard:boards', kwargs={'pk': pk}))
     
-    return render(request, 'test.html', {'errors':errors, 'pk':pk, 'boardname' : boardname})
+
+    return render(request, 'boardwrite.html', {'errors':errors, 'pk':pk})
+
 
 def comment_write(request, pk, id):
     errors = []
@@ -79,6 +82,7 @@ def comment_write(request, pk, id):
             return redirect(reverse('cfboard:board_detail', kwargs={'pk': pk, 'id' : id}))
 
     return render(request, 'cfboard/cfboard_detail.html', {'board' : board, 'pk' : pk, 'id' : id,  'errors':errors})
+
 
 class BoardLV(ListView):
     model = Cfboard

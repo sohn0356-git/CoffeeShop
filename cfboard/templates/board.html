@@ -3,31 +3,42 @@
 {% block contents %}
 <style>
   h1{
-    color: burlywood;
+    margin: 80px 0 50px 0;
+    color: #e6a756;
     text-align: center;
     font-size: 1.5em;
   }
   .table{
-    background-color: burlywood;
+    font-weight: bolder;
+    margin-bottom: 80px;
+    background-color: #e6a756;
     color: black;
     border-radius: 8px;
     opacity: 0.7;
   }
   tr{
-    font-size: 15px;
+    font-size: 16px;
   }
   .btn{
-    background-color: burlywood;
+    background-color:#e6a756 ;
+    color: black;
     opacity: 0.7;
   }
+  .btn:hover{
+    background-color: #ce8f3d;
+  }
+  .pagination{
+    margin-top: 100px;
+  }
+
 
 </style>
-<br>
+
 
 <table class="table table-hover">
   <h1>자주 하는 질문 (FAQ)</h1>
-  <br>
-    <thead>
+
+    <thead class="thead-light">
       <tr>
         <th scope="col">번호</th>
         <th scope="col">카테고리</th>
@@ -79,14 +90,11 @@
     </tbody>
   </table>
 
-    <hr/>
     <div class="form-row float-right">
-    <button type="button" class="btn">글쓰기</button>
+    <button type="button" class="btn"><a href="boardwrite.html"></a>글쓰기</button>
     </div>
-    <br>
-    <br>
-    <br>
-    <hr/>
+
+
     <nav aria-label="pagination-button">
         <ul class="pagination justify-content-center">
           <li class="page-item">
