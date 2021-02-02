@@ -7,7 +7,7 @@
       {% endfor %}
     </ul>
     {% endif %}
-    <form method="post" action="{% url 'cfboard:boardcreate' pk %}" enctype="multipart/form-data" class="col-lg-8 col-md-10 mx-auto">
+    <form method="post" action="{% url 'cfboard:board_create' pk %}" enctype="multipart/form-data" class="col-lg-8 col-md-10 mx-auto">
       {% csrf_token %}  
       <div class="form-group row">
         <label for="title">제목</label>

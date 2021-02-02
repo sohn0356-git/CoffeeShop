@@ -12,7 +12,7 @@
        <ul class="list-group">
             {% for board in boards %}
                 <li class="list-group-item col-md-6">
-                    <a href="{% url 'cfboard:boarddetail' pk board.id %}">{{ board.title }}</a> 
+                    <a href="{% url 'cfboard:board_detail' pk board.id %}">{{ board.title }}</a> 
                     <span>{{ board.writer }}</span>
                     <span>{{ board.registered_dttm }}</span>
                 </li>
@@ -21,7 +21,7 @@
         </ul>
     {% endif %}
     {% if request.session.user %}
-        <button><a href="{% url 'cfboard:boardcreate' pk %}">Write</a></button>
+        <button><a href="{% url 'cfboard:board_create' pk %}">Write</a></button>
     {% endif %}
 </body>
 </html>
