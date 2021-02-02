@@ -17,6 +17,8 @@ def board_detail(request, pk, id):
     res_data = {'boardname' : boardname, 'pk' : pk, 'id' : id}
     try:
         board = Cfboard.objects.get(id=id)
+        user = Cfuser.objects.get(id=board.writer.id)
+        res_data['user'] = user
         res_data['board'] = board
         comments = Boardcomment.objects.filter(board=board)
         res_data['comments'] = comments
