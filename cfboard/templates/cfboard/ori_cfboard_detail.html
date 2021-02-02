@@ -1,0 +1,38 @@
+<table>
+    <ul>
+        <li><span>제목 : </span><span>{{ board.title }}</span><span> 카테고리 : </span><span>{{ board.catename }}</span><span>   조회수 : {{ board.hits }}</span><span> 글쓴이 : </span><span>{{ board.writer }}</span><span> 작성일자 : </span><span>{{ board.registered_dttm }}</span></li>
+        <li><span>내용 </span><span>{{ board.contents }}</span></li>
+    </ul>
+
+    <div class="row">
+        {% if errors %}
+          <ul>
+            {% for error in errors %}
+              <li><div class="alert alert-primary">{{ error }}</div></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if comments %}
+        <h1>Comment List</h1>
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <span>{{ comment.contents }}</spam><span>   작성자 : {{ comment.user }}</span> 
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <h3>댓글 쓰기</h3>
+        <form method="post" action="{% url 'cfboard:board_comment' pk id %}">
+          {% csrf_token %}
+          <div class="form-group row">
+            <textarea class="form-control" name="contents" rows="7"></textarea>
+          </div>
+          <div class="form-group row float-right">
+            <button type="submit" class="btn btn-primary">저장하기</button>
+          </div>
+        </form>
+      </div>
+
+    <button><a href="{% url 'cfboard:boards' pk %}">목록</a></button>
+</table>

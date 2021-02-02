@@ -1,27 +1,114 @@
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% if boards %}
-    <h2>{{ boardname }}</h2>
-       <ul class="list-group">
-            {% for board in boards %}
-                <li class="list-group-item col-md-6">
-                    <a href="{% url 'cfboard:board_detail' pk board.id %}">{{ board.title }}</a> 
-                    <span>{{ board.writer }}</span>
-                    <span>{{ board.registered_dttm }}</span>
-                </li>
-                    
-            {% endfor %}
+{% block header %}
+<style>
+  h1{
+    margin: 80px 0 50px 0;
+    color: #e6a756;
+    text-align: center;
+    font-size: 1.5em;
+  }
+  .table{
+    font-weight: bolder;
+    margin-bottom: 80px;
+    background-color: #e6a756;
+    color: black;
+    border-radius: 8px;
+    opacity: 0.7;
+  }
+  tr{
+    font-size: 16px;
+  }
+  .btn{
+    background-color:#e6a756 ;
+    color: black;
+    opacity: 0.7;
+  }
+  .btn:hover{
+    background-color: #ce8f3d;
+  }
+  .pagination{
+    margin-top: 100px;
+  }
+
+</style>
+
+{% endblock %}
+
+{% block contents %}
+
+
+
+<table class="table table-hover">
+  <h1>{{ boardname }}</h1>
+  {% if boards %}
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">카테고리</th>
+        <th scope="col">제목</th>
+        <th scope="col">작성자</th>
+        <th scope="col">작성일</th>
+        <th scope="col">조회</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for board in page_obj %}
+      <tr>
+        <th scope="row">{{ board.row_number }}</th>
+        <td>{{ board.catename }}</td>
+        <td><a href="{% url 'cfboard:board_detail' pk board.id %}">{{ board.title }}</a></td>
+        <td>{{ board.writer }}</td>
+        <td>{{ board.registered_dttm }}</td>
+        <td>{{ board.hits }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+  
+  {% if request.session.user %}
+    <div class="form-row float-right">
+      <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}">글쓰기</a></button>
+    </div>
+  {% endif %}
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+    <nav aria-label="pagination-button">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
         </ul>
-    {% endif %}
-    {% if request.session.user %}
-        <button><a href="{% url 'cfboard:board_create' pk %}">Write</a></button>
-    {% endif %}
-</body>
-</html>
+      </nav>
+
+
+{% endblock %}

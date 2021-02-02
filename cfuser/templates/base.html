@@ -62,7 +62,7 @@
 
   <h1 class="site-heading text-center text-white d-none d-lg-block">
     <span class="site-heading-upper md-5">LOVE(CAFE)</span>
-    <span class="site-heading-lower">Coffee & Beans</span>
+    <span class="site-heading-lower" ><a href="{% url 'cfuser:index' %}">Coffee & Beans</a></span>
   </h1>
 
   <!-- Navigation -->
@@ -75,7 +75,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item active px-5">
-            <a class="nav-link text-uppercase text-expanded font-weight-bold" href="index.html">Home
+            <a class="nav-link text-uppercase text-expanded font-weight-bold" href="{% url 'cfuser:index' %}">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -89,14 +89,14 @@
             <div class="dropdown nav-item px-5">
               <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown" href="#">BOARD</a>
               <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
-                <li><a href="#" id="list-1">자주 묻는 질문</a></li>
-                <li><a href="#" id="list-2">도매 납품 상담</a></li>
-                <li><a href="#" id="list-3">Q & A</a></li>
+                <li><a href="{% url 'cfboard:boards' 1 %}" id="list-1">자주 묻는 질문</a></li>
+                <li><a href="{% url 'cfboard:boards' 2 %}" id="list-2">도매 납품 상담</a></li>
+                <li><a href="{% url 'cfboard:boards' 3 %}" id="list-3">Q & A</a></li>
               </ul>
             </div>   
           </li>
           
-          {% if email %}
+          {% if request.session.user %}
           <li class="nav-item px-5">
             <a class="nav-link text-uppercase text-expanded" href="{% url 'cfuser:login' %}">MyPage</a>
           </li>
