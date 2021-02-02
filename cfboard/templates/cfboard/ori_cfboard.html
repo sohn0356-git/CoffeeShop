@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if boards %}
+    <h2>{{ boardname }}</h2>
+       <ul class="list-group">
+            {% for board in boards %}
+                <li class="list-group-item col-md-6">
+                    <a href="{% url 'cfboard:board_detail' pk board.id %}">{{ board.title }}</a> 
+                    <span>{{ board.writer }}</span>
+                    <span>{{ board.registered_dttm }}</span>
+                </li>
+                    
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if request.session.user %}
+        <button><a href="{% url 'cfboard:board_create' pk %}">Write</a></button>
+    {% endif %}
+</body>
+</html>
