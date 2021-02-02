@@ -1,5 +1,6 @@
 from django.contrib import admin
-from cfboard.models import Cfboard, Boardcate, Boardcode
+from cfboard.models import Cfboard, Boardcate, Boardcode, Boardcomment
+
 # Register your models here.
 
 class CfboardAdmin(admin.ModelAdmin):
@@ -11,7 +12,11 @@ class BoardcodeAdmin(admin.ModelAdmin):
 class BoardcateAdmin(admin.ModelAdmin):
     list_display = ('catename',)
 
+class BoardcommentAdmin(admin.ModelAdmin):
+    list_display = ('board', 'user')
+
 
 admin.site.register(Cfboard,CfboardAdmin)
 admin.site.register(Boardcode,BoardcodeAdmin)
 admin.site.register(Boardcate,BoardcateAdmin)
+admin.site.register(Boardcomment,BoardcommentAdmin)

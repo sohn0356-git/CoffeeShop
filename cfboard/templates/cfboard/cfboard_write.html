@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    {% if errors %}
+    <ul>
+      {% for error in errors %}
+      <li><div class="alert alert-primary" role="alert">{{ error }}</div></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <form method="post" action="{% url 'cfboard:board_create' pk %}" enctype="multipart/form-data" class="col-lg-8 col-md-10 mx-auto">
+      {% csrf_token %}  
+      <div class="form-group row">
+        <label for="title">제목</label>
+        <input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요.">
+      </div>
+      <div class="form-group row">
+        <label for="content">내용</label>
+        <textarea class="form-control" name="content" rows="7"></textarea>
+      </div>
+      <div class="form-group row">
+        <label for="category">카테고리</label>
+        <select name="category">
+          <option value="">카테고리</option>
+          <option value="1">주문/결제</option>
+          <option value="2">배송</option>
+          <option value="3">제품문의</option>
+          <option value="4">납품신청</option>
+          <option value="5">회원신청</option>
+          <option value="6">제품불량</option>
+          <option value="7">기타</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="disclosure">공개여부</label>
+        <select name="disclosure">
+          <option value="0">공개</option>
+          <option value="1">비공개</option>
+        </select>
+      </div>
+      <div class="form-group row float-right">
+        <button type="submit" class="btn btn-primary">저장하기</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+{% block header %}
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+{% endblock %}
+
+{% block contents %}
+
+<a href="">{{ boardname }}</a>
+
+<div class="form-group">
+  <label>내용</label>
+  <textarea id="summernote" class="form-control" name="content">
+   {{ form.content.value|default_if_none:'' }}
+  </textarea>
+ <script>
+   $('#summernote').summernote({
+     placeholder: '내용을 입력하세요',
+     tabsize: 2,
+     height: 300
+   });
+ </script>
+</div>
+
+
+
+<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+  <option selected>게시판 분류</option>
+  <option value="1">자주 하는 질문(FAQ)</option>
+  <option value="2">도매 납품 상담</option>
+  <option value="3">Q&A</option>
+</select>
+
+<br>
+
+<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+  <option selected>공개 여부</option>
+  <option value="1">공개</option>
+  <option value="2">비공개</option>
+</select>
+
+
+
+
+{% endblock %}

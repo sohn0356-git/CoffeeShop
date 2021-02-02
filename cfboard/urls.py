@@ -18,8 +18,13 @@ from django.conf.urls import url
 
 from cfboard.views import *
 
+app_name = 'cfboard'
+
 urlpatterns = [
     url(r'^$', index, name='index'),
-    url(r'^(?P<b>\d{1})/$',boards, name='boards'),
-    url(r'^list/$',BoardLV.as_view(), name='boardlist'),
+    url(r'^(?P<pk>\d{1})/$',boards, name='boards'),
+    url(r'^(?P<pk>\d{1})/detail/(?P<id>\d+)/$',board_detail, name='board_detail'),
+    url(r'^(?P<pk>\d{1})/detail/(?P<id>\d+)/comment/$',comment_write, name='board_comment'),
+    url(r'^list/$',BoardLV.as_view(), name='board_list'),
+    url(r'^(?P<pk>\d{1})/create$',board_write, name='board_create'),
 ]
