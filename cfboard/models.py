@@ -48,9 +48,10 @@ class Boardcate(models.Model):
         verbose_name_plural = '카테고리'
 
 class Boardcomment(models.Model):
-    contents = models.TextField(verbose_name='내용')
     board = models.ForeignKey('cfboard.Cfboard', on_delete=models.CASCADE,verbose_name='게시글')
     user = models.ForeignKey('cfuser.Cfuser', on_delete=models.CASCADE, verbose_name='작성자')
+    contents = models.TextField(verbose_name='내용')
+    
 
     def __str__(self):
         return self.board.title
