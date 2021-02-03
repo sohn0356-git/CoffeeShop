@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+<style>
+    div.mainbody{
+        margin: 80px 0 60px 0;
+        background-color: #f5f5f0;
+        font-size: 13pt;
+        min-width: 1100px;
+        width: 100%;
+        padding: 50px 0;
+    }
+    #frame{
+        width: 80%;
+        margin: 0 auto;
+        padding: 50px 50px;
+        background-color: #fff;
+    }
+
+    #frame2{
+        border-bottom: solid 1px #e0e0eb;
+        padding-bottom: 10px;
+    }
+    .home{
+        float: right;
+        clear: both;
+    }
+    table.calculation1{
+        clear: both;
+        border: solid 1px #e0e0eb;
+        border-collapse: collapse;
+        background-color: #f5f5f0;
+        width: 100%;
+        font-size: 10pt;
+    }
+    table.calculation1 th{
+        border: solid 1px #e0e0eb;
+        padding: 10px 0;
+        text-align: center;
+    }
+    table.calculation1 td{
+        border: solid 1px #e0e0eb;
+        text-align: center;
+    }
+
+    table.calculation2{
+        border: solid 1px #e0e0eb;
+        border-collapse: collapse;
+        background-color: #f5f5f0;
+        width: 100%;
+        font-size: 10pt;
+    }
+
+    table.calculation2 th{
+        border: solid 1px #e0e0eb;
+        text-align: center;
+    }
+
+    table.calculation2 td{
+        border: solid 1px #e0e0eb;
+        text-align: center;
+    }
+
+    .price{
+        font-size: 20pt;
+        font-weight: bold;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        font-size: 13px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .default{
+        background-color: #f5f5f0;
+        border: solid 1px gray;
+        color: black;
+    }
+    .default:hover{
+        background: #ddd;
+    }
+    .backBtn{
+        background: #fff;
+        border: solid 1px gray;
+    }
+    .btnfloat{
+        float: left;
+    }
+    .btnfloat2{
+        float:right;
+    }
+    .clearboth{
+        clear: both;
+    }
+    .footerbtn{
+        float: right;
+        font-weight: bolder;
+        font-size: 12pt;
+        border-radius: 3px;
+    }
+    #allProduct, #productclear, #footerbtn{
+        padding: 11px 25px;
+    }
+    #allProduct{
+        margin-left: 140px;
+        background-color: #264d73;
+        color: #fff;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+    #productClear{
+        background-color: gray;
+        color: #fff;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+    .aa:hover{
+        cursor: pointer;
+    }
+</style>
+<div class="mainbody">
+    <div id="frame">
+        <form>
+            <div id="frame2">
+                <span style="font-size: 16pt; font-weight: bold;">장바구니</span>
+                <span class="home">홈 > 장바구니</span>
+                <span></span> 
+            </div>
+            <br/>
+
+            <div>
+                <table class="calculation1">
+                    <tr>
+                        <th class="buy">구매상품</th>
+                        <th style="width: 600px;"></th>
+                    </tr>
+                </table>
+            </div>
+        </form>
+        <br/>
+
+        <div>
+            <table class="calculation1">
+                <thead>
+                    <tr>
+                        <th colspan="10" style="text-align: left; padding-left: 10px;">일반상품(1)</th>
+                    </tr>
+                    <tr>
+                        <th><input type="checkbox" name="checkbox" id="check" /></th>
+                        <th><span>이미지</span></th>
+                        <th style="width: 250px;"><span>상품정보</span></th>
+                        <th>판매가</th>
+                        <th>수량</th>
+                        <th style="width: 50px;">적립금</th>
+                        <th>배송구분</th>
+                        <th>배송비</th>
+                        <th>합계</th>
+                        <th style="width: 50px;">선택</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr style="height: 90px; background-color: #fff;">
+                        <td style="text-align: left; text-align: center; border-right: none;">
+                            <input type="checkbox" name="checkbox" />
+                        </td>
+                        <td style="border-left: none; border-right:none;"><img style="width: 80%;" src="#"></td>
+                        <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">콜롬비아</td>
+                        <td><span style="padding-left: 10px;">0</span>원</td>
+                        <td style="width: 80px;">
+                            <input type="number" style="text-align: right; width: 43px; margin-bottom: 5px;" min="1" max="99" step="1" value="1" />
+                            <button class="btn default" style="border-radius: 3px; size: 10px;">변경</button>
+                        </td>
+
+                        <td>-</td>
+                        <td>기본배송</td>
+                        <td>2,500원<br/>고정</td>
+                        <td><span>0</span>원</td>
+
+                        <td>
+                            <button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px; background-color: #264d73; color:#fff">주문하기</button>
+                            <button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr style="height: 60px;">
+                        <td colspan="5" style="border-right: none; text-align:left; padding-left:10px;">
+                            <span>[기본배송]</span>
+                        </td>
+                        <td colspan="5" style="border-left: none; text-align: right; padding-right:10px;">
+                            상품금액<span>0</span> + <span>배송비 2,500 = 합계</span>&nbsp;<span style="font-weight: bold; font-size:15pt;">0</span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div style="margin: 10px 0;">
+                <span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
+                <button class="btn default btnfloat" style="background-color: gray; color:#fff">삭제하기</button>&nbsp;
+                <button class="btn default backBtn btnfloat2">장바구니비우기</button>
+                <span class="clearboth"></span>
+            </div>
+            <br/><br/>
+
+            <table class="calculation2">
+                <tr>
+                    <th>총 상품금액</th>
+                    <th>총 배송비</th>
+                    <th style="width: 450px; padding: 22px 0;"><span>결제예정금액</span></th>
+                </tr>
+
+                <tr style="background-color: #fff;">
+                    <td style="padding: 22px 0;"><span class="price">0</span>원</td>
+                    <td>+<span class="price">0</span>원</td>
+                    <td>=<span class="price">0</span>원</td>
+                </tr>
+            </table>
+            <br/><br/>
+
+            <div align="center">
+                <button class="btn default" id="allProduct">전체상품주문</button>
+                <button class="btn default backBtn" id="productClear">선택상품주문</button>
+                <button class="btn default footerbtn" id="footerbtn">쇼핑계속하기</button>
+                <span class="clearboth"></span>
+            </div>
+            <br/><br/><br/><br/><br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
