@@ -47,7 +47,7 @@ class CftoOption(models.Model):
     amount = models.IntegerField(verbose_name='추가금액', default=0)
     
     def __str__(self):
-        return self.coffee_id.name + self.option_id.code_option.title + self.option_id.option
+        return self.coffee_id.name +'(' + self.option_id.code_option.title + ' : ' + self.option_id.option + ')'
 
     class Meta:
         db_table = 'coffee to option'
@@ -60,7 +60,7 @@ class Cfoption(models.Model):
     quantity = models.IntegerField(verbose_name='수량', default=1)
 
     def __str__(self):
-        return self.code_option.title + self.option
+        return self.code_option.title + " : " + self.option
 
     class Meta:
         db_table = 'coffee option'

@@ -4,19 +4,19 @@ from cfbuy.models import *
 
 
 class BuyAdmin(admin.ModelAdmin):
-    list_display = ('buyer', 'address', 'buy_date' )
+    list_display = ('id', 'buyer', 'address', 'buy_date' )
 
 class BuydetailAdmin(admin.ModelAdmin):
-    list_display = ('id', )
+    list_display = ('id', 'buy_info')
 
 class ShoppingbasketAdmin(admin.ModelAdmin):
-    list_display = ('id', )
+    list_display = ('id', 'buyer')
     
 class BasketdetailAdmin(admin.ModelAdmin):
-    list_display = ('id', )
+    list_display = ('id', 'basket')
 
 class CfselectAdmin(admin.ModelAdmin):
-    list_display = ('id', )
+    list_display = ('cfoption', 'buy', 'basket')
 
 
 admin.site.register(Buy,BuyAdmin)

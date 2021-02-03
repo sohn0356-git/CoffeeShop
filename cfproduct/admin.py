@@ -13,7 +13,7 @@ class OpcodeAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', )
     
 class CftoOptionAdmin(admin.ModelAdmin):
-    list_display = ('id','option_id', 'coffee_id')
+    list_display = ('id','option_id', 'amount', 'coffee_id')
 
 class CfoptionAdmin(admin.ModelAdmin):
     list_display = ('id', 'code_option', 'option')

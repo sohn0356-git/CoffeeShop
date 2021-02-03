@@ -17,7 +17,7 @@ class Buy(models.Model):
     buy_date = models.DateTimeField(auto_now_add=True, verbose_name='구매일자')
 
     def __str__(self):
-        return str(self.id)+self.buyer.name
+        return "Buy Info No."+str(self.id)+" "+self.buyer.name
     
     class Meta:
         db_table = 'buyer info'
@@ -29,7 +29,7 @@ class Buydetail(models.Model):
     amount = models.IntegerField(default=0, verbose_name='주문 총 금액')
 
     def __str__(self):
-        return self.buy_info.buyer.name + str(self.amount)
+        return "Buy Detail No."+str(self.buy_info.id)+"_"+str(self.id)
     
     class Meta:
         db_table = 'buyer detail'
@@ -40,7 +40,7 @@ class Shoppingbasket(models.Model):
     buyer = models.ForeignKey('cfuser.Cfuser', on_delete=models.CASCADE,verbose_name='구매자')
 
     def __str__(self):
-        return self.buyer.name+str(self.id)
+        return "Basket Info No."+str(self.id)+" "+self.buyer.name
     
     class Meta:
         db_table = 'basket table'
@@ -52,7 +52,7 @@ class Basketdetail(models.Model):
     amount = models.IntegerField(default=0, verbose_name='금액')
 
     def __str__(self):
-        return self.basket.buyer.name+str(self.basket.id)
+        return "Basket Detail No."+str(self.basket.id)+"_"+str(self.id)
     
     class Meta:
         db_table = 'basket detail'
