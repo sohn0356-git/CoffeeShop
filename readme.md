@@ -68,9 +68,6 @@
 
 * board 첫 화면 설계
 
-　
-
-#### 테이블 설계
 
 　
 
@@ -91,6 +88,16 @@
 * board detail 화면 설계
 
 　
+
+#### 테이블 설계
+
+<img src="./md-images/love_erd.jpg" height = "960" width="1280">
+
+* ERD 설계
+
+　
+
+
 
 #### URL 설계
 
