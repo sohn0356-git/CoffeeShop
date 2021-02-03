@@ -70,6 +70,12 @@
 
 　
 
+<img src="./md-images/board_comment_front.jpg" height = "480" width="960">
+
+* comment 화면 설계
+
+　
+
 #### 테이블 설계
 
 　
