@@ -13,13 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include
+
 from django.conf.urls import url
 
+from cfproduct.views import *
+
+app_name = 'cfproduct'
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('cfuser.urls')),
-    url(r'^board/', include('cfboard.urls')),
-    url(r'^coffee/', include('cfproduct.urls')),
+    url(r'^$', index, name='index'),
 ]
