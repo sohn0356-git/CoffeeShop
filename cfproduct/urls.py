@@ -15,11 +15,17 @@ Including another URLconf
 """
 
 from django.conf.urls import url
+from django.views.generic import TemplateView
 
 from cfproduct.views import *
 
 app_name = 'cfproduct'
 
 urlpatterns = [
+    # url(r'^test/$',TemplateView.as_view(template_name='cfproduct/test.html'),name='test'),
     url(r'^$', index, name='index'),
-]
+    url(r'^(?P<pk>\d{1})/$',coffee, name='coffee'),
+    url(r'^buy/(?P<id>\d{1})/$',cfselect, name='select'),
+    url(r'^buy/detail/$',buydetail, name='buy_detail'),
+    url(r'^buy/complete/$',cfbuy,name='buy')
+] 
