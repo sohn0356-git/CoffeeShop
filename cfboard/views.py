@@ -56,6 +56,7 @@ def boards(request, pk):
 def board_write(request, pk):
     errors = []
     boardname = Boardcode.objects.get(id=pk)
+    catelist = Boardcate.objects.all()
     print('here',request)
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
@@ -78,7 +79,7 @@ def board_write(request, pk):
             return redirect(reverse('cfboard:boards', kwargs={'pk': pk}))
     
 
-    return render(request, 'cfboard/cfboard_write.html', {'errors':errors, 'pk':pk})
+    return render(request, 'cfboard/cfboard_write.html', {'errors':errors, 'pk':pk, 'catelist':catelist})
 
 
 def comment_write(request, pk, id):
