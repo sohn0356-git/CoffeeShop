@@ -36,12 +36,15 @@ def cfcreate(request):
 def cfselect(request,id):
     cfproduct = Cfproduct.objects.get(id=id)
     res_data = {'coffee' : cfproduct}
-    cfoptions = CftoOption.objects.filter(coffee_id=cfproduct)
+    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
     res_data['option_list'] = []
-    for option in cfoptions:
-        optionid = option.option_id
-        optiondetail = Optiondetail.objects.filter(option_id=optionid)
-        res_data['option_list'].append({optionid:optiondetail})
+    option_set = set()
+    for cftooption in cftooptions:
+        option_id = cftooption.option_id.id
+        cfoption = Cfoption.objects.get(id=option_id)
+        res_data['option_list'].append(cfoption)
+        option_set.add(cfoption.code_option)
+    res_data['option_set'] = option_set
     return render(request, 'cfproduct/cfselect.html',res_data)
 
 
@@ -53,7 +56,7 @@ def buydetail(request):
     # quantity = request.POST.get('quantity')
     for cftooption in cftooptions:
         detail_id = (request.POST.get(cftooption.option_id.title))
-        res_data['option_list'].append(Optiondetail.objects.get(id=detail_id))
+        res_data['option_list'].append(Cfoption.objects.get(id=detail_id))
     for r in res_data['option_list']:
         print(r.option_id,' ',r.option,' ',r.amount)
         # print(request.POST.get(option_id.title))
