@@ -36,13 +36,30 @@ def cfcreate(request):
 def cfselect(request,id):
     cfproduct = Cfproduct.objects.get(id=id)
     res_data = {'coffee' : cfproduct}
-    return render(request, 'cfproduct/buy.html',res_data)
+    cfoptions = CftoOption.objects.filter(coffee_id=cfproduct)
+    res_data['option_list'] = []
+    for option in cfoptions:
+        optionid = option.option_id
+        optiondetail = Optiondetail.objects.filter(option_id=optionid)
+        res_data['option_list'].append({optionid:optiondetail})
+    return render(request, 'cfproduct/cfselect.html',res_data)
+
 
 def buydetail(request):
-    quantity = request.POST.get('quantity')
-    res_data = {'quantity':quantity}
-    buyer = Cfuser.objects.get(email=request.session['user'])
-    recent_buy_info = BuyInfo.objects.filter(buyer=buyer).order_by('-buy_date')
+    id = request.POST.get('id')
+    cfproduct = Cfproduct.objects.get(id=id)
+    res_data= {'option_list' : []}
+    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
+    # quantity = request.POST.get('quantity')
+    for cftooption in cftooptions:
+        detail_id = (request.POST.get(cftooption.option_id.title))
+        res_data['option_list'].append(Optiondetail.objects.get(id=detail_id))
+    for r in res_data['option_list']:
+        print(r.option_id,' ',r.option,' ',r.amount)
+        # print(request.POST.get(option_id.title))
+    # res_data = {'quantity':quantity}
+    # buyer = Cfuser.objects.get(email=request.session['user'])
+    return redirect(reverse('cfproduct:cfselect', kwargs={'id': id}))
 
 def cfbuy(request):
     pass

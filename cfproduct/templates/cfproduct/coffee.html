@@ -14,7 +14,7 @@
         <img src="{{ coffee.image.url }}" width="300px" height="300px">
         <p></p>
     {% endif %}
-    <span>{{ coffee.name }}</span><span>{{ coffee.price }}</span>
+    <span><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></span><span>{{ coffee.price }}</span>
     </li>
     {% endfor %}
 </body>
