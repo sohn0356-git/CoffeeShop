@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^detail/$',TemplateView.as_view(template_name='cfproduct/product_detail.html'),name='detail'),
     url(r'^cart/$',TemplateView.as_view(template_name='cfproduct/cart.html'),name='cart'),
     url(r'^buy_page/$',TemplateView.as_view(template_name='cfproduct/buy_page.html'),name='buy_page'),
+    url(r'^order/$',TemplateView.as_view(template_name='cfproduct/order.html'),name='order'),
 ]

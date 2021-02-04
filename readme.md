@@ -145,7 +145,7 @@
 |                   | boarddetail.html  | boarddetail.html 생성(게시판 상세보기 폼),  글쓰기 폼에 summernote 적용 |
 |                   | cart.html         | cart.html (장바구니 페이지) 생성                             |
 |                   | buy_page.html     | buy_page.html(구매 상세 페이지) 생성                         |
-|                   |                   |                                                              |
+|                   | order.html        | order.html(구매이력 조회 페이지) 생성                        |
 |                   |                   |                                                              |
 |                   | cfboard.views     | board_write기능 추가                                         |
 |                   | templates         | cfboard_list.html, cfboard_write.html, cfboard.html 추가     |
