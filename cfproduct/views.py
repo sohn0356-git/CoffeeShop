@@ -75,7 +75,7 @@ def buy_detail(request):
             cfselect.save()
             res_data['select_list'].append(cfselect)
    
-    return render(request, 'cfproduct/buy_page.html', res_data)
+    return render(request, 'cfbuy/buy_page.html', res_data)
     # return render(request, 'cfbuy/buydetail.html',res_data)
 
  

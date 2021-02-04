@@ -56,7 +56,7 @@
                         </div>
                     {% endif %}
                         <div class="product-content">
-                            <h3 class="title-1"><a href="#">{{ coffee.name }}</a></h3>
+                            <h3 class="title-1"><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></h3>
                             <div class="price">{{ coffee.price }}</div>
                         </div>
                     </div>
