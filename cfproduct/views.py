@@ -43,7 +43,7 @@ def cfcreate(request):
     cfproduct.save()
     return redirect(reverse('cfproduct:coffee', kwargs={'pk': 1}))
 
-def cfselect(request,id):
+def product_detail(request,id):
     cfproduct = Cfproduct.objects.get(id=id)
     res_data = {'coffee' : cfproduct}
     cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
@@ -58,11 +58,12 @@ def cfselect(request,id):
     return render(request, 'cfproduct/product_detail.html',res_data)
 
 
-def buydetail(request):
+def buy_detail(request):
     id = request.POST.get('id')
+    print(id)
     cfproduct = Cfproduct.objects.get(id=id)
-    res_data = {'select_list' : [], 'coffee' : cfproduct, 'quantity' : 1}
-    # quantity = request.POST.get('quantity')
+    quantity = request.POST.get('quantity')
+    res_data = {'select_list' : [], 'coffee' : cfproduct, 'quantity' : quantity}    
     cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
     
     for cftooption in cftooptions:
@@ -74,6 +75,7 @@ def buydetail(request):
             cfselect.save()
             res_data['select_list'].append(cfselect)
    
-    return render(request, 'cfbuy/buydetail.html',res_data)
+    return render(request, 'cfproduct/buy_page.html', res_data)
+    # return render(request, 'cfbuy/buydetail.html',res_data)
 
  

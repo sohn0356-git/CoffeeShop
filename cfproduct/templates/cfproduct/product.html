@@ -28,32 +28,36 @@
     }
     .pic-1{
         padding-left: 0;
-        margin: 30px 0 0 0;
-        border:solid 4px red;
+        margin: 30px 30px 0 0;
+        border:solid 4px green;
     }
     .pic-2{
         padding-left: 120px;
-       
+        margin: 30px 0 0 70px;
         border:solid 4px red;
     }
     .pic-3{
         padding-left: 120px;
-        margin: 30px 0 0 0;
+        margin: 30px 0 0 100px;
         border:solid 4px red;
     }
     .product-content-1{
         margin-bottom: 30px;
         text-align: center;
+        border:solid 4px green;
+        
     }
     .product-content-2{
         margin-left: 180px;
         margin-bottom: 30px;
         text-align: center;
+        border:solid 4px red;
     }
     .product-content-3{
         margin-left: 100px;
         margin-bottom: 30px;
         text-align: center;
+        border:solid 4px red;
     }
 
 
@@ -63,7 +67,7 @@
     <div class="row">
         {% for coffee in page_obj %}
             {% if coffee.row_number == 1 %}
-                <div class="col-lg-3 col-lg-3">
+                <div class="col-lg-3 col-lg-3" style="border:solid 2px blue">
                     <div class="product-grid">
                     {% if coffee.image %}                    
                         <div class="product-image" width="300px" height="300px">
@@ -71,26 +75,26 @@
                         </div>
                     {% endif %}
                         <div class="product-content-1">
-                            <h3 class="title-1"><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></h3>
-                            <div class="price">{{ coffee.price }}</div>
+                            <h3 class="title-1"><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></h3>
+                            <div class="price">{{ coffee.price }}원</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-lg-3">
+                <div class="col-lg-4 col-lg-3" style="border:solid 2px blue">
                     <div class="product-grid">
                     {% elif coffee.row_number == 2 %}
                         {% if coffee.image %}                    
-                            <div class="product-image" style="margin: 30px 0 0 0;">
-                                    <img class="pic-2" src="{% static 'img/colombia.jpg' %}">
+                            <div class="product-image">
+                                    <img class="pic-2" src="{{ coffee.image.url }}" style="width: 500px;">
                             </div>
                         {% endif %}
                         <div class="product-content-2">
-                            <h3 class="title-2"><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></h3>
-                            <div class="price">{{ coffee.price }}</div>
+                            <h3 class="title-2"><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></h3>
+                            <div class="price">{{ coffee.price }}원</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-lg-3">
+                <div class="col-lg-5 col-lg-3" style="border:solid 2px blue">
                     <div class="product-grid">
                     {% else %}
                         {% if coffee.image %}                    
@@ -99,8 +103,8 @@
                             </div>
                         {% endif %}
                         <div class="product-content-3">
-                            <h3 class="title-3"><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></h3>
-                            <div class="price">{{ coffee.price }}</div>
+                            <h3 class="title-3"><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></h3>
+                            <div class="price">{{ coffee.price }}원</div>
                         </div>
                     </div>
                 </div>

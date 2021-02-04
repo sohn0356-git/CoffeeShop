@@ -267,11 +267,19 @@
                             <td style="text-align: left; text-align: center; border-right: none;">
                                 <input type="checkbox" name="checkbox" />
                             </td>
-                            <td style="border-left: none; border-right:none;"><img style="width: 80%;" src="#"></td>
-                            <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">콜롬비아</td>
-                            <td><span style="padding-left: 10px;">0</span>원</td>
+                            {% if coffee.image %}
+                                <td style="border-left: none; border-right:none;"><img style="width: 80%;" src="{{ coffee.image.url }}"></td>
+                            {% endif %}
+                            <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;"><p>{{ coffee.name }}</p>
+                                <span>{
+                                    {% for select in select_list %}
+                                        <span>{{ select.cfoption.option_id }} </span>
+                                    {% endfor %}
+                                }</span>
+                            </td>
+                            <td><span style="padding-left: 10px;">{{ coffee.price }}</span>원</td>
                             <td style="width: 80px;">
-                                <span>1</span>
+                                <span>{{ quantity }}</span>
                             </td>
 
                             <td>-</td>
