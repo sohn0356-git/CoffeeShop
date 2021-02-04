@@ -59,65 +59,51 @@
             <div class="wrapper row">
                 <div class="preview col-md-6">  
                     <div class="preview-pic tab-content">
-                      <div class="tab-pane active" id="pic-1"><img src="{% static 'img/colombia.jpg' %}" /></div>
+                        {% if coffee.image %}
+                            <div class="tab-pane active" id="pic-1"><img src="{{ coffee.image.url }}" width="300px" height="300px"></div>
+                        {% endif %}                      
                     </div>        
-                </div>
-                <div class="details col-md-6">
-                    <br>
-                    <h3 class="product-title">에티오피아 커피</h3>
-                    <p class="product-description">갈아 만든 원두</p>
-                    <h4 class="price">가격 : <span>12,000원</span></h4>
-                    <p class="product-description">상세 설명 기입</p>
-                    <p class="Mileage">적립금 : <span>500원</span></p>
-                    <li>
-                    <label>용량 :</label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="handelOnChange(this)">
-                        <option selected>용량 (필수선택)</option>
-                        <option value="1">200g</option>
-                        <option value="2">500g</option>
-                        <option value="3">1kg</option>
-                    </select>
-                    </li>
-                    <hr/>
-                    <li>
-                    <label>분쇄 :</label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="handelOnChange(this)">
-                        <option selected>분쇄 여부</option>
-                        <option value="4">분쇄하지 않음</option>
-                        <option value="5">프렌치 프레스 분쇄</option>
-                        <option value="6">커피메이커 분쇄</option>
-                        <option value="7">핸드드립 분쇄</option>
-                        <option value="8">더치커피 분쇄</option>
-                        <option value="9">에스프레소 분쇄</option>
-                        <option value="10">모카포트 분쇄</option>
-                    </select>
-                    </li>
-                    <hr/>
-                    <li>
-                    <label>봉투 :</label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="handelOnChange(this)">
-                        <option selected>쇼핑백</option>
-                        <option value="11">추가안함</option>
-                        <option value="12">소(150원)</option>
-                        <option value="13">대(1000원)</option>
-                    </select>
-                    </li>
-                    <hr/>
-                    <div class="__count_range text-right"> 
-                        <p class= "text-left" id='result'></p>
-                        <input value="-" count_range="m" type="button">
-                        <input class="count" value="1" readonly="" name="">
-                        <input value="+" count_range="p" type="button">
+                </div>             
+                    <div class="details col-md-6">
+                        <br>
+                        <h3 class="product-title">{{ coffee.name }}</h3>
+                        <h4 class="price">가격 : <span>{{ coffee.price }}원</span></h4>
+                        <form method="post" action="{% url 'cfproduct:buy_detail' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ coffee.id }}">
+                            <li>
+                            {% for option_title in option_set %}
+                                <li>
+                                    <label>{{ option_title }} :</label>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="{{ option_title }}" onchange="handelOnChange(this)">
+                                        {% for option in option_list %}
+                                            {%if option.code_option == option_title %}
+                                                <option value="{{ option.id }}">{{ option.option }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </li>
+                                <hr/>
+                            {% endfor %}
+                            </li>
+                            <hr/>
+                            <div class="__count_range text-right"> 
+                                <p class= "text-left" id='result'></p>
+                                <input value="-" count_range="m" type="button">
+                                <input class="count" value="1" readonly="" name="quantity">
+                                <input value="+" count_range="p" type="button">
+                            </div>
+                            <hr/>
+                            <br>
+                            <span>여기에는 최종합산 금액</span>
+                            <hr/>
+                            <div class="action">
+                                <button class="add-to-cart btn btn-secondary" type="submit">장바구니</button>
+                                <button class="like btn btn-primary" type="submit" name="buy"><span class="fa fa-heart"></span>구매하기</button>
+                            </div>
+                        </form>
                     </div>
-                    <hr/>
-                    <br>
-                    <span>여기에는 최종합산 금액</span>
-                    <hr/>
-                    <div class="action">
-                        <button class="add-to-cart btn btn-secondary" type="button">장바구니</button>
-                        <button class="like btn btn-primary" type="button"><span class="fa fa-heart"></span>구매하기</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

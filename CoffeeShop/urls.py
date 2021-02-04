@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^', include('cfuser.urls')),
     url(r'^board/', include('cfboard.urls')),
     url(r'^coffee/', include('cfproduct.urls')),
+    url(r'^buy/', include('cfbuy.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

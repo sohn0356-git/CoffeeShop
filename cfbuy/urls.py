@@ -17,19 +17,15 @@ Including another URLconf
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
-from cfproduct.views import *
+from cfbuy.views import *
 
-app_name = 'cfproduct'
+app_name = 'cfbuy'
 
 urlpatterns = [
     # url(r'^test/$',TemplateView.as_view(template_name='cfproduct/test.html'),name='test'),
-    url(r'^$', index, name='index'),
-    url(r'^(?P<pk>\d{1})/$',coffee, name='coffee'),
-    url(r'^detail/(?P<id>\d{1})/$',product_detail, name='coffee_detail'),
-    url(r'^buy/detail/$',buy_detail, name='buy_detail'),
-  
-    url(r'^detail/$',TemplateView.as_view(template_name='cfproduct/product_detail.html'),name='detail'),
-    url(r'^cart/$',TemplateView.as_view(template_name='cfproduct/cart.html'),name='cart'),
-    url(r'^buy_page/$',TemplateView.as_view(template_name='cfproduct/buy_page.html'),name='buy_page'),
-    url(r'^order/$',TemplateView.as_view(template_name='cfproduct/order.html'),name='order'),
+    # url(r'^$', index, name='index'),  
+    # url(r'^detail/$',TemplateView.as_view(template_name='cfproduct/product_detail.html'),name='detail'),
+    # url(r'^cart/$',TemplateView.as_view(template_name='cfproduct/cart.html'),name='cart'),
+    # url(r'^buy_page/$',TemplateView.as_view(template_name='cfproduct/buy_page.html'),name='buy_page'),
+    # url(r'^order/$',TemplateView.as_view(template_name='cfproduct/order.html'),name='order'),
 ]
