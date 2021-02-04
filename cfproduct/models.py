@@ -1,6 +1,9 @@
 from django.db import models
 from cfuser.models import Cfuser
 from CoffeeShop.settings import MEDIA_ROOT
+from django.db.models.expressions import Window
+from django.db.models.functions import RowNumber
+from django.db.models import F
 
 
 # Create your models here.
