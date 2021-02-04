@@ -45,16 +45,35 @@
     background-color: #e6a958;
     background-color: rgba(255, 255, 255, 0.1);
     text-align: center;
+    width: 200px;
   }
   #list-1{
     color: #e6a958;
-    text-align: center;
+    font-size: 14px;
   }
   #list-2{
     color: #e6a958;
+    font-size: 14px;
   }
   #list-3{
     color: #e6a958;
+    font-size: 14px;
+  }
+  #list-4{
+    color: #e6a958;
+    font-size: 14px;
+  }
+  #list-5{
+    color: #e6a958;
+    font-size: 14px;
+  }
+  #list-6{
+    color: #e6a958;
+    font-size: 14px;
+  }
+  #list-7{
+    color: #e6a958;
+    font-size: 14px;
   }
   #site-heading-link{
     text-decoration: none;
@@ -89,8 +108,15 @@
           <li class="nav-item px-5">
             <a class="nav-link text-uppercase text-expanded" href="about.html">About</a>
           </li>
-          <li class="nav-item px-5">
-            <a class="nav-link text-uppercase text-expanded" href="products.html">Products</a>
+          <li>
+            <div class="dropdown nav-item px-5">
+              <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown"aria-expanded="false" href="#">SHOP</a>
+              <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
+                <li><a href="{% url 'cfboard:boards' 1 %}" id="list-4">SINGLE ORIGINS</a></li>
+                <li><a href="{% url 'cfboard:boards' 2 %}" id="list-5">BLEND</a></li>
+                <li><a href="{% url 'cfboard:boards' 3 %}" id="list-6">EASY COFFEE</a></li>
+              </ul>
+            </div>   
           </li>
           <li>
             <div class="dropdown nav-item px-5">
@@ -105,7 +131,14 @@
           
           {% if request.session.user %}
           <li class="nav-item px-5">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'cfuser:login' %}">MyPage</a>
+            <div class="dropdown">
+              <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown" href="#">MYPAGE</a>
+              <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
+                <li><a href="{% url 'cfboard:boards' 1 %}" id="list-1">PROFILE</a></li>
+                <li><a href="{% url 'cfboard:boards' 2 %}" id="list-2">CART</a></li>
+                <li><a href="{% url 'cfboard:boards' 3 %}" id="list-3">ORDER</a></li>
+              </ul>
+            </div>   
           </li>
           <li class="nav-item px-5">
             <a class="nav-link text-uppercase text-expanded" href="{% url 'cfuser:logout' %}">Logout</a>

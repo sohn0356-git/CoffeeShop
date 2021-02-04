@@ -13,13 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include
+
 from django.conf.urls import url
+from django.views.generic import TemplateView
+
+from cfproduct.views import *
+
+app_name = 'cfproduct'
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('cfuser.urls')),
-    url(r'^board/', include('cfboard.urls')),
-    url(r'^coffee/', include('cfproduct.urls')),
+    url(r'^$', index, name='index'),
+    url(r'^detail/$',TemplateView.as_view(template_name='cfproduct/product_detail.html'),name='detail'),
+    url(r'^cart/$',TemplateView.as_view(template_name='cfproduct/cart.html'),name='cart'),
+    url(r'^buy_page/$',TemplateView.as_view(template_name='cfproduct/buy_page.html'),name='buy_page'),
+    url(r'^order/$',TemplateView.as_view(template_name='cfproduct/order.html'),name='order'),
 ]
