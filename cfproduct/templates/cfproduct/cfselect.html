@@ -12,20 +12,17 @@
     <p><span>판매가 : </span><span>{{ coffee.price }}</span></p>
     <form method="post" action="{% url 'cfproduct:buy_detail' %}">
         {% csrf_token %}
-
         <input type="hidden" name="id" value="{{ coffee.id }}">
         {% for option_title in option_set %}
             <h3>{{ option_title }}</h3>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name='{{ key }}'>
+            <select name="{{ option_title }}">
             {% for option in option_list %}
                 {%if option.code_option == option_title %}
                     <option value="{{ option.id }}">{{ option.option }}</option>
                 {% endif %}
             {% endfor %}
             </select>
-        {% endfor %}
-        
-        
+        {% endfor %}     
         <button type="submit" name="submit" value="buy">Buy now</button>
         <button type="submit" name="submit" value="cart">Cart</button>
     </form>

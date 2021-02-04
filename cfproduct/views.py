@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse, redirect
 from django.core.paginator import Paginator
 
 from cfproduct.models import *
+from cfbuy.models import Cfselect
 # Create your views here.
 
 def index(request):
@@ -11,7 +12,7 @@ def coffee(request, pk):
     res_data = {'pk' : pk}
     cfcode = Coffeecode.objects.get(id=pk)
     try:
-        coffee_list = Cfproduct.objects.filter(cfcode=cfcode)
+        coffee_list = Cfproduct.objects.filter(cfcode=cfcode).order_by('id')
         res_data['cfcode'] = cfcode
         res_data['coffee_list'] = coffee_list
         paginator = Paginator(coffee_list, 8) # Show 25 contacts per page.
@@ -51,21 +52,20 @@ def cfselect(request,id):
 def buydetail(request):
     id = request.POST.get('id')
     cfproduct = Cfproduct.objects.get(id=id)
-    res_data= {'option_list' : []}
-    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
+    res_data = {'select_list' : [], 'coffee' : cfproduct, 'quantity' : 1}
     # quantity = request.POST.get('quantity')
+    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
+    
     for cftooption in cftooptions:
-        detail_id = (request.POST.get(cftooption.option_id.title))
-        res_data['option_list'].append(Cfoption.objects.get(id=detail_id))
-    for r in res_data['option_list']:
-        print(r.option_id,' ',r.option,' ',r.amount)
-        # print(request.POST.get(option_id.title))
-    # res_data = {'quantity':quantity}
-    # buyer = Cfuser.objects.get(email=request.session['user'])
-    return redirect(reverse('cfproduct:cfselect', kwargs={'id': id}))
-
-def cfbuy(request):
-    pass
+        option_id = cftooption.option_id.id
+        cfoption = Cfoption.objects.get(id=option_id)
+        if request.POST.get(cfoption.code_option.title)==str(cfoption.id):
+            cfselect = Cfselect()
+            cfselect.cfoption = cftooption
+            cfselect.save()
+            res_data['select_list'].append(cfselect)
+   
+    return render(request, 'cfbuy/buydetail.html',res_data)
 
     
         
