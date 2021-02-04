@@ -15,15 +15,16 @@ def coffee(request, pk):
         coffee_list = Cfproduct.objects.filter(cfcode=cfcode).order_by('id')
         res_data['cfcode'] = cfcode
         res_data['coffee_list'] = coffee_list
-        paginator = Paginator(coffee_list, 8) # Show 25 contacts per page.
+        paginator = Paginator(coffee_list, 6) # Show 25 contacts per page.
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         res_data['page_obj'] = page_obj
         
-    except Cfboard.DoesNotExist:
+    except Cfproduct.DoesNotExist:
         raise Http404('게시글을 찾을 수 없습니다')
 
-    return render(request, 'cfproduct/coffee.html', res_data)
+    return render(request, 'cfproduct/product.html', res_data)
+
 
 def cfcreate(request):
     cfproduct = Cfproduct()
