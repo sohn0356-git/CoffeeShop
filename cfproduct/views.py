@@ -67,5 +67,4 @@ def buydetail(request):
    
     return render(request, 'cfbuy/buydetail.html',res_data)
 
-    
-        
+ 
