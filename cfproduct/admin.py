@@ -2,11 +2,6 @@ from django.contrib import admin
 from cfproduct.models import *
 # Register your models here.
 
-class BuyAdmin(admin.ModelAdmin):
-    list_display = ('buy_info',)
-
-class BuyInfoAdmin(admin.ModelAdmin):
-    list_display = ('buyer',)
 
 class CoffeecodeAdmin(admin.ModelAdmin):
     list_display = ('cfcode',)
@@ -14,8 +9,18 @@ class CoffeecodeAdmin(admin.ModelAdmin):
 class CfproductAdmin(admin.ModelAdmin):
     list_display = ('name', )
 
+class OpcodeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', )
+    
+class CftoOptionAdmin(admin.ModelAdmin):
+    list_display = ('id','option_id', 'amount', 'coffee_id')
 
-admin.site.register(Buy,BuyAdmin)
-admin.site.register(BuyInfo,BuyInfoAdmin)
+class CfoptionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'code_option', 'option')
+
+
 admin.site.register(Coffeecode,CoffeecodeAdmin)
 admin.site.register(Cfproduct,CfproductAdmin)
+admin.site.register(Cfoption,CfoptionAdmin)
+admin.site.register(CftoOption,CftoOptionAdmin)
+admin.site.register(Opcode,OpcodeAdmin)

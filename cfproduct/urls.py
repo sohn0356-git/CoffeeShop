@@ -22,7 +22,12 @@ from cfproduct.views import *
 app_name = 'cfproduct'
 
 urlpatterns = [
+    # url(r'^test/$',TemplateView.as_view(template_name='cfproduct/test.html'),name='test'),
     url(r'^$', index, name='index'),
+    url(r'^(?P<pk>\d{1})/$',coffee, name='coffee'),
+    url(r'^cfselect/(?P<id>\d{1})/$',cfselect, name='cfselect'),
+    url(r'^buy/detail/$',buydetail, name='buy_detail'),
+  
     url(r'^detail/$',TemplateView.as_view(template_name='cfproduct/product_detail.html'),name='detail'),
     url(r'^cart/$',TemplateView.as_view(template_name='cfproduct/cart.html'),name='cart'),
     url(r'^buy_page/$',TemplateView.as_view(template_name='cfproduct/buy_page.html'),name='buy_page'),
