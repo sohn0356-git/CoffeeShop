@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.db.models.expressions import Window
 from django.db.models.functions import RowNumber
 from django.db.models import F
+import json
 
 from cfproduct.models import *
 from cfbuy.models import Cfselect
@@ -47,35 +48,33 @@ def product_detail(request,id):
     cfproduct = Cfproduct.objects.get(id=id)
     res_data = {'coffee' : cfproduct}
     cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
-    res_data['option_list'] = []
+    res_data['cftooptions'] = cftooptions
     option_set = set()
     for cftooption in cftooptions:
-        option_id = cftooption.option_id.id
-        cfoption = Cfoption.objects.get(id=option_id)
-        res_data['option_list'].append(cfoption)
-        option_set.add(cfoption.code_option)
+        code_option = cftooption.option_id.code_option
+        option_set.add(code_option)
     res_data['option_set'] = option_set
     return render(request, 'cfproduct/product_detail.html',res_data)
 
 
 def buy_detail(request):
     id = request.POST.get('id')
-    print(id)
-    cfproduct = Cfproduct.objects.get(id=id)
-    quantity = request.POST.get('quantity')
-    res_data = {'select_list' : [], 'coffee' : cfproduct, 'quantity' : quantity}    
-    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
+    print(eval(str(request.POST.get('test'))))
+    # cfproduct = Cfproduct.objects.get(id=id)
+    # quantity = request.POST.get('quantity')
+    # res_data = {'select_list' : [], 'coffee' : cfproduct, 'quantity' : quantity}    
+    # cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
     
-    for cftooption in cftooptions:
-        option_id = cftooption.option_id.id
-        cfoption = Cfoption.objects.get(id=option_id)
-        if request.POST.get(cfoption.code_option.title)==str(cfoption.id):
-            cfselect = Cfselect()
-            cfselect.cfoption = cftooption
-            cfselect.save()
-            res_data['select_list'].append(cfselect)
+    # for cftooption in cftooptions:
+    #     option_id = cftooption.option_id.id
+    #     cfoption = Cfoption.objects.get(id=option_id)
+    #     if request.POST.get(cfoption.code_option.title)==str(cfoption.id):
+    #         cfselect = Cfselect()
+    #         cfselect.cfoption = cftooption
+    #         cfselect.save()
+    #         res_data['select_list'].append(cfselect)
    
-    return render(request, 'cfbuy/buy_page.html', res_data)
+    return render(request, 'cfbuy/buy_page.html')
     # return render(request, 'cfbuy/buydetail.html',res_data)
 
  

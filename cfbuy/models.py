@@ -63,7 +63,7 @@ class Cfselect(models.Model):
     cfoption = models.ForeignKey('cfproduct.CftoOption', on_delete=models.CASCADE,verbose_name='구매제품')
     buy = models.ForeignKey('cfbuy.Buydetail', on_delete=models.CASCADE,verbose_name='구매내역', blank=True, null=True)
     basket = models.ForeignKey('cfbuy.Basketdetail', on_delete=models.CASCADE,verbose_name='장바구니내역', blank=True, null=True)
-
+    quantity = models.IntegerField(verbose_name='수량', default=1)
     def __str__(self):
         return str(self.id)
 

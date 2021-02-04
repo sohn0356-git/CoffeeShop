@@ -60,7 +60,7 @@ class CftoOption(models.Model):
 class Cfoption(models.Model):
     code_option = models.ForeignKey('cfproduct.Opcode', on_delete=models.CASCADE,verbose_name='옵션코드', default='')
     option = models.CharField(max_length=30, verbose_name='옵션', default='')
-    quantity = models.IntegerField(verbose_name='수량', default=1)
+    
 
     def __str__(self):
         return self.code_option.title + " : " + self.option

@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.conf.urls import url
-
+from django.views.generic import TemplateView
 from cfuser.views import *
 
 app_name = 'cfuser'
