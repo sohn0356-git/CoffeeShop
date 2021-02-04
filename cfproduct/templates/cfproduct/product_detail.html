@@ -4,17 +4,34 @@
 
 {% block contents %}
 <script>
-    function handelOnChange(e){
-        const text = e.options[e.selectedIndex].text;
-        console.log(e.options);
-        document.getElementById('result').innerText = text;
-    }
-    $(document).ready(function(){
+    var options = {};
+    function handleOnChange(e){
+        if(e.selectedIndex != 0){
+            options[e.options[0].text] = e.options[e.selectedIndex].text
+            console.log(e.options);
+            console.log(options);
+        }
+        console.log(Object.keys(options).length);
+        if(Object.keys(options).length == 3){
+            var text = "{ ";
+            for(option in options){
+                console.log(options[option]);
+                text += options[option]+" ";
+            }
+            text += "}";
+            document.getElementById('result').innerText = text;
+            countbtn();
+        } 
+        
+    };
+
+
+    function countbtn(){
         $('.__count_range input[count_range]').click(function(e){
         e.preventDefault();
         var type = $(this).attr('count_range');
         var $count = $(this).parent().children('input.count');
-        var count_val = $count.val(); // min 1
+        var count_val = $count.val(); 
         if(type=='m'){
         if(count_val<1){
         return;
@@ -23,8 +40,8 @@
         }else if(type=='p'){
         $count.val(parseInt(count_val)+1);
         }
-    });
-    }); 
+    })
+}; 
 
 
 </script>
@@ -75,7 +92,7 @@
                             {% for option_title in option_set %}
                                 <li>
                                     <label>{{ option_title }} :</label>
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="{{ option_title }}" onchange="handelOnChange(this)">
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="{{ option_title }}" onchange="handleOnChange(this)">
                                         {% for option in option_list %}
                                             {%if option.code_option == option_title %}
                                                 <option value="{{ option.id }}">{{ option.option }}</option>
