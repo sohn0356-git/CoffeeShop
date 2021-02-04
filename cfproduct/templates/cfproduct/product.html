@@ -29,14 +29,17 @@
     .pic-1{
         padding-left: 0;
         margin: 30px 0 0 0;
+        border:solid 4px red;
     }
     .pic-2{
         padding-left: 120px;
-        margin: 30px 0 0 0;
+       
+        border:solid 4px red;
     }
     .pic-3{
         padding-left: 120px;
         margin: 30px 0 0 0;
+        border:solid 4px red;
     }
     .product-content-1{
         margin-bottom: 30px;
@@ -58,79 +61,69 @@
 <div class="container">
     <h3 class="h3"></h3>
     <div class="row">
-        <div class="col-lg-3 col-lg-3">
-            <div class="product-grid">
-                <div class="product-image">
-                        <img class="pic-1" src="{% static 'img/guatemala.jpg' %}">
-                </div>
-                <div class="product-content-1">
-                    <h3 class="title-1"><a href="#">과테말라</a></h3>
-                    <div class="price">12,000원
+        {% for coffee in page_obj %}
+            {% if coffee.row_number == 1 %}
+                <div class="col-lg-3 col-lg-3">
+                    <div class="product-grid">
+                    {% if coffee.image %}                    
+                        <div class="product-image" width="300px" height="300px">
+                                <img class="pic-1" src="{{ coffee.image.url }}" width="300px" height="300px">
+                        </div>
+                    {% endif %}
+                        <div class="product-content-1">
+                            <h3 class="title-1"><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></h3>
+                            <div class="price">{{ coffee.price }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-lg-3">
-            <div class="product-grid">
-                <div class="product-image">
-                        <img class="pic-2" src="{% static 'img/colombia.jpg' %}">
-                </div>
-                <div class="product-content-2">
-                    <h3 class="title-2"><a href="#">콜롬비아</a></h3>
-                    <div class="price">16,000원
+                <div class="col-lg-4 col-lg-3">
+                    <div class="product-grid">
+                    {% elif coffee.row_number == 2 %}
+                        {% if coffee.image %}                    
+                            <div class="product-image" style="margin: 30px 0 0 0;">
+                                    <img class="pic-2" src="{% static 'img/colombia.jpg' %}">
+                            </div>
+                        {% endif %}
+                        <div class="product-content-2">
+                            <h3 class="title-2"><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></h3>
+                            <div class="price">{{ coffee.price }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-5 col-lg-3">
-            <div class="product-grid">
-                <div class="product-image">
-                        <img class="pic-3" src="{% static 'img/ethiopia.jpg' %}">
-                </div>
-                <div class="product-content-3">
-                    <h3 class="title-3"><a href="#">에티오피아</a></h3>
-                    <div class="price">16,000원
+                <div class="col-lg-5 col-lg-3">
+                    <div class="product-grid">
+                    {% else %}
+                        {% if coffee.image %}                    
+                            <div class="product-image">
+                                    <img class="pic-3" src="{{ coffee.image.url }}" width="300px" height="300px">
+                            </div>
+                        {% endif %}
+                        <div class="product-content-3">
+                            <h3 class="title-3"><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></h3>
+                            <div class="price">{{ coffee.price }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-lg-3">
-            <div class="product-grid">
-                <div class="product-image">
-                        <img class="pic-1" src="{% static 'img/guatemala.jpg' %}">
-                </div>
-                <div class="product-content-1">
-                    <h3 class="title-1"><a href="#">과테말라</a></h3>
-                    <div class="price">12,000원
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-lg-3">
-            <div class="product-grid">
-                <div class="product-image">
-                        <img class="pic-2" src="{% static 'img/colombia.jpg' %}">
-                </div>
-                <div class="product-content-2">
-                    <h3 class="title-2"><a href="#">콜롬비아</a></h3>
-                    <div class="price">16,000원
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-5 col-lg-3">
-            <div class="product-grid">
-                <div class="product-image">
-                        <img class="pic-3" src="{% static 'img/ethiopia.jpg' %}">
-                </div>
-                <div class="product-content-3">
-                    <h3 class="title-3"><a href="#">에티오피아</a></h3>
-                    <div class="price">16,000원
-                    </div>
-                </div>
-            </div>
-        </div>                
+            {% endif %}
+        {% endfor %}    
     </div>
 </div>
 
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
 {% endblock %}
