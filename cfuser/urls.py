@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.conf.urls import url
-
+from django.views.generic import TemplateView
 from cfuser.views import *
 
 app_name = 'cfuser'
@@ -26,4 +26,7 @@ urlpatterns = [
     url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^logout/$', logout, name='logout'),
+    url(r'^profile/$',TemplateView.as_view(template_name='profile.html'), name='profile'),
+    url(r'^graph/$',TemplateView.as_view(template_name='graph.html'), name='graph'),
+
 ]
