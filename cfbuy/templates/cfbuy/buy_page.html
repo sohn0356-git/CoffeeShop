@@ -235,27 +235,21 @@
 </script>
 <div id="mainbody">
     <div id="frame">
-        <form>
             <div id="frame2">
                 <span style="font-size: 16pt; font-weight: bold;">구매</span>
                 <span class="home">홈 > 구매</span>
                 <span></span> 
             </div>
             <br/>
-
-        
-
-
             <div>
                 <table class="calculation1">
                     <thead>
                         <tr>
-                            <th colspan="10" style="text-align: left; padding-left: 10px;">일반상품(1)</th>
+                            <th colspan="10" style="text-align: left; padding-left: 10px;">일반상품({{ options_info|length }})</th>
                         </tr>
                         <tr>
-                            <th><input type="checkbox" name="checkbox" id="check" /></th>
                             <th><span>이미지</span></th>
-                            <th style="width: 250px;"><span>상품정보</span></th>
+                            <th style="width: 300px;"><span>상품정보</span></th>
                             <th>판매가</th>
                             <th>수량</th>
                             <th>합계</th>
@@ -265,9 +259,6 @@
                     <tbody>
                         {% for option_info in options_info %}
                             <tr id="calculation1_tr1" style="height: 90px; background-color: #fff;">
-                                <td style="text-align: left; text-align: center; border-right: none;">
-                                    <input type="checkbox" name="checkbox" />
-                                </td>
                                 {% if coffee.image %}
                                     <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ coffee.image.url }}"></td>
                                 {% endif %}
@@ -281,16 +272,19 @@
                                     {% endfor %}
                                     <span>}</span>
                                 </td>
-                                <td name="price">
+                                <td>
                                     {% for info in option_info %}
-                                        {% for option in info.option_list %}
-                                            <span>{{ option.amount }}</span>
-                                        {% endfor %}
+                                        {{ info.price }}
                                     {% endfor %}
                                 </td>
                                 <td>
                                     {% for info in option_info %}
                                         {{ info.quantity }}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for info in option_info %}
+                                        {{ info.sum }}
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -303,89 +297,87 @@
                                 <span>[기본배송]</span>
                             </td>
                             <td colspan="5" style="border-left: none; text-align: right; padding-right:10px;">
-                                상품금액<span>0</span> + <span>배송비 2,500 = 합계</span>&nbsp;<span style="font-weight: bold; font-size:15pt;"></span>
+                                상품금액 : <span style="font-weight: bold; font-size:15pt;">{{ total_sum }}</span>원
                             </td>
                         </tr>
                     </tfoot>
                 </table>
 
                     <div style="margin: 10px 0; padding-bottom: 50px; border-bottom: solid 1px gray;">
-                        <span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
-                        <button type="button" class="btn default btnfloat" style="background-color: gray; color:#fff">삭제하기</button>
                         <button type="button" class="btn default btnfloat2" onclick="javascript:history.back()">이전페이지></button>
                         <span class="clearboth"></span>
                     </div>
                     <br/><br/>
 
                     <span style="font-size: 12pt; display:inline-block; padding-bottom:10px;">&nbsp;배송정보</span>
-                    <table class="delivery">
-                        <thead>
-                            <tr>
-                                <td class="deliverytd">받으시는 분&nbsp;<span style="color: red;">*</span></td>
-                                <td><input type="text" /></td>
-                            </tr>
+                    <form action='{% url "cfbuy:buy_complete" %}' method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="options" value="{{ options_info_id }}">
+                        <table class="delivery">
+                            <thead>
+                                <tr>
+                                    <td class="deliverytd">받으시는 분&nbsp;<span style="color: red;">*</span></td>
+                                    <td><input type="text" name="recipient" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="deliverytd">주소&nbsp;<span style="color: red;">*</span></td>
+                                    <td>
+                                        <input type="text" id="sample4_postcode" name="postcode" placeholder="우편번호">
+                                        <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+                                        <input type="text" id="sample4_roadAddress" name="roadAddress" placeholder="도로명주소">
+                                        <input type="text" id="sample4_jibunAddress" name="jubunAddress" placeholder="지번주소">
+                                        <span id="guide" style="color:#999;display:none"></span>
+                                        <input type="text" id="sample4_detailAddress" name="detailAddress" placeholder="상세주소">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="deliverytd">휴대전화&nbsp;<span style="color: red;">*</span></td>
+                                    <td><input type="text" name="phone1" size="5"/>-<input type="text" name="phone2" size="5"/>-<input type="text" name="phone3" size="5"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="deliverytd">이메일&nbsp;<span style="color: red;">*</span></td>
+                                    <td><input type="text" name="email"/>@<input id="domainName" type="text" name="domain"/>&nbsp;
+                                        <select id="emailChoice" style="height: 20px;">
+                                            <option>-이메일 선택-</option>
+                                            <option>daum.net</option>
+                                            <option>naver.com</option>
+                                            <option>nate.com</option>
+                                            <option>hotmail.com</option>
+                                            <option>gmail.com</option>
+                                        </select>
+                                        <span style="font-size: 10pt; color:gray;">
+                                            <p>이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해 주세요.</p>
+                                        </span>
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td class="deliverytd">주소&nbsp;<span style="color: red;">*</span></td>
-                                <td>
-                                    <input type="text" id="sample4_postcode" placeholder="우편번호">
-                                    <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-                                    <input type="text" id="sample4_roadAddress" placeholder="도로명주소">
-                                    <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
-                                    <span id="guide" style="color:#999;display:none"></span>
-                                    <input type="text" id="sample4_detailAddress" placeholder="상세주소">
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td class="deliverytd" name="deliverymsg">배송메세지</td>
+                                    <td><textarea rows="5" cols="80"></textarea></td>
+                                </tr>
+                            </thead>
+                        </table>
+                        <br/><br/>
 
-                            <tr>
-                                <td class="deliverytd">휴대전화&nbsp;<span style="color: red;">*</span></td>
-                                <td><input type="text" size="5"/>-<input type="text" size="5"/>-<input type="text" size="5"/></td>
-                            </tr>
+                        <div class="payArea">
+                            <div class="payment">
+                                <div style="padding: 10px 10px; font-size: 10pt; border-bottom: solid 1px #e0e0eb;">
+                                    <input type="radio" name="buy_method" value="0" checked/><label>카드결제</label>&nbsp;&nbsp;
+                                    <input type="radio" name="buy_method" value="1" checked/><label>계좌이체</label>&nbsp;&nbsp;
+                                    <input type="radio" name="buy_method" value="2" checked/><label>카카오 페이</label>&nbsp;&nbsp;
 
-                            <tr>
-                                <td class="deliverytd">이메일&nbsp;<span style="color: red;">*</span></td>
-                                <td><input type="text"/>@<input id="domainName" type="text"/>&nbsp;
-                                    <select id="emailChoice" style="height: 20px;">
-                                        <option>-이메일 선택-</option>
-                                        <option>daum.net</option>
-                                        <option>naver.com</option>
-                                        <option>nate.com</option>
-                                        <option>hotmail.com</option>
-                                        <option>gmail.com</option>
-                                    </select>
-                                    <span style="font-size: 10pt; color:gray;">
-                                        <p>이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해 주세요.</p>
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="deliverytd">배송메세지</td>
-                                <td><textarea rows="5" cols="80"></textarea></td>
-                            </tr>
-                        </thead>
-                    </table>
-                    <br/><br/>
-
-                    <div class="payArea">
-                        <div class="payment">
-                            <div style="padding: 10px 10px; font-size: 10pt; border-bottom: solid 1px #e0e0eb;">
-                                <input type="radio" name="cardradio" checked/><label>카드결제</label>&nbsp;&nbsp;
-                                <input type="radio" name="cardradio" checked/><label>계좌이체</label>&nbsp;&nbsp;
-                                <input type="radio" name="cardradio" checked/><label>카카오 페이</label>&nbsp;&nbsp;
-
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="total">
-                            <span style="display: inline-block; padding: 20px 10px;">카드결제 최종결제 금액</span><br/>
-                            <span style="font-size: 25pt; font-weight: bold; padding: 0px 10px;">0 원</span><br/><br/>
-                            <button type="button" class="btn default" style="width: 90%; height: 60px; margin-right:10px; font-size:10pt;">결제하기</button>
-                        </div> 
-                    </div>
-                    <br/><br/>
+                            <div class="total">
+                                <span style="display: inline-block; padding: 20px 10px;">카드결제 최종결제 금액</span><br/>
+                                <span style="font-size: 25pt; font-weight: bold; padding: 0px 10px;">0 원</span><br/><br/>
+                                <button type="submit" class="btn default" style="width: 90%; height: 60px; margin-right:10px; font-size:10pt;">결제하기</button>
+                            </div> 
+                        </div>
+                        <br/><br/>
+                    </form>
             </div>
-        </form>     
     </div>
 </div>
 

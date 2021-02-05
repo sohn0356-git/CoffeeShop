@@ -10,10 +10,18 @@ BUY_CHOICES = (
     (2, 'kakaopay')
 )
 
-class Buy(models.Model):
+class Cfbuy(models.Model):
     buyer = models.ForeignKey('cfuser.Cfuser', on_delete=models.CASCADE,verbose_name='구매자')
-    address = models.CharField(max_length=50,verbose_name='주소')
+    recipient = models.CharField(max_length=20, verbose_name='수령인', default='')
+    postcode = models.CharField(max_length=20,verbose_name='우편번호', default='')
+    roadAddress = models.CharField(max_length=50,verbose_name='도로명주소', default='')
+    jubunAddress = models.CharField(max_length=50,verbose_name='지번주소',blank='true', null='true')
+    detailAddress = models.CharField(max_length=50,verbose_name='상세주소', default='')
     buy_method = models.SmallIntegerField(choices=BUY_CHOICES)
+    phone = models.CharField(max_length=20, verbose_name='전화번호', default='')
+    email = models.CharField(max_length=50, verbose_name='email', default='')
+    
+
     buy_date = models.DateTimeField(auto_now_add=True, verbose_name='구매일자')
 
     def __str__(self):
@@ -25,8 +33,9 @@ class Buy(models.Model):
         verbose_name_plural = '구매'
 
 class Buydetail(models.Model):
-    buy_info = models.ForeignKey('cfbuy.Buy', on_delete=models.CASCADE,verbose_name='구매정보')
+    buy_info = models.ForeignKey('cfbuy.Cfbuy', on_delete=models.CASCADE,verbose_name='구매정보')
     amount = models.IntegerField(default=0, verbose_name='주문 총 금액')
+
 
     def __str__(self):
         return "Buy Detail No."+str(self.buy_info.id)+"_"+str(self.id)
