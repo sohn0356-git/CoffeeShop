@@ -145,6 +145,9 @@
 </style>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+
+
+
     $(document).ready(function(){
         $(".calculation1 thead input:checkbox[id=check]").click(function(){
             var bool =$(this).prop("checked");
@@ -300,7 +303,7 @@
                                 <span>[기본배송]</span>
                             </td>
                             <td colspan="5" style="border-left: none; text-align: right; padding-right:10px;">
-                                상품금액<span>0</span> + <span>배송비 2,500 = 합계</span>&nbsp;<span style="font-weight: bold; font-size:15pt;">0</span>
+                                상품금액<span>0</span> + <span>배송비 2,500 = 합계</span>&nbsp;<span style="font-weight: bold; font-size:15pt;"></span>
                             </td>
                         </tr>
                     </tfoot>
@@ -317,18 +320,6 @@
                     <span style="font-size: 12pt; display:inline-block; padding-bottom:10px;">&nbsp;배송정보</span>
                     <table class="delivery">
                         <thead>
-                            <tr>
-                                <td class="deliverytd">배송지 선택</td>
-                                <td>
-                                    <input type="radio" name="bb"/>
-                                    <label>회원정보와 동일</label>
-
-                                    <input type="radio" name="bb"/>
-                                    <label>새로운 배송지</label>&nbsp;
-                                    <button type="button" style="background-color: #fff; cursor:pointer; border-width:0px; border-radius:3px;"></button>
-                                </td>
-                            </tr>
-
                             <tr>
                                 <td class="deliverytd">받으시는 분&nbsp;<span style="color: red;">*</span></td>
                                 <td><input type="text" /></td>
