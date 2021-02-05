@@ -99,7 +99,6 @@
                 <thead>
                     <tr>
                         <th>주문일자[주문번호]</th>
-                        <th>이미지</th>
                         <th style="width: 450px;">상품정보</th>
                         <th>수량</th>
                         <th>상품구매금액</th>
@@ -107,18 +106,47 @@
                         <th>취소/교환/반품</th>
                     </tr>
                 </thead>
-
-                <tbody>
-                    <tr>
-
-
-                    </tr>
-                </tbody>
-            </table>
-
-            <div align="center">
-                <span style="display: inline-block; padding-top: 30px;">주문 내역이 없습니다.</span>
-            </div>
+                {% if order_list %}
+                    <tbody>
+                        {% for order in order_list %}
+                        <tr>
+                            <td>{{ order.0.buy_date }}[{{ order.0.id }}]</td>
+                            <td>
+                                {% for cfselects in order.1 %}
+                                <p>
+                                    {% for cfselect in cfselects %}    
+                                        <span>{{ cfselect.cfoption.option_id }}</span>
+                                    {% endfor %}
+                                </p>
+                                {% endfor %}
+                            </td>  
+                            <td>
+                                {% for cfselects in order.1 %}
+                                <p>
+                                    {%if cfselects.0.quantity %}
+                                        <span>{{ cfselects.0.quantity }}개</span>
+                                    {% endif %}
+                                </p>
+                                {% endfor %}
+                            </td>     
+                            <td>
+                                {% for detail in order.2 %}
+                                <p>
+                                    <span>{{ detail.amount }}원</span>
+                                </p>
+                                {% endfor %}
+                            </td>   
+                        </tr> 
+                        {% endfor %}  
+                    </tbody>
+            </table> 
+            {% else %}
+        </table>
+                <div style="text-align: center;">
+                    <span style="display: inline-block; padding-top: 30px;">주문 내역이 없습니다.</span>
+                </div>
+                {% endif %}
+                
         </form>
     </div>
 </div>

@@ -78,13 +78,13 @@ def buy_detail(request):
                 options_info_id.append([])
                 option_list = []
                 option_list_id = []
-                for i in v[:-1]:
+                for i in v[:-2]:
                     target = CftoOption.objects.get(id=i)
                     option_list.append(target)
                     option_list_id.append(i)
                 total_sum += v[-1]*v[-2]
                 options_info[-1].append({'option_list':option_list,'quantity':v[-2],'price':v[-1], 'sum':v[-2]*v[-1]})
-                options_info_id[-1].append({'option_list':option_list_id})
+                options_info_id[-1].append({'option_list':option_list_id, 'quantity':v[-2]})
         
         res_data['total_sum'] = total_sum
         res_data['cftooptions'] = cftooptions

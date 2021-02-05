@@ -5,6 +5,9 @@
 {% block contents %}
 
 <style>
+    a{
+        text-decoration: none;
+    }
     .card{
         margin: 100px 0 100px 0;
     }
@@ -70,12 +73,17 @@
                                 <hr/>
                                 <br>
                                 <section>
-                                    <p id="price" style="text-align: right;">최종합산 금액 : </p>
+                                    <p id="price" style="text-align: right;">최종합산 금액 : 0원</p>
                                 </section>
                                 <hr/>
                                 <div class="action">
-                                    <button class="add-to-cart btn btn-secondary" type="submit" name="buy" value="cart">장바구니</button>
-                                    <button class="like btn btn-primary" type="submit" name="buy" value="buy"><span class="fa fa-heart">구매하기</span></button>
+                                    {% if request.session.user %}
+                                        <button class="add-to-cart btn btn-secondary" type="submit" name="buy" value="cart">장바구니</button>
+                                        <button class="like btn btn-primary" type="submit" name="buy" value="buy"><span class="fa fa-heart">구매하기</span></button>
+                                    {% else %}
+                                        <button class="add-to-cart btn btn-secondary" type="button" name="buy" value="cart"><a href="{% url 'cfuser:login' %}">장바구니</a></button>
+                                        <button class="like btn btn-primary" type="button" name="buy" value="buy"><span class="fa fa-heart"><a href="{% url 'cfuser:login' %}">구매하기</a></span></button>
+                                    {% endif %}
                                 </div>
                             </form>
                     </div>

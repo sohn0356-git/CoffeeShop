@@ -20,8 +20,6 @@ class Cfbuy(models.Model):
     buy_method = models.SmallIntegerField(choices=BUY_CHOICES)
     phone = models.CharField(max_length=20, verbose_name='전화번호', default='')
     email = models.CharField(max_length=50, verbose_name='email', default='')
-    
-
     buy_date = models.DateTimeField(auto_now_add=True, verbose_name='구매일자')
 
     def __str__(self):
