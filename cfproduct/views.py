@@ -78,7 +78,8 @@ def buy_detail(request):
                 options_info_id.append([])
                 option_list = []
                 option_list_id = []
-                for i in v[:-1]:
+                for i in v[:-2]:
+                    print(i)
                     target = CftoOption.objects.get(id=i)
                     option_list.append(target)
                     option_list_id.append(i)
