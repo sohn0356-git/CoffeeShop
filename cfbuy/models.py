@@ -1,7 +1,7 @@
 from django.db import models
 
 from cfuser.models import Cfuser
-from cfproduct.models import Cfproduct
+from cfproduct.models import Cfproduct, Coffeecode
 # Create your models here.
 
 BUY_CHOICES = (
@@ -20,8 +20,6 @@ class Cfbuy(models.Model):
     buy_method = models.SmallIntegerField(choices=BUY_CHOICES)
     phone = models.CharField(max_length=20, verbose_name='전화번호', default='')
     email = models.CharField(max_length=50, verbose_name='email', default='')
-    
-
     buy_date = models.DateTimeField(auto_now_add=True, verbose_name='구매일자')
 
     def __str__(self):
@@ -35,7 +33,7 @@ class Cfbuy(models.Model):
 class Buydetail(models.Model):
     buy_info = models.ForeignKey('cfbuy.Cfbuy', on_delete=models.CASCADE,verbose_name='구매정보')
     amount = models.IntegerField(default=0, verbose_name='주문 총 금액')
-
+    quantity = models.IntegerField(verbose_name='수량', default=1)
 
     def __str__(self):
         return "Buy Detail No."+str(self.buy_info.id)+"_"+str(self.id)
@@ -72,7 +70,8 @@ class Cfselect(models.Model):
     cfoption = models.ForeignKey('cfproduct.CftoOption', on_delete=models.CASCADE,verbose_name='구매제품')
     buy = models.ForeignKey('cfbuy.Buydetail', on_delete=models.CASCADE,verbose_name='구매내역', blank=True, null=True)
     basket = models.ForeignKey('cfbuy.Basketdetail', on_delete=models.CASCADE,verbose_name='장바구니내역', blank=True, null=True)
-    quantity = models.IntegerField(verbose_name='수량', default=1)
+    cf_code = models.ForeignKey('cfproduct.Coffeecode', on_delete=models.CASCADE,verbose_name='커피코드', null=True)
+
     def __str__(self):
         return str(self.id)
 

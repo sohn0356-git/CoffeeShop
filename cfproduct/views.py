@@ -63,8 +63,9 @@ def product_detail(request,id):
 def buy_detail(request):
     id = request.POST.get('id')
     res_data = {}
-    if request.method == 'POST':        
-        cfproduct = Cfproduct.objects.get(id=id)
+    if request.method == 'POST':
+        cart_or_buy = request.POST.get('buy')
+        cfproduct = Cfproduct.objects.get(id=id)        
         options = (eval(str(request.POST.get('option'))))
         cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
 
@@ -79,21 +80,24 @@ def buy_detail(request):
                 option_list = []
                 option_list_id = []
                 for i in v[:-2]:
-                    print(i)
                     target = CftoOption.objects.get(id=i)
                     option_list.append(target)
                     option_list_id.append(i)
                 total_sum += v[-1]*v[-2]
                 options_info[-1].append({'option_list':option_list,'quantity':v[-2],'price':v[-1], 'sum':v[-2]*v[-1]})
-                options_info_id[-1].append({'option_list':option_list_id})
+                options_info_id[-1].append({'option_list':option_list_id, 'quantity':v[-2]})
         
         res_data['total_sum'] = total_sum
         res_data['cftooptions'] = cftooptions
         res_data['coffee'] = cfproduct
         res_data['options_info'] = options_info
         res_data['options_info_id'] = options_info_id
-        res_data['quantitys'] = quan_dict    
+        res_data['quantitys'] = quan_dict
+        if cart_or_buy == 'buy':
+            return render(request, 'cfbuy/buy_page.html', res_data)
+        else:
+            return render(request, 'cfbuy/cart.html', res_data)
    
-    return render(request, 'cfbuy/buy_page.html', res_data)
+    return render(request, 'cfproduct/product_detail.html', res_data)
 
  
