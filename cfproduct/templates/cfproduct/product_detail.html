@@ -87,7 +87,7 @@
                                 <hr/>
                                 <div class="action">
                                     {% if request.session.user %}
-                                        <button class="add-to-cart btn btn-secondary" type="submit" name="buy" value="cart">장바구니</button>
+                                        <button class="add-to-cart btn btn-secondary" type="submit" name="buy" value="cart">장바구니 추가</button>
                                         <button class="like btn btn-primary" type="submit" name="buy" value="buy"><span class="fa fa-heart">구매하기</span></button>
                                     {% else %}
                                         <button class="add-to-cart btn btn-secondary" type="button" name="buy" value="cart"><a href="{% url 'cfuser:login' %}">장바구니</a></button>
@@ -110,7 +110,6 @@
     var param = {};
     var price_info = JSON.parse("{{ priceJson|escapejs }}");
     var selector = document.querySelectorAll(".form-select")
-
     function update_form(){
         var test = JSON.stringify(param)
         var el = document.createElement("input");
@@ -168,11 +167,11 @@
         setBtn(cnt);
     }
     function handleOnChange(e){
-        var sum = 0;
+        var sum = price_info['base'];
         if(e.selectedIndex != 0){
             options[e.options[0].text] = e.options[e.selectedIndex].text          
         }
-        if(Object.keys(options).length == 3){
+        if(Object.keys(options).length == price_info['len']){
             var option_arr = []
             var text = "{ ";
             for(option in options){

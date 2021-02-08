@@ -212,7 +212,7 @@
             <table class="calculation1">
                 <thead>
                     <tr>
-                        <th colspan="10" style="text-align: left; padding-left: 10px;">일반상품({{ options_info|length }})</th>
+                        <th colspan="10" style="text-align: left; padding-left: 10px;">일반상품({{ baskets|length }})</th>
                     </tr>
                     <tr>
                         <th><input type="checkbox" name="checkbox" id="check" /></th>
@@ -226,46 +226,35 @@
                 </thead>
 
                 <tbody id="calculation1tbody">
-                    {% for option_info in options_info %}
+                    {% for basket in baskets %}
                             <tr id="calculation1_tr1" style="height: 90px; background-color: #fff;">
                                 <td><input type="checkbox" name="checkbox" id="check" /></td>
-                                {% if coffee.image %}
-                                    <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ coffee.image.url }}"></td>
+                                {% if basket.1.0.cfoption.coffee_id.image %}
+                                    <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ basket.1.0.cfoption.coffee_id.image.url }}"></td>
                                 {% endif %}
                                 <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
-                                    <p><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></p>
+                                    <p>{{ basket.1.0.cfoption.coffee_id.name }}</p>
                                     <span>{</span>
-                                    {% for info in option_info %}
-                                        {% for option in info.option_list %}
-                                            <span style="font-size:small;">{{ option.option_id }}</span>
+                                        {% for options in basket.1 %}
+                                            <span style="font-size:small;">{{ options.cfoption.option_id }}</span>
                                         {% endfor %}
-                                    {% endfor %}
                                     <span>}</span>
                                 </td>
                                 <td>
-                                    {% for info in option_info %}
-                                        {{ info.price }}
-                                    {% endfor %}
+                                    {{ basket.0.amount }}
                                 </td>
                                 <td>
-                                    {% for info in option_info %}
-                                        {{ info.quantity }}
-                                    {% endfor %}
+                                    {{ basket.0.quantity }}
                                 </td>
                                 <td>
-                                    {% for info in option_info %}
-                                        {{ info.sum }}
-                                    {% endfor %}
+                                    {{ basket.0.total }}
                                 </td>
                                 <td>
                                     <button class="btn default orderGobtn" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px; background-color: #264d73; color:#fff">주문하기</button>
                                     <button class="btn default btndelete" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
                                 </td>
                             </tr>
-                        {% endfor %}
-                    </tr>
-
-                    
+                        {% endfor %}                    
                 </tbody>
 
                 <tfoot>
@@ -286,20 +275,6 @@
                 <span class="clearboth"></span>
             </div>
             <br/><br/>
-
-            <table class="calculation2">
-                <tr>
-                    <th>총 상품금액</th>
-                    <th>총 배송비</th>
-                    <th style="width: 450px; padding: 22px 0;"><span>결제예정금액</span></th>
-                </tr>
-
-                <tr style="background-color: #fff;">
-                    <td style="padding: 22px 0;"><span class="price">0</span>원</td>
-                    <td>+<span class="price">0</span>원</td>
-                    <td>=<span class="price">0</span>원</td>
-                </tr>
-            </table>
             <br/><br/>
 
             <div align="center">

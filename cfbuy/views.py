@@ -1,3 +1,7 @@
+import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 from django.shortcuts import render, redirect, reverse
 
 from cfbuy.models import *
@@ -10,12 +14,19 @@ def buy_complete(request):
     cfbuy.buyer = Cfuser.objects.get(email=request.session['user'])
     cfbuy.recipient = request.POST.get('recipient')
     cfbuy.postcode = request.POST.get('postcode')
-    cfbuy.roadAddress = request.POST.get('roadAddress')
-    cfbuy.jubunAddress = request.POST.get('jubunAddress')
+    cfbuy.address = request.POST.get('address')
     cfbuy.detailAddress = request.POST.get('detailAddress')
+    cfbuy.extraAddress = request.POST.get('extraAddress')
+    cfbuy.phone1 = request.POST.get('phone1')
+    cfbuy.phone2 = request.POST.get('phone2')
+    cfbuy.phone3 = request.POST.get('phone3')
     cfbuy.phone = request.POST.get('phone1') + request.POST.get('phone2') + request.POST.get('phone3')
+    cfbuy.email_name = request.POST.get('email')
+    cfbuy.email_domain = request.POST.get('domain')
     cfbuy.email = request.POST.get('email')+ '@' + request.POST.get('domain')
     cfbuy.buy_method = request.POST.get('buy_method')
+    cfbuy.delivery_msg = request.POST.get('deliverymsg')
+    print(request.POST)
     cfbuy.save()
 
     options = eval(request.POST.get('options'))
@@ -65,7 +76,7 @@ def show_graph(request):
     for cfselect in cfselects:
         buydetails.add((cfselect.cfoption.coffee_id.name,cfselect.buy))
     for buydetail in buydetails:
-        sold_cf[buydetail[0]] += buydetail[1].quantity
-    res_data = {'sold_cf':sold_cf}
-    print(sold_cf)
-    return render(request, 'cfbuy/graph.html', res_data)
+        if buydetail[1]:
+            sold_cf[buydetail[0]] += buydetail[1].quantity
+    res_data = {'sold_cf':json.dumps(sold_cf)}
+    return render(request, 'graph.html', res_data)
