@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+
+
+{% block contents %}
+
+<style>
+    #chart_div{
+        margin: 80px 0 80px 20px;
+    }
+    .btn{
+        width: 150px;
+        height: 40px;
+        margin: 30px 0 0 30px;
+        text-decoration: none;
+        background-color: #e6a958;
+        color: #fff;
+    }
+    .btn:hover{
+        background-color: #d3841c;
+    }
+
+   
+</style>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    var tg = 0;
+    google.charts.load('current', {'packages':['corechart']}).then(function(){
+        
+    $("#btn-1").click(function(){
+        $(".chart_div").toggle();
+        var chart_data =[
+        ['Month', '에티오피아', '콜롬비아', '과테말라', '케냐', '베네수엘라'],
+        ['2020/08',  165,      938,         522,             998,           450],
+        ['2020/09',  135,      1120,        599,             1268,          288],
+        ['2020/10',  157,      1167,        587,             807,           397],
+        ['2020/11',  139,      1110,        615,             968,           215],
+        ['2020/12',  136,      691,         629,             1026,          366],
+        ['2021/01',  156,      990,         875,             800,          390]
+        ];
+
+
+        var data = google.visualization.arrayToDataTable(chart_data);
+
+        var options = {
+            title : '월간 커피 판매량(SINGLE ORIGIN)',
+            vAxis: {title: '커피'},
+            hAxis: {title: 'Month'},
+            seriesType: 'bars',
+            series: {5: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+        if (tg % 2 == 1){
+            document.getElementById('chart_div').remove();
+        };
+        tg++;
+    })
+    $("#btn-2").click(function(){
+        var chart_data =[
+        ['Month', '에티오피아', '콜롬비아', '과테말라', '케냐', '베네수엘라'],
+        ['2020/08',  65,      38,         22,             98,           50],
+        ['2020/09',  55,      120,        99,             268,          88],
+        ['2020/10',  57,      167,        87,             7,           97],
+        ['2020/11',  39,      110,        15,             68,           15],
+        ['2020/12',  36,      91,         29,             26,          66],
+        ['2021/01',  56,      90,         75,             80,          90]
+        ];
+
+
+        var data = google.visualization.arrayToDataTable(chart_data);
+
+        var options = {
+            title : '월간 커피 판매량(BLEND)',
+            vAxis: {title: '커피'},
+            hAxis: {title: 'Month'},
+            seriesType: 'bars',
+            series: {5: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    })
+    $("#btn-3").click(function(){
+        var chart_data =[
+        ['Month', '원두', '아이', '과테말라', '케냐', '베네수엘라'],
+        ['2020/08',  265,      381,         224,             888,           250],
+        ['2020/09',  525,      1201,        994,             868,          288],
+        ['2020/10',  572,      1671,        874,             78,           297],
+        ['2020/11',  392,      1101,        154,             688,           215],
+        ['2020/12',  362,      911,         294,             286,          266],
+        ['2021/01',  562,      901,         754,             880,          90]
+        ];
+
+
+        var data = google.visualization.arrayToDataTable(chart_data);
+
+        var options = {
+            title : '월간 커피 판매량(EASY COFFEE)',
+            vAxis: {title: 'COFFEE'},
+            hAxis: {title: 'Monthly'},
+            seriesType: 'bars',
+            series: {5: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    })
+});
+</script>
+
+<input class="btn" id="btn-1" type="button" value="SINGLE ORIGIN" />
+<input class="btn" id="btn-2" type="button" value="BLEND" />
+<input class="btn" id="btn-3" type="button" value="EASY COFFEE" />
+
+<div id="chart_div" style="width: 1200px; height: 800px;"></div>
+
+
+
+{% endblock %}
+
+
+
+  
+

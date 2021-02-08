@@ -3,32 +3,11 @@
 {% load static %}
 
 {% block contents %}
-<script>
-    function handelOnChange(e){
-        const text = e.options[e.selectedIndex].text;
-        console.log(e.options);
-        document.getElementById('result').innerText = text;
-    }
-    $(document).ready(function(){
-        $('.__count_range input[count_range]').click(function(e){
-        e.preventDefault();
-        var type = $(this).attr('count_range');
-        var $count = $(this).parent().children('input.count');
-        var count_val = $count.val(); // min 1
-        if(type=='m'){
-        if(count_val<1){
-        return;
-        }
-        $count.val(parseInt(count_val)-1);
-        }else if(type=='p'){
-        $count.val(parseInt(count_val)+1);
-        }
-    });
-    }); 
 
-
-</script>
 <style>
+    a{
+        text-decoration: none;
+    }
     .card{
         margin: 100px 0 100px 0;
     }
@@ -50,6 +29,15 @@
     .action{
         margin: 30px 0 30px 0;
     }
+    .action > .add-to-cart > a{
+        text-decoration: none;
+        color: #e0e0eb;
+    }
+    .action > .like > .fa > a{
+        text-decoration: none;
+        color: #fff;
+    }
+
 
 </style>
 
@@ -68,17 +56,16 @@
                         <br>
                         <h3 class="product-title">{{ coffee.name }}</h3>
                         <h4 class="price">가격 : <span>{{ coffee.price }}원</span></h4>
-                        <form method="post" action="{% url 'cfproduct:buy_detail' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="id" value="{{ coffee.id }}">
+                        
                             <li>
+                            <hr/>
                             {% for option_title in option_set %}
                                 <li>
                                     <label>{{ option_title }} :</label>
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="{{ option_title }}" onchange="handelOnChange(this)">
-                                        {% for option in option_list %}
-                                            {%if option.code_option == option_title %}
-                                                <option value="{{ option.id }}">{{ option.option }}</option>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="{{ option_title }}" onchange="handleOnChange(this)">
+                                        {% for cftooption in cftooptions %}
+                                            {%if cftooption.option_id.code_option == option_title %}
+                                                <option value="{{ cftooption.id }}">{{ cftooption.option_id.option }}</option>
                                             {% endif %}
                                         {% endfor %}
                                     </select>
@@ -86,22 +73,28 @@
                                 <hr/>
                             {% endfor %}
                             </li>
-                            <hr/>
-                            <div class="__count_range text-right"> 
-                                <p class= "text-left" id='result'></p>
-                                <input value="-" count_range="m" type="button">
-                                <input class="count" value="1" readonly="" name="quantity">
-                                <input value="+" count_range="p" type="button">
-                            </div>
-                            <hr/>
-                            <br>
-                            <span>여기에는 최종합산 금액</span>
-                            <hr/>
-                            <div class="action">
-                                <button class="add-to-cart btn btn-secondary" type="submit">장바구니</button>
-                                <button class="like btn btn-primary" type="submit" name="buy"><span class="fa fa-heart"></span>구매하기</button>
-                            </div>
-                        </form>
+                            <form method="post" action="{% url 'cfproduct:buy_detail' %}" id="select_form">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ coffee.id }}">
+                                <section id="options">
+                                    
+                                </section>
+                                <hr/>
+                                <br>
+                                <section>
+                                    <p id="price" style="text-align: right;">최종합산 금액 : 0원</p>
+                                </section>
+                                <hr/>
+                                <div class="action">
+                                    {% if request.session.user %}
+                                        <button class="add-to-cart btn btn-secondary" type="submit" name="buy" value="cart">장바구니</button>
+                                        <button class="like btn btn-primary" type="submit" name="buy" value="buy"><span class="fa fa-heart">구매하기</span></button>
+                                    {% else %}
+                                        <button class="add-to-cart btn btn-secondary" type="button" name="buy" value="cart"><a href="{% url 'cfuser:login' %}">장바구니</a></button>
+                                        <button class="like btn btn-primary" type="button" name="buy" value="buy"><span class="fa fa-heart"><a href="{% url 'cfuser:login' %}">구매하기</a></span></button>
+                                    {% endif %}
+                                </div>
+                            </form>
                     </div>
                 </form>
             </div>
@@ -109,4 +102,105 @@
     </div>
 </div>
 
+
+<script>
+    var total_sum = 0;
+    var options = {};
+    var cnt = 0;
+    var param = {};
+    var price_info = JSON.parse("{{ priceJson|escapejs }}");
+    var selector = document.querySelectorAll(".form-select")
+
+    function update_form(){
+        var test = JSON.stringify(param)
+        var el = document.createElement("input");
+        el.type = "hidden";
+        el.name = "option";
+        el.value = test;
+        document.getElementById('select_form').appendChild(el)
+        console.log(test);
+        document.getElementById('price').innerText = "최종합산 금액 : "+total_sum+"원 ";
+    }
+
+    function setBtn(num){
+        $('#option'+num+' > .__count_range input[count_range]').click(function(e){
+            e.preventDefault();
+            var type = $(this).attr('count_range');
+            var $count = $(this).parent().children('input.count');
+            var count_val = $count.val(); // min 1
+            var arr = param[num];
+            if(type=='m'){
+                if(count_val<=1){
+                    return;
+                }
+            $count.val(parseInt(count_val)-1);
+            total_sum -= arr[arr.length-1]
+            arr[arr.length-2]--;
+            }else if(type=='p'){
+                $count.val(parseInt(count_val)+1);
+                total_sum += arr[arr.length-1]
+                arr[arr.length-2]++;
+            }
+            update_form();
+        });
+    }; 
+    
+    function remove_div(num){
+        document.getElementById('option'+num).remove()
+        var arr = param[num];
+        total_sum -= arr[arr.length-1]*arr[arr.length-2];
+        param[num] = [];
+        update_form();
+        console.log(param)
+    }
+
+    function add_option(){
+        var div = document.createElement('div');
+        div.setAttribute("id", "option"+cnt);
+        div.innerHTML = `<div class="__count_range text-right"> 
+                <span class= "text-left" id='result`+cnt+`'></span>
+                <span onclick="remove_div(`+cnt+`)" style="cursor: pointer;"><img src="{% static 'img/cancel.png' %}" width=35px;></span>
+                <input value="-" count_range="m" type="button">
+                <input class="count" value="1" readonly="" name="quantity">
+                <input value="+" count_range="p" type="button">
+                </div> `
+        document.getElementById('options').appendChild(div);
+        setBtn(cnt);
+    }
+    function handleOnChange(e){
+        var sum = 0;
+        if(e.selectedIndex != 0){
+            options[e.options[0].text] = e.options[e.selectedIndex].text          
+        }
+        if(Object.keys(options).length == 3){
+            var option_arr = []
+            var text = "{ ";
+            for(option in options){
+                text += option + " : " + options[option]+" ";
+            }
+            text += "}";
+            for(var i=0;i<selector.length;i++)
+            {
+                sum += price_info[selector[i].options[selector[i].selectedIndex].value];
+                option_arr.push(selector[i].options[selector[i].selectedIndex].value);
+                selector[i].selectedIndex=0;                
+            }
+            cnt++;
+            option_arr.push(1);
+            option_arr.push(sum);
+            total_sum += sum;
+            param[cnt]=option_arr;
+            options={};            
+            console.log(sum);
+            add_option();
+            update_form();
+            document.getElementById('result'+cnt).innerText = text;            
+        }        
+    };
+
+
+    
+
+
+</script>
 {% endblock %}
