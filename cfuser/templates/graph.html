@@ -25,24 +25,31 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    var sold_cf = JSON.parse("{{ sold_cf|escapejs }}");
+    var single_origin = JSON.parse("{{ single_origin|escapejs }}");
+    var single_origin_name = JSON.parse("{{ single_origin_name|escapejs }}");
     google.charts.load('current', {'packages':['corechart']}).then(function(){
         
     $("#btn-1").click(function(){
-        console.log(sold_cf);
+        console.log(single_origin);
         var chart_data =[
         ];
         var col = ['Month'];
-        var val = ['Feb'];
-        for(cf in sold_cf)
+        
+        for(name in single_origin_name['name'])
         {
-            col.push(cf);
-            val.push(sold_cf[cf]);
-            console.log(cf);
-            console.log(sold_cf[cf]);
+            col.push(single_origin_name['name'][name]);
         }
         chart_data.push(col);
-        chart_data.push(val);
+        for(cf in single_origin)
+        {
+            var val = [cf];
+            for(sold_cnt in single_origin[cf])
+            {
+                val.push(single_origin[cf][sold_cnt]);
+            }
+            chart_data.push(val);
+        }
+        console.log(chart_data);
 
 
         var data = google.visualization.arrayToDataTable(chart_data);

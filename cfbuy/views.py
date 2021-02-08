@@ -1,8 +1,8 @@
 import json
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 from django.shortcuts import render, redirect, reverse
+from django.db.models import Q
 
 from cfbuy.models import *
 from cfproduct.models import CftoOption
@@ -43,6 +43,10 @@ def buy_complete(request):
             cfselect.cfoption = CftoOption.objects.get(id=ol)
             cfselect.cf_code = cfselect.cfoption.coffee_id.cfcode
             cfselect.buy = buydetail
+            
+            date_str = "2021-01-08"
+            temp_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            cfselect.buy_date = temp_date
             buysum += buydetail.quantity * cfselect.cfoption.amount
             cfselect.save()
         
@@ -66,17 +70,36 @@ def order_list(request):
     return render(request, 'cfbuy/cfbuy_list.html', res_data)
 
 def show_graph(request):
-    buydetails = set()
-    sold_cf = {}
+    year = datetime.today().year
+    month = datetime.today().month
+    res_data = {}
+    single_origin = {}
     cf_code = Coffeecode.objects.get(cfcode='SINGLE ORIGINS')
     cf_names = Cfproduct.objects.filter(cfcode=cf_code)
+    single_origin_name = {'name':[]}
     for cf_name in cf_names:
-        sold_cf[cf_name.name]=0
-    cfselects = Cfselect.objects.filter(cf_code=cf_code)
-    for cfselect in cfselects:
-        buydetails.add((cfselect.cfoption.coffee_id.name,cfselect.buy))
-    for buydetail in buydetails:
-        if buydetail[1]:
-            sold_cf[buydetail[0]] += buydetail[1].quantity
-    res_data = {'sold_cf':json.dumps(sold_cf)}
+        single_origin_name['name'].append(cf_name.name)
+        
+    for m in range(0,4):
+        nm = month - m
+        ny = year
+        if nm < 1:
+            nm = nm + 12
+            ny -= 1
+        buydetails = set()
+        year_month = str(ny)+'-'+str(nm)
+        single_origin[year_month] = {}
+        
+        
+        for cf_name in cf_names:
+            single_origin[year_month][cf_name.name]=0
+        cfselects = Cfselect.objects.filter(cf_code=cf_code).filter(~Q(buy__isnull=True)).filter(buy_date__year=ny).filter(buy_date__month=nm)
+        for cfselect in cfselects:
+            buydetails.add((cfselect.cfoption.coffee_id.name,cfselect.buy))
+        for buydetail in buydetails:
+            single_origin[year_month][buydetail[0]] += buydetail[1].quantity
+    res_data['single_origin']=json.dumps(single_origin)
+    res_data['single_origin_name']=json.dumps(single_origin_name)
+    
+    
     return render(request, 'graph.html', res_data)

@@ -25,8 +25,8 @@ class Cfbuy(models.Model):
     email = models.CharField(max_length=50, verbose_name='email', default='')
     email_name = models.CharField(max_length=20, verbose_name='이메일이름', default='')
     email_domain = models.CharField(max_length=20, verbose_name='이메일도메인', default='')
-    buy_date = models.DateTimeField(default=now, verbose_name='구매일자')
     delivery_msg = models.CharField(max_length=100, verbose_name='delivery_msg', default='',blank='true', null='true')
+    buy_date = models.DateTimeField(default=now, verbose_name='구매일자')
 
     def __str__(self):
         return "Buy Info No."+str(self.id)+" "+self.buyer.name
@@ -68,6 +68,7 @@ class Cfselect(models.Model):
     buy = models.ForeignKey('cfbuy.Buydetail', on_delete=models.CASCADE,verbose_name='구매내역', blank=True, null=True)
     basket = models.ForeignKey('cfbuy.Basketdetail', on_delete=models.CASCADE,verbose_name='장바구니내역', blank=True, null=True)
     cf_code = models.ForeignKey('cfproduct.Coffeecode', on_delete=models.CASCADE,verbose_name='커피코드', null=True)
+    buy_date = models.DateTimeField(default=now, verbose_name='구매일자')
 
     def __str__(self):
         return str(self.id)
