@@ -24,15 +24,17 @@ def buy_complete(request):
         buysum = 0
         buydetail = Buydetail()
         buydetail.buy_info = cfbuy
+        buydetail.quantity = option[0]['quantity']
         buydetail.save()
+        print(option[0])
         for ol in option[0]['option_list']:
             cfselect = Cfselect()
             cfselect.cfoption = CftoOption.objects.get(id=ol)
-            cfselect.quantity = option[0]['quantity']
+            cfselect.cf_code = cfselect.cfoption.coffee_id.cfcode
             cfselect.buy = buydetail
-            buysum += cfselect.quantity * cfselect.cfoption.amount
+            buysum += buydetail.quantity * cfselect.cfoption.amount
             cfselect.save()
-
+        
         buydetail.amount = buysum
         buydetail.save()
 
@@ -49,5 +51,21 @@ def order_list(request):
         for buydetail in buydetails:
             cfselect = Cfselect.objects.filter(buy=buydetail)
             cfselects.append(cfselect)
-        res_data['order_list'].append([order,cfselects, buydetails])
+        res_data['order_list'].append([order, cfselects, buydetails])
     return render(request, 'cfbuy/cfbuy_list.html', res_data)
+
+def show_graph(request):
+    buydetails = set()
+    sold_cf = {}
+    cf_code = Coffeecode.objects.get(cfcode='SINGLE ORIGINS')
+    cf_names = Cfproduct.objects.filter(cfcode=cf_code)
+    for cf_name in cf_names:
+        sold_cf[cf_name.name]=0
+    cfselects = Cfselect.objects.filter(cf_code=cf_code)
+    for cfselect in cfselects:
+        buydetails.add((cfselect.cfoption.coffee_id.name,cfselect.buy))
+    for buydetail in buydetails:
+        sold_cf[buydetail[0]] += buydetail[1].quantity
+    res_data = {'sold_cf':sold_cf}
+    print(sold_cf)
+    return render(request, 'cfbuy/graph.html', res_data)

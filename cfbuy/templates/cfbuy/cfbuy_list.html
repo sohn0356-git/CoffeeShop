@@ -121,10 +121,10 @@
                                 {% endfor %}
                             </td>  
                             <td>
-                                {% for cfselects in order.1 %}
+                                {% for detail in order.2 %}
                                 <p>
-                                    {%if cfselects.0.quantity %}
-                                        <span>{{ cfselects.0.quantity }}개</span>
+                                    {%if detail.quantity %}
+                                        <span>{{ detail.quantity }}개</span>
                                     {% endif %}
                                 </p>
                                 {% endfor %}

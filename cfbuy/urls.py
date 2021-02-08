@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^buy_page/$',TemplateView.as_view(template_name='cfbuy/buy_page.html'),name='buy_page'),
     url(r'^order/$',order_list,name='order_list'),
     url(r'^complete/$',buy_complete,name='buy_complete'),
+    url(r'^graph/$',show_graph,name='graph'),
 ]

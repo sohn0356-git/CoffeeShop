@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Graph</h1>
+    {% for detail in sold_cf.items %}
+        <p>{{ detail.0 }} : {{ detail.1 }}</p>
+    {% endfor %}
+</body>
+</html>

@@ -63,8 +63,9 @@ def product_detail(request,id):
 def buy_detail(request):
     id = request.POST.get('id')
     res_data = {}
-    if request.method == 'POST':        
-        cfproduct = Cfproduct.objects.get(id=id)
+    if request.method == 'POST':
+        cart_or_buy = request.POST.get('buy')
+        cfproduct = Cfproduct.objects.get(id=id)        
         options = (eval(str(request.POST.get('option'))))
         cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
 
@@ -91,8 +92,12 @@ def buy_detail(request):
         res_data['coffee'] = cfproduct
         res_data['options_info'] = options_info
         res_data['options_info_id'] = options_info_id
-        res_data['quantitys'] = quan_dict    
+        res_data['quantitys'] = quan_dict
+        if cart_or_buy == 'buy':
+            return render(request, 'cfbuy/buy_page.html', res_data)
+        else:
+            return render(request, 'cfbuy/cart.html', res_data)
    
-    return render(request, 'cfbuy/buy_page.html', res_data)
+    return render(request, 'cfproduct/product_detail.html', res_data)
 
  
