@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^(?P<pk>\d{1})/$',coffee, name='coffee'),
     url(r'^detail/(?P<id>\d{1,3})/$',product_detail, name='coffee_detail'),
+    url(r'^detail/(?P<id>\d{1,3})/comment$',product_comment, name='coffee_comment'),
     url(r'^buy/detail/$',buy_detail, name='buy_detail'),
   
     url(r'^detail/$',TemplateView.as_view(template_name='cfproduct/product_detail.html'),name='detail'),

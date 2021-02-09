@@ -18,9 +18,13 @@ class CftoOptionAdmin(admin.ModelAdmin):
 class CfoptionAdmin(admin.ModelAdmin):
     list_display = ('id', 'code_option', 'option')
 
+class CfcommentAdmin(admin.ModelAdmin):
+    list_display = ('coffee', 'user')
+
 
 admin.site.register(Coffeecode,CoffeecodeAdmin)
 admin.site.register(Cfproduct,CfproductAdmin)
 admin.site.register(Cfoption,CfoptionAdmin)
 admin.site.register(CftoOption,CftoOptionAdmin)
 admin.site.register(Opcode,OpcodeAdmin)
+admin.site.register(Cfcomment,CfcommentAdmin)

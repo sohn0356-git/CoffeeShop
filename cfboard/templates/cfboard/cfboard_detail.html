@@ -55,8 +55,8 @@
       outline: none
   }
   .commentBox ul .profileBox {
-      width: 50px;
-      height: 50px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       display: inline-flex;
       justify-content: center;
@@ -170,13 +170,12 @@
           {% if comments %}
               <div class="commentBox">
                   <ul class="list-unstyled">
-                    
                       {% for comment in comments %}
-                        
                         {% if comment.user == user %}
-                          <li><span class="profileBox">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
+                        
+                          <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
                         {% else%}
-                          <ol><span class="profileText">{{ comment.contents }}</span><span class="profileBox">{{ comment.user }}</span></ol>
+                          <ol><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></ol>
                         {% endif %}
                       {% endfor %}
                   </ul>

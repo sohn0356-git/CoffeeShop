@@ -101,8 +101,35 @@
         </div>
     </div>
 </div>
-
-
+<div class="container my-2">
+    <div class="row mt-4">
+      <div class="col-md-9">
+            {% if comments %}
+                <div class="commentBox">
+                    <ul class="list-unstyled">
+                        {% for comment in comments %}
+                          {% if comment.user == user %}
+                          
+                            <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
+                          {% else%}
+                            <ol><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></ol>
+                          {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <form class="reply-form" method="post" action="{% url 'cfproduct:coffee_comment' id %}">
+              {% csrf_token %}
+                <div id="div_id_username" class="form-group required">
+                    <div class="controls form-group d-flex w-100 ">
+                        <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
+                        <button type="submit" class="btn border-radius-0  m-0 w-25">POST</button>
+                    </div>
+                </div>
+            </form>
+      </div>
+    </div>
+  </div>
 <script>
     var total_sum = 0;
     var options = {};

@@ -10,8 +10,9 @@ from cfuser.models import Cfuser
 
 # Create your views here.
 def buy_complete(request):
-    baskets = eval(request.POST.get('baskets'))
+    baskets = request.POST.get('baskets')
     if baskets:
+        baskets = eval(baskets)
         print(baskets)
         for b in baskets:
             basketdetail = Basketdetail.objects.get(id=b)
