@@ -108,6 +108,7 @@
                 <div class="commentBox">
                     <ul class="list-unstyled">
                         {% for comment in comments %}
+                         {{ comment.row_number }}
                           {% if comment.user == user %}
                           
                             <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>

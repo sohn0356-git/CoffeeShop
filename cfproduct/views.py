@@ -51,6 +51,13 @@ def product_detail(request,id):
     cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
     res_data['cftooptions'] = cftooptions
     comments = Cfcomment.objects.filter(coffee=cfproduct)
+    comments = comments.annotate(row_number=Window(
+            expression=RowNumber(),
+            partition_by=[F('coffee')])
+        )
+    for c in comments:
+        print(c.row_number)
+        c.row_number = c.row_number%2
     res_data['comments'] = comments
     option_set = set()
     price_info = {}
