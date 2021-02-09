@@ -37,6 +37,88 @@
         text-decoration: none;
         color: #fff;
     }
+    .reply-form {
+    opacity: 0.8;
+    margin-top: 40px;
+    padding: 37px;
+    width: 1000px;
+    }
+
+    .textInput {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        width: 500px;
+        height: 45px;
+        margin: 0 !important;
+    }
+    .textInput:focus {
+        box-shadow: none;
+        outline: none
+    }
+    .commentBox ul .profileBox {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #002247;
+        color: #fff;
+        font-weight: 700;
+    }
+    .commentBox ul li:nth-child(even) .profileBox {
+        background-color: #222;
+    }
+    .profileText {
+        border-radius: 7px;
+        padding: 10px;
+        position: relative;
+        background-color: #e0efff;
+        display: inline-block;
+        margin-left: 15px;
+        width: 50%;
+    }
+    .profileText::before {
+        content: '';
+        position: absolute;
+        left: -9px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0px;
+        height: 0px;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid #e0efff;
+        z-index: 1;
+    }
+    .commentBox ul li {
+        display: flex;
+        align-items: center;
+    }
+    .commentBox ul li:nth-child(even) .profileText::before {
+        left: unset;
+        right: -9px;
+        transform: translateY(-50%) rotate(175deg);
+    }
+
+    .commentBox ul li:nth-child(even) .profileText {
+        text-align: left;
+    }
+    div#div_id_username {
+        margin-top: 2%;
+    }
+    .commentBox ul li:nth-child(even) .profileText {
+        margin-left: 0;
+        margin-right: 15px
+    }
+    .commentBox ul li:nth-child(even) {
+        text-align: right;
+        margin: 20px 0;
+        justify-content: flex-end;
+    }
+    .btn-comment{
+        background-color: #e6a756;
+    }
 
 
 </style>
@@ -108,26 +190,32 @@
                 <div class="commentBox">
                     <ul class="list-unstyled">
                         {% for comment in comments %}
+<<<<<<< HEAD
                          {{ comment.row_number }}
                           {% if comment.user == user %}
                           
+=======
+                        {% if comment.row_number == 0 %} 
+                            <li><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></li>
+                        {% else %}
+>>>>>>> aa8d44630864ec9da558fba20f9bdbba64c50190
                             <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
-                          {% else%}
-                            <ol><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></ol>
-                          {% endif %}
+                        {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
             {% endif %}
+            {% if request.session.user %}
             <form class="reply-form" method="post" action="{% url 'cfproduct:coffee_comment' id %}">
               {% csrf_token %}
                 <div id="div_id_username" class="form-group required">
                     <div class="controls form-group d-flex w-100 ">
                         <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
-                        <button type="submit" class="btn border-radius-0  m-0 w-25">POST</button>
+                        <button type="submit" class="btn-comment btn border-radius-0  m-0 w-25">POST</button>
                     </div>
                 </div>
             </form>
+            {% endif %}
       </div>
     </div>
   </div>

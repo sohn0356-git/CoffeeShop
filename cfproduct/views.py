@@ -56,7 +56,6 @@ def product_detail(request,id):
             partition_by=[F('coffee')])
         )
     for c in comments:
-        print(c.row_number)
         c.row_number = c.row_number%2
     res_data['comments'] = comments
     option_set = set()
