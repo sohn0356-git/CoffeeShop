@@ -47,7 +47,8 @@ def cfcreate(request):
 def product_detail(request,id):
     cfproduct = Cfproduct.objects.get(id=id)
     res_data = {'coffee' : cfproduct}
-    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
+    res_data['id'] = id
+    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)  
     res_data['cftooptions'] = cftooptions
     option_set = set()
     price_info = {}

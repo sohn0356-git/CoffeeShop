@@ -31,16 +31,16 @@
           <div class="card-body">
             <div class="e-profile">
               <div class="row">
-                <div class="col-12 col-sm-auto mb-3">
-                  <div class="mx-auto" style="width: 140px;">
-                    <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                      <span><img src="{{ user.image.url }}" width="140px" height="140px"></span>
+                <div class="col-12 col-sm-auto mb-3" style="margin:0 auto;">
+                  <div class="mx-auto" style="width: 150px;">
+                    <div class="d-flex" style="height: 150px; background-color: rgb(233, 236, 239);">
+                      <span><img src="{{ user.image.url }}" width="150px;" height="150px;"></span>
                     </div>
                   </div>
                 </div>
                 <form class="form" method="POST" novalidate="" enctype="multipart/form-data">
                   {% csrf_token %}
-                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                <div class="col d-flex flex-column flex-sm-row mb-3">
                   <div class="text-center text-sm-left mb-2 mb-sm-0">
                     <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ user.email }}</h4>  
                     <div class="mt-2">                        
@@ -66,7 +66,7 @@
                           <div class="col">
                             <div class="form-group">
                               <label>전화번호</label>
-                              <input class="form-control" type="number" name="phone" value="{{ user.phone }}" placeholder="전화번호" value="전화번호" />
+                              <input class="form-control" type="text" name="phone" value="{{ user.phone }}" placeholder="전화번호" value="전화번호" />
                             </div>
                           </div>
                         </div>

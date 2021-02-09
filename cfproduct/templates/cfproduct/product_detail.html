@@ -101,7 +101,17 @@
         </div>
     </div>
 </div>
-
+<div>
+    <form class="reply-form" method="post" action="{% url 'cfproduct:coffee_detail' id %}">
+    {% csrf_token %}
+        <div id="div_id_username" class="form-group required">
+            <div class="controls form-group d-flex w-100 ">
+                <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
+                <button type="submit" class="btn border-radius-0  m-0 w-25">POST</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <script>
     var total_sum = 0;
