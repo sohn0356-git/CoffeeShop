@@ -44,7 +44,7 @@ def buy_complete(request):
             cfselect.cf_code = cfselect.cfoption.coffee_id.cfcode
             cfselect.buy = buydetail
             
-            date_str = "2021-01-08"
+            date_str = "2020-10-08"
             temp_date = datetime.strptime(date_str, "%Y-%m-%d").date()
             cfselect.buy_date = temp_date
             buysum += buydetail.quantity * cfselect.cfoption.amount
@@ -80,7 +80,7 @@ def show_graph(request):
     for cf_name in cf_names:
         single_origin_name['name'].append(cf_name.name)
         
-    for m in range(0,4):
+    for m in range(0,6):
         nm = month - m
         ny = year
         if nm < 1:
