@@ -60,13 +60,14 @@ def order_list(request):
     user = Cfuser.objects.get(email=request.session['user'])
     orders = Cfbuy.objects.filter(buyer=user).order_by('-buy_date')
     res_data['order_list'] = []
-    for order in orders:
-        buydetails = Buydetail.objects.filter(buy_info=order)
-        cfselects = []
-        for buydetail in buydetails:
-            cfselect = Cfselect.objects.filter(buy=buydetail)
-            cfselects.append(cfselect)
-        res_data['order_list'].append([order, cfselects, buydetails])
+    if orders:
+        for order in orders:
+            buydetails = Buydetail.objects.filter(buy_info=order)
+            cfselects = []
+            for buydetail in buydetails:
+                cfselect = Cfselect.objects.filter(buy=buydetail)
+                cfselects.append(cfselect)
+            res_data['order_list'].append([order, cfselects, buydetails])
     return render(request, 'cfbuy/cfbuy_list.html', res_data)
 
 def show_graph(request):

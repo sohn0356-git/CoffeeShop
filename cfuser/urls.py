@@ -27,8 +27,11 @@ urlpatterns = [
     url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^logout/$', logout, name='logout'),
-    url(r'^profile/$',TemplateView.as_view(template_name='profile.html'), name='profile'),
+    url(r'^profile/$',profile,name='profile'),
+
     url(r'^graph/$', show_graph, name='graph'),
     url(r'^cart/$',cart,name='cart'),
+    url(r'^about/$',TemplateView.as_view(template_name='map.html'),name='about'),
+
 
 ]

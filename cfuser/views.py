@@ -10,7 +10,7 @@ def index(request):
     return render(request, 'index.html', { 'email': request.session.get('user') })
 
 class RegisterView(FormView):
-    template_name = 'register.html'
+    template_name = 'cfuser/register.html'
     form_class = RegisterForm
     success_url = '/login'
 
@@ -28,7 +28,7 @@ class RegisterView(FormView):
 
 
 class LoginView(FormView):
-    template_name = 'login.html'
+    template_name = 'cfuser/login.html'
     form_class = LoginForm
     success_url = '/'
 
@@ -53,7 +53,11 @@ def cart(request):
     user = Cfuser.objects.get(email=request.session['user'])
     baskets = Basketdetail.objects.filter(buyer=user)
     res_data = {'baskets':[]}
-    for basket in baskets:
-        cfselects = Cfselect.objects.filter(basket=basket)
-        res_data['baskets'].append([basket,cfselects])
+    if baskets:
+        for basket in baskets:
+            cfselects = Cfselect.objects.filter(basket=basket)
+            res_data['baskets'].append([basket,cfselects])
     return render(request, 'cfbuy/cart.html', res_data)
+
+def profile(request):
+    return render(request,'cfuser/profile.html')

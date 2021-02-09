@@ -16,20 +16,6 @@
 
 {% block contents %}
     <style>
-      .dropdown-menu{
-        background-color: #e6a958;
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-      #list-1{
-        color: #e6a958;
-        text-align: center;
-      }
-      #list-2{
-        color: #e6a958;
-      }
-      #list-3{
-        color: #e6a958;
-      }
       label{
         color: #e6a756;
         font-size: 20px;
@@ -40,18 +26,15 @@
         display: block;
         width: 400px;
       }
-      .btn{
-        margin-bottom: 40px;
-      }
-      #btn-save{
-        background-color: #e6a756;
-      }
       .title-label{
         display: block;
         width: 100%;
       }
       #btn-save:hover{
         background-color: rgb(196, 133, 18);
+      }
+      #btn-save{
+        background-color: #e6a756;
       }
       #cancel-btn{
         color: black;
@@ -62,12 +45,6 @@
       <script>
         alert('빈칸을 다 채워주세요!');
       </script>
-    <!-- <ul>
-      {% for error in errors %}
-      
-       <li><div class="alert alert-primary" role="alert">{{ error }}</div></li> 
-      {% endfor %}
-    </ul> -->
     {% endif %}
 
 
@@ -82,16 +59,17 @@
   <textarea id="summernote" class="form-control" name="contents">
    {{ form.content.value|default_if_none:'' }}
   </textarea>
-  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="category">
+  <hr>
+  <select class="form-select form-select-sm mb-3" style="width: 200px" aria-label=".form-select-lg example" name="category">
     {% for c in catelist %}
       <option value="{{ c.id }}">{{ c }}</option>
     {% endfor %}
   </select>
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="disclosure">
+  <select class="form-select form-select-sm" style="width: 200px" aria-label=".form-select-sm example" name="disclosure">
     <option value="1">공개</option>
     <option value="2">비공개</option>
   </select>
-  <div class="float-right">
+  <div class="write-btn" align="right">
     <button type="button" class="btn btn-secondary btn-sm"><a href="{% url 'cfboard:boards' pk %}" id="cancel-btn">취소</a></button>
     <button type="submit" class="btn btn-sm" id="btn-save">저장</button>
     </div>
