@@ -13,10 +13,12 @@
   
 
   <!-- Bootstrap core CSS -->
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link src="{% static 'js/bootstarp.js' %}"></link>
   <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
   
 
 
@@ -42,36 +44,13 @@
   .dropdown-menu{
     background-color: #e6a958;
     background-color: rgba(255, 255, 255, 0.1);
-    text-align: center;
-    width: 200px;
   }
-  #list-1{
+  li > a{
     color: #e6a958;
     font-size: 14px;
   }
-  #list-2{
-    color: #e6a958;
-    font-size: 14px;
-  }
-  #list-3{
-    color: #e6a958;
-    font-size: 14px;
-  }
-  #list-4{
-    color: #e6a958;
-    font-size: 14px;
-  }
-  #list-5{
-    color: #e6a958;
-    font-size: 14px;
-  }
-  #list-6{
-    color: #e6a958;
-    font-size: 14px;
-  }
-  #list-7{
-    color: #e6a958;
-    font-size: 14px;
+  li > a:hover{
+    color: #ce8f3d;
   }
   #site-heading-link{
     text-decoration: none;
@@ -108,35 +87,35 @@
           </li>
           <li>
             <div class="dropdown nav-item px-5">
-              <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown"aria-expanded="false" href="#">SHOP</a>
-              <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
-                <li><a href="{% url 'cfproduct:coffee' 1 %}" id="list-4">SINGLE ORIGINS</a></li>
-                <li><a href="{% url 'cfproduct:coffee' 2 %}" id="list-5">BLEND</a></li>
-                <li><a href="{% url 'cfproduct:coffee' 3 %}" id="list-6">EASY COFFEE</a></li>
+              <a class="dropdown-toggle nav-link text-expanded font-weight-bold btn-block" data-toggle="dropdown"aria-expanded="false" href="#">SHOP</a>
+              <ul class="dropdown-menu font-weight-bold text-center" role="menu" aria-labelledby="dLabel">           
+                <li><a href="{% url 'cfproduct:coffee' 1 %}">SINGLE ORIGINS</a></li>
+                <li><a href="{% url 'cfproduct:coffee' 2 %}">BLEND</a></li>
+                <li><a href="{% url 'cfproduct:coffee' 3 %}">EASY COFFEE</a></li>
               </ul>
             </div>   
           </li>
           <li>
             <div class="dropdown nav-item px-5">
-              <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown" href="#">BOARD</a>
-              <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
-                <li><a href="{% url 'cfboard:boards' 1 %}" id="list-1">자주 묻는 질문</a></li>
-                <li><a href="{% url 'cfboard:boards' 2 %}" id="list-2">도매 납품 상담</a></li>
-                <li><a href="{% url 'cfboard:boards' 3 %}" id="list-3">Q & A</a></li>
+              <a class="dropdown-toggle nav-link text-expanded font-weight-bold btn-block" data-toggle="dropdown" href="#">BOARD</a>
+              <ul class="dropdown-menu font-weight-bold text-center" role="menu" aria-labelledby="dLabel">           
+                <li><a href="{% url 'cfboard:boards' 1 %}">자주 묻는 질문</a></li>
+                <li><a href="{% url 'cfboard:boards' 2 %}">도매 납품 상담</a></li>
+                <li><a href="{% url 'cfboard:boards' 3 %}">Q & A</a></li>
               </ul>
             </div>   
           </li>
           
           {% if request.session.user %}
-          <li class="nav-item px-5">
-            <div class="dropdown">
-              <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown" href="#">MYPAGE</a>
-              <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
-                <li><a href="{% url 'cfuser:profile' %}" id="list-1">PROFILE</a></li>
-                <li><a href="{% url 'cfuser:cart' %}" id="list-2">CART</a></li>
-                <li><a href="{% url 'cfbuy:order_list' %}" id="list-3">ORDER</a></li>
+          <li>
+            <div class="dropdown nav-item px-5">
+              <a class="dropdown-toggle nav-link text-expanded font-weight-bold btn-block" data-toggle="dropdown" href="#">MYPAGE</a>
+              <ul class="dropdown-menu font-weight-bold text-center" role="menu" aria-labelledby="dLabel">           
+                <li><a href="{% url 'cfuser:profile' %}">PROFILE</a></li>
+                <li><a href="{% url 'cfuser:cart' %}">CART</a></li>
+                <li><a href="{% url 'cfbuy:order_list' %}">ORDER</a></li>
                 {% if request.session.mode == 'admin' %}
-                  <li><a href="{% url 'cfuser:graph' %}" id="list-3">GRAPH</a></li>
+                  <li><a href="{% url 'cfuser:graph' %}">GRAPH</a></li>
                 {% endif %}
               </ul>
             </div>   
@@ -174,7 +153,7 @@
 
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/bootstarp.js' %}"></script>
   
 
 </html>
