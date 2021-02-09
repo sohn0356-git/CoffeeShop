@@ -25,20 +25,31 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    var tg = 0;
+    var single_origin = JSON.parse("{{ single_origin|escapejs }}");
+    var single_origin_name = JSON.parse("{{ single_origin_name|escapejs }}");
     google.charts.load('current', {'packages':['corechart']}).then(function(){
         
     $("#btn-1").click(function(){
-        $(".chart_div").toggle();
+        console.log(single_origin);
         var chart_data =[
-        ['Month', '에티오피아', '콜롬비아', '과테말라', '케냐', '베네수엘라'],
-        ['2020/08',  165,      938,         522,             998,           450],
-        ['2020/09',  135,      1120,        599,             1268,          288],
-        ['2020/10',  157,      1167,        587,             807,           397],
-        ['2020/11',  139,      1110,        615,             968,           215],
-        ['2020/12',  136,      691,         629,             1026,          366],
-        ['2021/01',  156,      990,         875,             800,          390]
         ];
+        var col = ['Month'];
+        
+        for(name in single_origin_name['name'])
+        {
+            col.push(single_origin_name['name'][name]);
+        }
+        chart_data.push(col);
+        for(cf in single_origin)
+        {
+            var val = [cf];
+            for(sold_cnt in single_origin[cf])
+            {
+                val.push(single_origin[cf][sold_cnt]);
+            }
+            chart_data.push(val);
+        }
+        console.log(chart_data);
 
 
         var data = google.visualization.arrayToDataTable(chart_data);
@@ -53,10 +64,6 @@
 
         var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-        if (tg % 2 == 1){
-            document.getElementById('chart_div').remove();
-        };
-        tg++;
     })
     $("#btn-2").click(function(){
         var chart_data =[
@@ -82,6 +89,7 @@
 
         var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
         chart.draw(data, options);
+        
     })
     $("#btn-3").click(function(){
         var chart_data =[

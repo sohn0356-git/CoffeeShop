@@ -3,6 +3,7 @@ from django.views.generic import ListView, FormView
 from cfuser.forms import RegisterForm, LoginForm
 from django.contrib.auth.hashers import make_password
 from cfuser.models import Cfuser
+from cfbuy.models import Basketdetail, Cfselect
 # Create your views here.
 
 def index(request):
@@ -33,6 +34,8 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         self.request.session['user'] = form.data.get('email')
+        cfuser = Cfuser.objects.get(email=form.data.get('email'))
+        self.request.session['mode'] = cfuser.level
 
         return super().form_valid(form)
 
@@ -45,3 +48,12 @@ def logout(request):
 
 class UserLV(ListView):
     model = Cfuser
+
+def cart(request):
+    user = Cfuser.objects.get(email=request.session['user'])
+    baskets = Basketdetail.objects.filter(buyer=user)
+    res_data = {'baskets':[]}
+    for basket in baskets:
+        cfselects = Cfselect.objects.filter(basket=basket)
+        res_data['baskets'].append([basket,cfselects])
+    return render(request, 'cfbuy/cart.html', res_data)

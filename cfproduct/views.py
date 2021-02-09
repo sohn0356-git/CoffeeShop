@@ -6,7 +6,7 @@ from django.db.models import F
 import json
 
 from cfproduct.models import *
-from cfbuy.models import Cfselect
+from cfbuy.models import Cfselect, Basketdetail, Cfbuy
 # Create your views here.
 
 def index(request):
@@ -55,6 +55,8 @@ def product_detail(request,id):
         code_option = cftooption.option_id.code_option
         price_info[cftooption.id]=cftooption.amount
         option_set.add(code_option)
+    price_info['len'] = len(option_set)
+    price_info['base'] = cfproduct.price
     res_data['priceJson'] = json.dumps(price_info)
     res_data['option_set'] = option_set
     return render(request, 'cfproduct/product_detail.html',res_data)
@@ -65,7 +67,8 @@ def buy_detail(request):
     res_data = {}
     if request.method == 'POST':
         cart_or_buy = request.POST.get('buy')
-        cfproduct = Cfproduct.objects.get(id=id)        
+        cfproduct = Cfproduct.objects.get(id=id)
+        res_data['coffee'] = cfproduct    
         options = (eval(str(request.POST.get('option'))))
         cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
 
@@ -73,31 +76,61 @@ def buy_detail(request):
         options_info = []
         quan_dict = {}
         total_sum = 0
-        for k, v in options.items():
-            if len(v)>2:
-                options_info.append([])
-                options_info_id.append([])
-                option_list = []
-                option_list_id = []
-                for i in v[:-2]:
-                    target = CftoOption.objects.get(id=i)
-                    option_list.append(target)
-                    option_list_id.append(i)
-                total_sum += v[-1]*v[-2]
-                options_info[-1].append({'option_list':option_list,'quantity':v[-2],'price':v[-1], 'sum':v[-2]*v[-1]})
-                options_info_id[-1].append({'option_list':option_list_id, 'quantity':v[-2]})
-        
-        res_data['total_sum'] = total_sum
-        res_data['cftooptions'] = cftooptions
-        res_data['coffee'] = cfproduct
-        res_data['options_info'] = options_info
-        res_data['options_info_id'] = options_info_id
-        res_data['quantitys'] = quan_dict
-        if cart_or_buy == 'buy':
-            return render(request, 'cfbuy/buy_page.html', res_data)
-        else:
-            return render(request, 'cfbuy/cart.html', res_data)
+        if options:
+            if cart_or_buy == 'buy':
+                user = Cfuser.objects.get(email=request.session['user'])
+                recent_buy = Cfbuy.objects.filter(buyer=user).order_by('-buy_date')
+                if recent_buy:
+                    recent_buy = recent_buy[0]
+                res_data['recent_buy'] = recent_buy
+
+
+                for k, v in options.items():
+                    if len(v)>2:
+                        options_info.append([])
+                        options_info_id.append([])
+                        option_list = []
+                        option_list_id = []
+                        for i in v[:-2]:
+                            target = CftoOption.objects.get(id=i)
+                            option_list.append(target)
+                            option_list_id.append(i)
+                        total_sum += v[-1]*v[-2]
+                        options_info[-1].append({'option_list':option_list,'quantity':v[-2],'price':v[-1], 'sum':v[-2]*v[-1]})
+                        options_info_id[-1].append({'option_list':option_list_id, 'quantity':v[-2]})
+                
+                res_data['total_sum'] = total_sum
+                res_data['cftooptions'] = cftooptions
+                res_data['options_info'] = options_info
+                res_data['options_info_id'] = options_info_id
+                res_data['quantitys'] = quan_dict
+                return render(request, 'cfbuy/buy_page.html', res_data)
+            else: 
+                user = Cfuser.objects.get(email=request.session['user'])
+                for k, v in options.items():
+                    basketdetail = Basketdetail()
+                    basketdetail.buyer = user
+                    basketdetail.save()
+                    basketsum = 0
+                    quantity = 0
+                    if len(v)>2:
+                        for i in v[:-2]:
+                            quantity = v[-2]
+                            target = CftoOption.objects.get(id=i)
+                            cfselect = Cfselect()
+                            cfselect.cfoption = CftoOption.objects.get(id=i)
+                            cfselect.cf_code = cfselect.cfoption.coffee_id.cfcode
+                            cfselect.basket = basketdetail
+                            basketsum += v[-1]
+                            cfselect.save()
+                    
+                    basketdetail.quantity = quantity
+                    basketdetail.amount = basketsum
+                    basketdetail.total = basketdetail.quantity * basketdetail.amount
+                    basketdetail.save()
+                
+                return redirect(reverse('cfuser:cart'))
    
-    return render(request, 'cfproduct/product_detail.html', res_data)
+    return redirect(reverse('cfproduct:coffee_detail', kwargs={'id': id}))
 
  

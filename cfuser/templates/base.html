@@ -133,9 +133,11 @@
               <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown" href="#">MYPAGE</a>
               <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
                 <li><a href="{% url 'cfboard:boards' 1 %}" id="list-1">PROFILE</a></li>
-                <li><a href="{% url 'cfboard:boards' 2 %}" id="list-2">CART</a></li>
+                <li><a href="{% url 'cfuser:cart' %}" id="list-2">CART</a></li>
                 <li><a href="{% url 'cfbuy:order_list' %}" id="list-3">ORDER</a></li>
-                <li><a href="{% url 'cfboard:boards' 3 %}" id="list-3">GRAPH(ONLY ADMIN)</a></li>
+                {% if request.session.mode == 'admin' %}
+                  <li><a href="{% url 'cfuser:graph' %}" id="list-3">GRAPH</a></li>
+                {% endif %}
               </ul>
             </div>   
           </li>
