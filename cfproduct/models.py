@@ -70,4 +70,16 @@ class Cfoption(models.Model):
         verbose_name = '옵션'
         verbose_name_plural = '옵션'
 
+class Cfcomment(models.Model):
+    coffee = models.ForeignKey('cfproduct.Cfproduct', on_delete=models.CASCADE,verbose_name='커피')
+    user = models.ForeignKey('cfuser.Cfuser', on_delete=models.CASCADE, verbose_name='작성자')
+    contents = models.TextField(verbose_name='내용')
+    
 
+    def __str__(self):
+        return self.coffee.name + self.user.name
+    
+    class Meta:
+        db_table = 'coffee comment'
+        verbose_name = '댓글'
+        verbose_name_plural = '댓글'

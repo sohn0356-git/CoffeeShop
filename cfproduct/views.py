@@ -48,8 +48,16 @@ def product_detail(request,id):
     cfproduct = Cfproduct.objects.get(id=id)
     res_data = {'coffee' : cfproduct}
     res_data['id'] = id
-    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)  
+    cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
     res_data['cftooptions'] = cftooptions
+    comments = Cfcomment.objects.filter(coffee=cfproduct)
+    comments = comments.annotate(row_number=Window(
+            expression=RowNumber(),
+            partition_by=[F('coffee')])
+        )
+    for c in comments:
+        c.row_number = c.row_number%2
+    res_data['comments'] = comments
     option_set = set()
     price_info = {}
     for cftooption in cftooptions:
@@ -134,3 +142,18 @@ def buy_detail(request):
     return redirect(reverse('cfproduct:coffee_detail', kwargs={'id': id}))
 
  
+def product_comment(request, id):
+    errors = []
+    if request.method == "POST":
+        user = Cfuser.objects.get(email=request.session['user'])
+        coffee = Cfproduct.objects.get(id=id)
+        contents = request.POST.get('contents')
+
+        if not contents:
+            errors.append('댓글을 입력해주세요.')
+
+        if not errors:
+            comment = Cfcomment.objects.create(coffee=coffee, user=user, contents=contents)
+            return redirect(reverse('cfproduct:coffee_detail', kwargs={'id' : id}))
+
+    return redirect(reverse('cfproduct:coffee_detail', kwargs={'id' : id}))

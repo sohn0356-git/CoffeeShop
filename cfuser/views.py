@@ -105,6 +105,7 @@ def cart(request):
                     option_list.append(cfselect.cfoption)
                     price += cfselect.cfoption.amount
                     option_list_id.append(cfselect.cfoption.id)
+                price += option_list[0].coffee_id.price
                 total_sum += price*quantity
                 options_info[-1].append({'coffee' : option_list[0].coffee_id,'option_list':option_list,'quantity':quantity,'price':price, 'sum':quantity*price})
                 options_info_id[-1].append({'option_list':option_list_id, 'quantity':quantity})
