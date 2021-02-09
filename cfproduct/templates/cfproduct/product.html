@@ -34,7 +34,7 @@
         margin-bottom: 20px;
     }
     .pagination{
-        margin-top: 100px;
+        margin: 0 auto;
       }
     span{
         color: #ce8f3d;
@@ -57,7 +57,7 @@
                     {% endif %}
                         <div class="product-content">
                             <h3 class="title-1"><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></h3>
-                            <div class="price">{{ coffee.price }}</div>
+                            <div class="price">{{ coffee.price }}원</div>
                         </div>
                     </div>
                 </div>

@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^logout/$', logout, name='logout'),
     url(r'^profile/$',TemplateView.as_view(template_name='profile.html'), name='profile'),
     url(r'^graph/$',TemplateView.as_view(template_name='graph.html'), name='graph'),
+    url(r'^map/$',TemplateView.as_view(template_name='map.html'), name='map'),
 
 ]

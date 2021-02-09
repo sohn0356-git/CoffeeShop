@@ -60,7 +60,7 @@
                             <li>
                             <hr/>
                             {% for option_title in option_set %}
-                                <li>
+                                <li style="padding-right: 30px;">
                                     <label>{{ option_title }} :</label>
                                     <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="{{ option_title }}" onchange="handleOnChange(this)">
                                         {% for cftooption in cftooptions %}
@@ -82,7 +82,7 @@
                                 <hr/>
                                 <br>
                                 <section>
-                                    <p id="price" style="text-align: right;">최종합산 금액 : 0원</p>
+                                    <p id="price" style="text-align: right; padding-right:30px">최종합산 금액 : 0원</p>
                                 </section>
                                 <hr/>
                                 <div class="action">
