@@ -249,9 +249,16 @@
                             <tr id="calculation1_tr1" style="height: 90px; background-color: #fff;">
                                 {% if coffee.image %}
                                     <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ coffee.image.url }}"></td>
+                                {% else %}
+                                    {% for info in option_info %}
+                                        <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ info.coffee.image.url }}"></td>
+                                    {% endfor %}
+                                    
                                 {% endif %}
                                 <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
-                                    <p>{{ coffee.name }}</p>
+                                    {% for info in option_info %}
+                                        <p>{{ info.coffee.name }}</p>
+                                    {% endfor %}
                                     <span>{</span>
                                     {% for info in option_info %}
                                         {% for option in info.option_list %}
@@ -302,6 +309,7 @@
                     <form action='{% url "cfbuy:buy_complete" %}' method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="options" value="{{ options_info_id }}">
+                        <input type="hidden" name="baskets" value="{{ baskets }}">
                         <table class="delivery">
                             <thead>
                                 <tr>

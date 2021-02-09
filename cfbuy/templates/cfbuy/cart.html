@@ -131,60 +131,7 @@
             $(".calculation1 thead input:checkbox[id=check]").click(function(){
             var bool = $(this).prop("checked");
                 $(".calculation1 tbody input:checkbox[name=checkbox]").prop("checked", bool);
-        });
-
-        $(".calculation1 tbody input:checkbox[name=checkbox").click(function(){
-            var flag = false;
-            $(".calculation1 tbody input:checkbox[name=checkbox]").each(function(){
-
-                if(!bool){
-                    $(".calculation1 thead input:checkbox[id=check]").prop("checked", false);
-                    flag = true;
-                    return false;
-                }
-            });
-            
-            if(!flag){
-                $(".calculation1 thead:checkbox[id=check]").prop("checked", true);
-            }
-
-
-            });
-        });
-
-        $("#choiceProductDelete").click(function(){
-            var bool = $(".calculation1 tbody input: checkbox[name=checkbox]").is(":checked");
-
-            if(!bool){
-                alert("선택된 상품이 없습니다.");
-            }
-            else{
-
-                if(bool == $(".calculation1 tbody input:checkbox[id=cbtr1]").is(":checked")){
-                    $(".calculation1_tbody_tr1").remove();
-                }
-
-                else if(bool == $(".calculation1 tbody input:checkbox[id=cbtr2]").is(":checked")){
-                    $(".calculation_tbody_tr2").remove();
-                }
-            }
-
-
-        bool = $(".calculation1 thead input:checkbox[id=check]").is(":checked");
-            if(bool){
-                $(".calculation1 > tbody").empty();
-                $(".calculation1 thead input:checkbox[name=checkbox]").prop("checked" , false);
-            }
-
-
-        $(".btndelete").click(function(){
-                $(this).parent().parent().remove();
-
-            var tr = $("#calculation1tbody tr").val();
-                if(tr == null){
-                    $("#notproduct").show();
-                }
-        });    
+        });  
     });
 </script>
 <div class="mainbody">
@@ -221,68 +168,64 @@
                         <th>판매가</th>
                         <th>수량</th>
                         <th>합계</th>
-                        <th style="width: 50px;">선택</th>
                     </tr>
                 </thead>
+                <form method="POST">
+                    {% csrf_token %}
+                    <tbody id="calculation1tbody">
+                        {% for basket in baskets %}
+                                <tr id="calculation1_tr1" style="height: 90px; background-color: #fff;">
+                                    <td><input type="checkbox" name="checkbox" id="check" value="{{ basket.0.id }}" /></td>
+                                    {% if basket.1.0.cfoption.coffee_id.image %}
+                                        <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ basket.1.0.cfoption.coffee_id.image.url }}"></td>
+                                    {% endif %}
+                                    <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
+                                        <p>{{ basket.1.0.cfoption.coffee_id.name }}</p>
+                                        <span>{</span>
+                                            {% for options in basket.1 %}
+                                                <span style="font-size:small;">{{ options.cfoption.option_id }}</span>
+                                            {% endfor %}
+                                        <span>}</span>
+                                    </td>
+                                    <td>
+                                        {{ basket.0.amount }}
+                                    </td>
+                                    <td>
+                                        {{ basket.0.quantity }}
+                                    </td>
+                                    <td>
+                                        {{ basket.0.total }}
+                                    </td>
+                                </tr>
+                            {% endfor %}                    
+                    </tbody>
+                
+                    <tfoot>
+                        <tr style="height: 60px;">
+                            <td colspan="5" style="border-right: none; text-align:left; padding-left:10px;">
+                                <span>[기본배송]</span>
+                            </td>
+                            <td colspan="5" style="border-left: none; text-align: right; padding-right:10px;">
+                                상품금액 : <span style="font-weight: bold; font-size:15pt;">{{ total_sum }}</span>원
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div style="margin: 10px 0;">
+                    <span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
+                    <button type="submit" class="btn default btndelete" id="choiceProductDelete" name="btn" value="delete" style="background-color: gray; color:#fff">삭제하기</button>&nbsp;
+                    <span class="clearboth"></span>
+                </div>
+                <br/><br/>
+                <br/><br/>
 
-                <tbody id="calculation1tbody">
-                    {% for basket in baskets %}
-                            <tr id="calculation1_tr1" style="height: 90px; background-color: #fff;">
-                                <td><input type="checkbox" name="checkbox" id="check" /></td>
-                                {% if basket.1.0.cfoption.coffee_id.image %}
-                                    <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ basket.1.0.cfoption.coffee_id.image.url }}"></td>
-                                {% endif %}
-                                <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
-                                    <p>{{ basket.1.0.cfoption.coffee_id.name }}</p>
-                                    <span>{</span>
-                                        {% for options in basket.1 %}
-                                            <span style="font-size:small;">{{ options.cfoption.option_id }}</span>
-                                        {% endfor %}
-                                    <span>}</span>
-                                </td>
-                                <td>
-                                    {{ basket.0.amount }}
-                                </td>
-                                <td>
-                                    {{ basket.0.quantity }}
-                                </td>
-                                <td>
-                                    {{ basket.0.total }}
-                                </td>
-                                <td>
-                                    <button class="btn default orderGobtn" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px; background-color: #264d73; color:#fff">주문하기</button>
-                                    <button class="btn default btndelete" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
-                                </td>
-                            </tr>
-                        {% endfor %}                    
-                </tbody>
+                <div align="center">
+                    <button type="submit" class="btn default" name="btn" value="allbuy" id="allProduct">전체상품주문</button>
+                    <button type="submit" class="btn default backBtn" name="btn" value="selectbuy" id="productClear">선택상품주문</button>
 
-                <tfoot>
-                    <tr style="height: 60px;">
-                        <td colspan="5" style="border-right: none; text-align:left; padding-left:10px;">
-                            <span>[기본배송]</span>
-                        </td>
-                        <td colspan="5" style="border-left: none; text-align: right; padding-right:10px;">
-                            상품금액 : <span style="font-weight: bold; font-size:15pt;">{{ total_sum }}</span>원
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div style="margin: 10px 0;">
-                <span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
-                <button class="btn default btndelete" style="background-color: gray; color:#fff">삭제하기</button>&nbsp;
-                <button class="btn default backBtn btnfloat2">장바구니비우기</button>
-                <span class="clearboth"></span>
-            </div>
-            <br/><br/>
-            <br/><br/>
-
-            <div align="center">
-                <button class="btn default" id="allProduct">전체상품주문</button>
-                <button class="btn default backBtn" id="productClear">선택상품주문</button>
-                <button class="btn default footerbtn" id="footerbtn">쇼핑계속하기</button>
-                <span class="clearboth"></span>
-            </div>
+                    <span class="clearboth"></span>
+                </div>
+            </form>
             <br/><br/><br/><br/><br/>
             </div>
         </div>

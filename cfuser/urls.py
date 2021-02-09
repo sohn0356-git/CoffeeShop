@@ -18,6 +18,8 @@ from django.conf.urls import url
 from django.views.generic import TemplateView
 from cfuser.views import *
 from cfbuy.views import show_graph
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'cfuser'
 
@@ -27,8 +29,9 @@ urlpatterns = [
     url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^logout/$', logout, name='logout'),
-    url(r'^profile/$',TemplateView.as_view(template_name='profile.html'), name='profile'),
     url(r'^graph/$', show_graph, name='graph'),
     url(r'^cart/$',cart,name='cart'),
+    url(r'^about/$',TemplateView.as_view(template_name='map.html'),name='about'),
+    url(r'^profile/$',profile,name='profile'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

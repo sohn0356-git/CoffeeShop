@@ -102,7 +102,7 @@
                         <th style="width: 450px;">상품정보</th>
                         <th>수량</th>
                         <th>상품구매금액</th>
-                        <th>주문처리상태</th>
+                        <th>배송메시지</th>
                         <th>취소/교환/반품</th>
                     </tr>
                 </thead>
@@ -113,11 +113,12 @@
                             <td>{{ order.0.buy_date }}[{{ order.0.id }}]</td>
                             <td>
                                 {% for cfselects in order.1 %}
-                                <p>
+                                    <p>
+                                        {{ cfselects.0.cfoption.coffee_id }}
+                                    </p>
                                     {% for cfselect in cfselects %}    
                                         <span>{{ cfselect.cfoption.option_id }}</span>
-                                    {% endfor %}
-                                </p>
+                                    {% endfor %}                                
                                 {% endfor %}
                             </td>  
                             <td>
@@ -135,7 +136,10 @@
                                     <span>{{ detail.amount }}원</span>
                                 </p>
                                 {% endfor %}
-                            </td>   
+                            </td> 
+                            <td>
+                                <span>{{ order.0.delivery_msg }}</span>
+                            </td> 
                         </tr> 
                         {% endfor %}  
                     </tbody>

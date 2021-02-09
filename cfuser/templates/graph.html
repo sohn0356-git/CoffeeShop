@@ -25,37 +25,37 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    var single_origin = JSON.parse("{{ single_origin|escapejs }}");
-    var single_origin_name = JSON.parse("{{ single_origin_name|escapejs }}");
+    var sold_cf = JSON.parse("{{ sold_cf|escapejs }}");
+    var names = JSON.parse("{{ names|escapejs }}");
+    var name_list = ["SINGLE ORIGINS", "BLEND", "EASY COFFEE"];
+    var idx = 0;
+    console.log(sold_cf);
+    console.log(names);
     google.charts.load('current', {'packages':['corechart']}).then(function(){
         
     $("#btn-1").click(function(){
-        console.log(single_origin);
-        var chart_data =[
-        ];
+        idx = 0;
+        var chart_data =[];
         var col = ['Month'];
-        
-        for(name in single_origin_name['name'])
+        console.log(names["SINGLE ORIGIN"]);
+        for(name in names[name_list[idx]])
         {
-            col.push(single_origin_name['name'][name]);
+            col.push(names[name_list[idx]][name]);
         }
         chart_data.push(col);
-        for(cf in single_origin)
+        for(cf in sold_cf[name_list[idx]])
         {
-            var val = [cf];
-            for(sold_cnt in single_origin[cf])
+            var row = [cf];
+            for(quan in sold_cf[name_list[idx]][cf])
             {
-                val.push(single_origin[cf][sold_cnt]);
+                row.push(sold_cf[name_list[idx]][cf][quan]);
             }
-            chart_data.push(val);
+            chart_data.push(row);
         }
-        console.log(chart_data);
-
-
         var data = google.visualization.arrayToDataTable(chart_data);
 
         var options = {
-            title : '월간 커피 판매량(SINGLE ORIGIN)',
+            title : '월간 커피 판매량(BLEND)',
             vAxis: {title: '커피'},
             hAxis: {title: 'Month'},
             seriesType: 'bars',
@@ -66,17 +66,23 @@
         chart.draw(data, options);
     })
     $("#btn-2").click(function(){
-        var chart_data =[
-        ['Month', '에티오피아', '콜롬비아', '과테말라', '케냐', '베네수엘라'],
-        ['2020/08',  65,      38,         22,             98,           50],
-        ['2020/09',  55,      120,        99,             268,          88],
-        ['2020/10',  57,      167,        87,             7,           97],
-        ['2020/11',  39,      110,        15,             68,           15],
-        ['2020/12',  36,      91,         29,             26,          66],
-        ['2021/01',  56,      90,         75,             80,          90]
-        ];
-
-
+        idx = 1;
+        var chart_data =[];
+        var col = ['Month'];
+        for(name in names[name_list[idx]])
+        {
+            col.push(names[name_list[idx]][name]);
+        }
+        chart_data.push(col);
+        for(cf in sold_cf[name_list[idx]])
+        {
+            var row = [cf];
+            for(quan in sold_cf[name_list[idx]][cf])
+            {
+                row.push(sold_cf[name_list[idx]][cf][quan]);
+            }
+            chart_data.push(row);
+        }
         var data = google.visualization.arrayToDataTable(chart_data);
 
         var options = {
@@ -92,23 +98,29 @@
         
     })
     $("#btn-3").click(function(){
-        var chart_data =[
-        ['Month', '원두', '아이', '과테말라', '케냐', '베네수엘라'],
-        ['2020/08',  265,      381,         224,             888,           250],
-        ['2020/09',  525,      1201,        994,             868,          288],
-        ['2020/10',  572,      1671,        874,             78,           297],
-        ['2020/11',  392,      1101,        154,             688,           215],
-        ['2020/12',  362,      911,         294,             286,          266],
-        ['2021/01',  562,      901,         754,             880,          90]
-        ];
-
-
+        idx = 2;
+        var chart_data =[];
+        var col = ['Month'];
+        for(name in names[name_list[idx]])
+        {
+            col.push(names[name_list[idx]][name]);
+        }
+        chart_data.push(col);
+        for(cf in sold_cf[name_list[idx]])
+        {
+            var row = [cf];
+            for(quan in sold_cf[name_list[idx]][cf])
+            {
+                row.push(sold_cf[name_list[idx]][cf][quan]);
+            }
+            chart_data.push(row);
+        }
         var data = google.visualization.arrayToDataTable(chart_data);
 
         var options = {
-            title : '월간 커피 판매량(EASY COFFEE)',
-            vAxis: {title: 'COFFEE'},
-            hAxis: {title: 'Monthly'},
+            title : '월간 커피 판매량(BLEND)',
+            vAxis: {title: '커피'},
+            hAxis: {title: 'Month'},
             seriesType: 'bars',
             series: {5: {type: 'line'}}
         };
@@ -119,7 +131,7 @@
 });
 </script>
 
-<input class="btn" id="btn-1" type="button" value="SINGLE ORIGIN" />
+<input class="btn" id="btn-1" type="button" value="SINGLE ORIGINS" />
 <input class="btn" id="btn-2" type="button" value="BLEND" />
 <input class="btn" id="btn-3" type="button" value="EASY COFFEE" />
 

@@ -104,7 +104,7 @@
             </a>
           </li>
           <li class="nav-item px-5">
-            <a class="nav-link text-uppercase text-expanded" href="about.html">About</a>
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'cfuser:about' %}">About</a>
           </li>
           <li>
             <div class="dropdown nav-item px-5">
@@ -132,7 +132,7 @@
             <div class="dropdown">
               <a class="dropdown-toggle nav-link text-expanded font-weight-bold" data-toggle="dropdown" href="#">MYPAGE</a>
               <ul class="dropdown-menu font-weight-bold" role="menu" aria-labelledby="dLabel">           
-                <li><a href="{% url 'cfboard:boards' 1 %}" id="list-1">PROFILE</a></li>
+                <li><a href="{% url 'cfuser:profile' %}" id="list-1">PROFILE</a></li>
                 <li><a href="{% url 'cfuser:cart' %}" id="list-2">CART</a></li>
                 <li><a href="{% url 'cfbuy:order_list' %}" id="list-3">ORDER</a></li>
                 {% if request.session.mode == 'admin' %}

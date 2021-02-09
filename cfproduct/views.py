@@ -108,6 +108,7 @@ def buy_detail(request):
             else: 
                 user = Cfuser.objects.get(email=request.session['user'])
                 for k, v in options.items():
+                    print(v)
                     basketdetail = Basketdetail()
                     basketdetail.buyer = user
                     basketdetail.save()
@@ -115,17 +116,15 @@ def buy_detail(request):
                     quantity = 0
                     if len(v)>2:
                         for i in v[:-2]:
-                            quantity = v[-2]
                             target = CftoOption.objects.get(id=i)
                             cfselect = Cfselect()
                             cfselect.cfoption = CftoOption.objects.get(id=i)
                             cfselect.cf_code = cfselect.cfoption.coffee_id.cfcode
                             cfselect.basket = basketdetail
-                            basketsum += v[-1]
                             cfselect.save()
                     
-                    basketdetail.quantity = quantity
-                    basketdetail.amount = basketsum
+                    basketdetail.quantity = v[-2]
+                    basketdetail.amount = v[-1]
                     basketdetail.total = basketdetail.quantity * basketdetail.amount
                     basketdetail.save()
                 
