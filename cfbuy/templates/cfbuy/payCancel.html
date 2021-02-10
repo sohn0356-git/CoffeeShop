@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block contents %}
+
+
+<style>
+  h2{
+    color: rgb(226, 176, 48);
+  }
+  .pay-frame{
+    margin-bottom: 50px;
+  }
+
+</style>
+
+  <div class="pay-frame mt-5 pt-5 row justify-content-center">
+    <h2 class="text-center my-5 col-12">결제를 취소했습니다.</h2>
+    <div class="col-4 p-5 bg-light">
+      <h3 class="text-center my-5">취소완료</h3>
+      <div class="mt-5 pt-3 text-center">
+        <a href="{% url 'cfbuy:order_list' %}" class="btn btn-primary">목록으로 돌아가기</a>
+        <a href="{% url 'cfuser:index' %}" class="btn btn-warning">메인으로 돌아가기</a>
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock %}
