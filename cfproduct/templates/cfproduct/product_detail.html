@@ -308,11 +308,14 @@
         }        
     };
     $(document).ready(function(){
-        var elements = document.querySelectorAll('li > .profileBox');
-        console.log(elements);
-        for(var elem of elements){
-            var str = elem.innerText
-            elem.innerText = str.substring(0,1);
+        var pro_elements = document.querySelectorAll('li > .profileBox');
+        var com_elements = document.querySelectorAll('li > .profileText');
+        for(var elem in pro_elements){
+            var str = pro_elements[elem].innerText
+            str = str.substring(0,1);
+            pro_elements[elem].innerText = str.substring(0,1);
+            str = com_elements[elem].innerText + ' (' + str + '**)';
+            com_elements[elem].innerText = str;
         }
     });
 

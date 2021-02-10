@@ -93,7 +93,6 @@ def buy_detail(request):
                     recent_buy = recent_buy[0]
                 res_data['recent_buy'] = recent_buy
 
-
                 for k, v in options.items():
                     if len(v)>2:
                         options_info.append([])
@@ -107,17 +106,16 @@ def buy_detail(request):
                         total_sum += v[-1]*v[-2]
                         options_info[-1].append({'option_list':option_list,'quantity':v[-2],'price':v[-1], 'sum':v[-2]*v[-1]})
                         options_info_id[-1].append({'option_list':option_list_id, 'quantity':v[-2]})
-                
-                res_data['total_sum'] = total_sum
-                res_data['cftooptions'] = cftooptions
-                res_data['options_info'] = options_info
-                res_data['options_info_id'] = options_info_id
-                res_data['quantitys'] = quan_dict
-                return render(request, 'cfbuy/buy_page.html', res_data)
+                if len(options_info):
+                    res_data['total_sum'] = total_sum
+                    res_data['cftooptions'] = cftooptions
+                    res_data['options_info'] = options_info
+                    res_data['options_info_id'] = options_info_id
+                    res_data['quantitys'] = quan_dict
+                    return render(request, 'cfbuy/buy_page.html', res_data)
             else: 
                 user = Cfuser.objects.get(email=request.session['user'])
                 for k, v in options.items():
-                    print(v)
                     basketdetail = Basketdetail()
                     basketdetail.buyer = user
                     basketdetail.save()

@@ -62,8 +62,9 @@ def cart(request):
         checkboxs = request.POST.getlist('checkbox')
         if btn=='delete':            
             for checkbox in checkboxs:
-                basketdetail = Basketdetail.objects.get(id=checkbox)
-                basketdetail.delete()
+                basketdetail = Basketdetail.objects.filter(id=checkbox)
+                if basketdetail:
+                    basketdetail.delete()
         else:
             total_sum = 0
             options_info_id = []
@@ -79,10 +80,11 @@ def cart(request):
 
             if btn=='selectbuy':
                 for checkbox in checkboxs:
-                    basketdetail = Basketdetail.objects.get(id=checkbox)
-                    basketdetails.append(basketdetail)
+                    basketdetail = Basketdetail.objects.filter(id=checkbox)
+                    if basketdetail:
+                        basketdetails.append(basketdetail)
             elif btn=='allbuy' :
-                basketdetails = Basketdetail.objects.all()
+                basketdetails = Basketdetail.objects.filter(buyer=user)
                 checkboxs = set()
                 for b in basketdetails:
                     checkboxs.add(b.id)
@@ -105,13 +107,13 @@ def cart(request):
                 total_sum += price*quantity
                 options_info[-1].append({'coffee' : option_list[0].coffee_id,'option_list':option_list,'quantity':quantity,'price':price, 'sum':quantity*price})
                 options_info_id[-1].append({'option_list':option_list_id, 'quantity':quantity})
-            res_data['total_sum'] = total_sum
-            res_data['options_info'] = options_info
-            res_data['options_info_id'] = options_info_id
-            res_data['quantitys'] = quan_dict
-            return render(request, 'cfbuy/buy_page.html', res_data)
-                    
 
+            if len(options_info):
+                res_data['total_sum'] = total_sum
+                res_data['options_info'] = options_info
+                res_data['options_info_id'] = options_info_id
+                res_data['quantitys'] = quan_dict
+                return render(request, 'cfbuy/buy_page.html', res_data)
 
     if baskets:
         for basket in baskets:
