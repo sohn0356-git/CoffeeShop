@@ -313,7 +313,7 @@
         for(var elem in pro_elements){
             var str = pro_elements[elem].innerText
             str = str.substring(0,1);
-            pro_elements[elem].innerText = str.substring(0,1);
+            pro_elements[elem].innerText = str;
             str = com_elements[elem].innerText + ' (' + str + '**)';
             com_elements[elem].innerText = str;
         }

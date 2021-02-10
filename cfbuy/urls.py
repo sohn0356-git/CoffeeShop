@@ -29,4 +29,6 @@ urlpatterns = [
     url(r'^order/$',order_list,name='order_list'),
     url(r'^complete/$',buy_complete,name='buy_complete'),
     url(r'^graph/$',show_graph,name='graph'),
+    url(r'^kakao/$',kakaopay,name='kakao_pay'),
+    url(r'^approve/$',approval,name='approve'),
 ]

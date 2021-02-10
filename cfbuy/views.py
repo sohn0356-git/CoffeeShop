@@ -1,4 +1,4 @@
-import json
+import json, requests
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
@@ -130,3 +130,59 @@ def show_graph(request):
     res_data['sold_cf']=json.dumps(sold_cf)
     res_data['names']=json.dumps(names)
     return render(request, 'graph.html', res_data)
+
+def kakaopay(request):
+    if request.method == "POST":
+        _admin_key = '6f1fe2f59f109a08501d463674bb96d7'
+        _url = f'https://kapi.kakao.com/v1/payment/ready'
+        _headers = {
+            'Authorization': f'KakaoAK {_admin_key}',
+        }
+        _data = {
+            'cid': 'TC0ONETIME',
+            'partner_order_id':'partner_order_id',
+            'partner_user_id':'partner_user_id',
+            'item_name':'초코파이',
+            'quantity':'1',
+            'total_amount':'1500',
+            'tax_free_amount':'0',
+            # 내 애플리케이션 -> 앱설정 / 플랫폼 - WEB 사이트 도메인에 등록된 정보만 가능합니다
+            # * 등록 : http://IP:8000 
+            # 'approval_url': reverse('cfbuy:approve'),
+            'approval_url': 'http://127.0.0.1:8000/buy/approve',
+            'fail_url':'http://127.0.0.1:8000/payFail',
+            'cancel_url':'http://127.0.0.1:8000/payCancel'
+        }
+        _res = requests.post(_url, data=_data, headers=_headers)
+        _result = _res.json()
+        print(_result)
+        request.session['tid'] = _result['tid']
+        return redirect(_result['next_redirect_pc_url'])
+        # request.session['tid'] = res.json()['tid']      # 결제 승인시 사용할 tid를 세션에 저장
+        # next_url = res.json()['next_redirect_pc_url']   # 결제 페이지로 넘어갈 url을 저장
+        # return redirect(next_url)
+
+    return render(request, 'cfbuy/kakao_pay.html')
+
+def approval(request):
+    _admin_key = '6f1fe2f59f109a08501d463674bb96d7'
+    _url = 'https://kapi.kakao.com/v1/payment/approve'
+    _headers = {
+        'Authorization': f'KakaoAK {_admin_key}'
+    }
+    _data = {
+        'cid':'TC0ONETIME',
+        'tid': request.session['tid'],
+        'partner_order_id':'partner_order_id',
+        'partner_user_id':'partner_user_id',
+        'pg_token': request.GET['pg_token']
+    }
+    _res = requests.post(_url, data=_data, headers=_headers)
+    _result = _res.json()
+    context = {
+        'res': _result,
+    }
+    if _result.get('msg'):
+        return redirect('/')
+    else:
+        return render(request, 'cfbuy/approval.html', context)
