@@ -80,9 +80,17 @@
   {% endif %}
   
   {% if request.session.user %}
-    <div class="form-row float-right">
-      <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}" id="btn-write">글쓰기</a></button>
-    </div>
+    {% if pk == '1' %}
+      {% if request.session.mode == 'admin' %}
+      <div class="form-row float-right">
+        <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}" id="btn-write">글쓰기</a></button>
+      </div>
+      {% endif %}
+    {% else %}
+      <div class="form-row float-right">
+        <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}" id="btn-write">글쓰기</a></button>
+      </div>
+    {% endif %}
   {% endif %}
 
   <div class="pagination">

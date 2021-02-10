@@ -16,7 +16,7 @@ class Cfuser(models.Model):
             ('admin', 'admin'),
             ('user', 'user')
         ))
-    image = models.ImageField(blank=True, null=True, upload_to="images", default='default.jpg')
+    image = models.ImageField(blank=True, null=True, upload_to="images", default='profile.png')
     register_date = models.DateTimeField(auto_now_add=True, verbose_name='가입일자')
 
     def __str__(self):

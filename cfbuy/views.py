@@ -1,5 +1,6 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 from django.shortcuts import render, redirect, reverse
 from django.db.models import Q
@@ -67,7 +68,18 @@ def buy_complete(request):
 def order_list(request):
     res_data={}
     user = Cfuser.objects.get(email=request.session['user'])
-    orders = Cfbuy.objects.filter(buyer=user).order_by('-buy_date')
+    orders = None
+    if request.method == "POST":
+        print(request.POST)
+        startdate = request.POST.get('start_date')
+        enddate = request.POST.get('end_date')
+        if startdate and enddate:
+            orders = Cfbuy.objects.filter(buyer=user).filter(buy_date__range=[startdate, enddate]).order_by('-buy_date')
+    else :
+        enddate = datetime.today()
+        startdate = enddate - relativedelta(months=3)
+        orders = Cfbuy.objects.filter(buyer=user).filter(buy_date__range=[startdate, enddate]).order_by('-buy_date')
+
     res_data['order_list'] = []
     if orders:
         for order in orders:

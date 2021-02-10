@@ -190,15 +190,9 @@
                 <div class="commentBox">
                     <ul class="list-unstyled">
                         {% for comment in comments %}
-<<<<<<< HEAD
-                         {{ comment.row_number }}
-                          {% if comment.user == user %}
-                          
-=======
                         {% if comment.row_number == 0 %} 
                             <li><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></li>
                         {% else %}
->>>>>>> aa8d44630864ec9da558fba20f9bdbba64c50190
                             <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
                         {% endif %}
                         {% endfor %}
@@ -312,6 +306,15 @@
             document.getElementById('result'+cnt).innerText = text;            
         }        
     };
+    $(document).ready(function(){
+        var elements = document.querySelectorAll('li > .profileBox');
+        console.log(elements);
+        for(var elem of elements){
+            var str = elem.innerText
+            elem.innerText = str.substring(0,1);
+            console.log(elem.innerText);
+        }
+    });
 
 
     

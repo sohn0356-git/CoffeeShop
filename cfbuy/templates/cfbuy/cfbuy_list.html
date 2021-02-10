@@ -51,7 +51,8 @@
 
 <div id="backbody">
     <div id="frame">
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <div id="frame2">
                 <span style="font-size: 16pt; font-weight: bold;">주문조회</span>
                 <span class="home">홈 > 주문조회</span>
@@ -63,7 +64,7 @@
             <br/>
             <div id="search">
                 <div style="border: solid 1px gray; padding: 20px;">
-                    <input type="date" style="padding: 3px;" /> ~ <input type="date" style="padding: 3px;" />&nbsp;
+                    <input type="date" name="start_date" style="padding: 3px;" /> ~ <input type="date" name="end_date" style="padding: 3px;" />&nbsp;
 
                     <button style="border: solid 1px gray; font-size: 12pt; font-weight: bold; background-color: #6699ff; color:#f5f5f0;">조회</button>
                     
@@ -71,7 +72,6 @@
 
                 <ol style="padding: 10px 20px; font-size: 10pt; color: gray;">
                     <li>기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
-                    <li>주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
                     <li>취소/교환/반품 신청은 주문완료일 기준 30일까지 가능합니다.</li>
                 </ol>
             </div>
@@ -96,12 +96,14 @@
                             <td>{{ order.0.buy_date }}[{{ order.0.id }}]</td>
                             <td>
                                 {% for cfselects in order.1 %}
+                                    <hr/>
                                     <p>
                                         {{ cfselects.0.cfoption.coffee_id }}
                                     </p>
                                     {% for cfselect in cfselects %}    
                                         <span>{{ cfselect.cfoption.option_id }}</span>
-                                    {% endfor %}                                
+                                    {% endfor %}     
+                                    <hr/>                           
                                 {% endfor %}
                             </td>  
                             <td>

@@ -58,9 +58,8 @@ class UserLV(ListView):
 
 def cart(request):
     user = Cfuser.objects.get(email=request.session['user'])
-    baskets = Basketdetail.objects.filter(buyer=user)
+    baskets = Basketdetail.objects.filter(buyer=user).order_by('-id')
     res_data = {'baskets':[]}
-    print(request.POST)
     if request.method=="POST":
         btn = request.POST.get('btn')
         checkboxs = request.POST.getlist('checkbox')
