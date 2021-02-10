@@ -9,7 +9,7 @@
         text-decoration: none;
     }
     .card{
-        margin: 100px 0 100px 0;
+        margin: 100px 0 50px 0;
     }
     .preview{
         background-color: white;
@@ -18,7 +18,7 @@
         border-bottom-left-radius: 8px;
     }
     .tab-pane{
-        margin-top: 160px;
+        margin-top: 50px;
     }
     li{
         list-style: none;
@@ -41,13 +41,12 @@
     opacity: 0.8;
     margin-top: 40px;
     padding: 37px;
-    width: 1000px;
     }
 
     .textInput {
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
-        width: 500px;
+        width: 40%;
         height: 45px;
         margin: 0 !important;
     }
@@ -63,7 +62,7 @@
         justify-content: center;
         align-items: center;
         background-color: #002247;
-        color: rgb(123, 126, 126);
+        color: rgb(93, 95, 95);
         font-size: 25px;
         font-weight: 700;
     }
@@ -120,7 +119,18 @@
     .btn-comment{
         background-color: #e6a756;
     }
+    .nav-item-sub{
+        text-decoration: none;
+        background-color: gray;
+        color: white;
+    }
+    .nav-item-sub:hover{
+        color: white;
+    }
 
+    
+
+    
 
 </style>
 
@@ -184,36 +194,56 @@
         </div>
     </div>
 </div>
-<div class="container my-2">
-    <div class="row mt-4">
-      <div class="col-md-9">
-            {% if comments %}
-                <div class="commentBox">
-                    <ul class="list-unstyled">
-                        {% for comment in comments %}
-                        {% if comment.row_number == 0 %} 
-                            <li><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></li>
-                        {% else %}
-                            <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-            {% if request.session.user %}
-            <form class="reply-form" method="post" action="{% url 'cfproduct:coffee_comment' id %}">
-              {% csrf_token %}
-                <div id="div_id_username" class="form-group required">
-                    <div class="controls form-group d-flex w-100 ">
-                        <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
-                        <button type="submit" class="btn-comment btn border-radius-0  m-0 w-25">POST</button>
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12 ">
+        <nav>
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item-sub nav-link active" id="nav-review-tab" data-toggle="tab" href="#nav-review" role="tab" aria-controls="nav-review" aria-selected="true">구매후기</a>
+            <a class="nav-item-sub nav-link" id="nav-detail-tab" data-toggle="tab" href="#nav-detail" role="tab" aria-controls="nav-detail" aria-selected="false">상세정보</a>
+          </div>
+        </nav>
+        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+            <div class="col-md-12 tab-pane fade show active" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                {% if comments %}
+                    <div class="commentBox">
+                        <ul class="list-unstyled">
+                            {% for comment in comments %}
+                            {% if comment.row_number == 0 %} 
+                                <li><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></li>
+                            {% else %}
+                                <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
                     </div>
-                </div>
-            </form>
-            {% endif %}
+                {% endif %}
+                {% if request.session.user %}
+                <form class="reply-form tab-pane col-md-12" method="post" action="{% url 'cfproduct:coffee_comment' id %}">
+                    {% csrf_token %}
+                    <div id="div_id_username" class="form-group required">
+                        <div class="controls form-group d-flex">
+                            <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
+                            <button type="submit" class="btn-comment btn border-radius-0">POST</button>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
+                Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
+            </div>
+        </div>
+      
       </div>
     </div>
-  </div>
+</div>
+</div>
+</div>
+
+
+
+
 <script>
     var total_sum = 0;
     var options = {};
@@ -308,13 +338,17 @@
         }        
     };
     $(document).ready(function(){
-        var elements = document.querySelectorAll('li > .profileBox');
-        console.log(elements);
-        for(var elem of elements){
-            var str = elem.innerText
-            elem.innerText = str.substring(0,1);
+        var pro_elements = document.querySelectorAll('li > .profileBox');
+        var com_elements = document.querySelectorAll('li > .profileText');
+        for(var elem in pro_elements){
+            var str = pro_elements[elem].innerText
+            str = str.substring(0,1);
+            pro_elements[elem].innerText = str.substring(0,1);
+            str = com_elements[elem].innerText + ' (' + str + '**)';
+            com_elements[elem].innerText = str;
         }
     });
+
 
 
 

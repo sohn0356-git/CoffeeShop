@@ -20,6 +20,14 @@
     .card-body{
         background-color: #f9f9fa;
     }
+    .d-flex > span > img{
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+      display: inline-flex;
+    }
 </style>
 
 <div class="container">
@@ -32,9 +40,9 @@
             <div class="e-profile">
               <div class="row">
                 <div class="col-12 col-sm-auto mb-3" style="margin:0 auto;">
-                  <div class="mx-auto" style="width: 150px;">
-                    <div class="d-flex" style="height: 150px; background-color: rgb(233, 236, 239);">
-                      <span><img src="{{ user.image.url }}" width="150px;" height="150px;"></span>
+                  <div class="mx-auto">
+                    <div class="d-flex">
+                      <span><img src="{{ user.image.url }}"></span>
                     </div>
                   </div>
                 </div>
