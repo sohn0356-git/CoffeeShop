@@ -9,6 +9,9 @@ from cfbuy.models import *
 from cfproduct.models import CftoOption
 from cfuser.models import Cfuser
 
+buy_id_list = []
+basket_id_list = []
+
 # Create your views here.
 def buy_complete(request):
     baskets = request.POST.get('baskets')
@@ -16,8 +19,7 @@ def buy_complete(request):
         baskets = eval(baskets)
         print(baskets)
         for b in baskets:
-            basketdetail = Basketdetail.objects.get(id=b)
-            basketdetail.delete()
+            basket_id_list.append(b)
 
 
     cfbuy = Cfbuy()
@@ -37,6 +39,7 @@ def buy_complete(request):
     cfbuy.buy_method = request.POST.get('buy_method')
     cfbuy.delivery_msg = request.POST.get('deliverymsg')
     cfbuy.save()
+    buy_id_list.append(cfbuy.id)
 
     options = eval(request.POST.get('options'))
     
@@ -54,16 +57,15 @@ def buy_complete(request):
             cfselect.cf_code = cfselect.cfoption.coffee_id.cfcode
             cfselect.buy = buydetail
             
-            date_str = "2020-09-08"
-            temp_date = datetime.strptime(date_str, "%Y-%m-%d").date()
-            cfselect.buy_date = temp_date
             buysum += buydetail.quantity * cfselect.cfoption.amount
             cfselect.save()
         
         buydetail.amount = buysum + buydetail.quantity * price
         buydetail.save()
-
-    return redirect(reverse('cfbuy:order_list'))
+    
+    return redirect(reverse('cfbuy:kakao_pay'))
+    
+    # return redirect(reverse('cfbuy:order_list'))
 
 def order_list(request):
     res_data={}
@@ -132,39 +134,66 @@ def show_graph(request):
     return render(request, 'graph.html', res_data)
 
 def kakaopay(request):
-    if request.method == "POST":
-        _admin_key = '6f1fe2f59f109a08501d463674bb96d7'
-        _url = f'https://kapi.kakao.com/v1/payment/ready'
-        _headers = {
-            'Authorization': f'KakaoAK {_admin_key}',
-        }
-        _data = {
-            'cid': 'TC0ONETIME',
-            'partner_order_id':'partner_order_id',
-            'partner_user_id':'partner_user_id',
-            'item_name':'초코파이',
-            'quantity':'1',
-            'total_amount':'1500',
-            'tax_free_amount':'0',
-            # 내 애플리케이션 -> 앱설정 / 플랫폼 - WEB 사이트 도메인에 등록된 정보만 가능합니다
-            # * 등록 : http://IP:8000 
-            # 'approval_url': reverse('cfbuy:approve'),
-            'approval_url': 'http://127.0.0.1:8000/buy/approve',
-            'fail_url':'http://127.0.0.1:8000/payFail',
-            'cancel_url':'http://127.0.0.1:8000/payCancel'
-        }
-        _res = requests.post(_url, data=_data, headers=_headers)
-        _result = _res.json()
-        print(_result)
-        request.session['tid'] = _result['tid']
-        return redirect(_result['next_redirect_pc_url'])
-        # request.session['tid'] = res.json()['tid']      # 결제 승인시 사용할 tid를 세션에 저장
-        # next_url = res.json()['next_redirect_pc_url']   # 결제 페이지로 넘어갈 url을 저장
-        # return redirect(next_url)
+    buy_info = Cfbuy.objects.get(id=buy_id_list[0])
+    buy_details = Buydetail.objects.filter(buy_info=buy_info)
+    options = []
+    buysum = 0
+    
+    name = ''
+    names = set()
+    total_quantity = 0
+    quantity = []
+    for buy_detail in buy_details:
+        quantity.append(buy_detail.quantity)
+        total_quantity += quantity[-1]
+        options.append(Cfselect.objects.filter(buy=buy_detail))
+    
+    email = request.session['user']
+    
+    for idx, option in enumerate(options):
+        price = 0
+        names.add(option[0].cfoption.coffee_id.name)
+        for ol in option:
+            price = ol.cfoption.coffee_id.price  
+            buysum += quantity[idx] * ol.cfoption.amount
+        buysum = buysum + quantity[idx] * price
+    
+    for n in names:
+        name += '[ '+ n + ' ]' + ' / '
+    name = name[:-2]
+    
+    _admin_key = '6f1fe2f59f109a08501d463674bb96d7'
+    _url = f'https://kapi.kakao.com/v1/payment/ready'
+    _headers = {
+        'Authorization': f'KakaoAK {_admin_key}',
+    }
+    _data = {
+        'cid': 'TC0ONETIME',
+        'partner_order_id': str(buy_id_list[0]),
+        'partner_user_id': email,
+        'item_name': name,
+        'quantity': total_quantity,
+        'total_amount': buysum,
+        'tax_free_amount':'0',
+        # 내 애플리케이션 -> 앱설정 / 플랫폼 - WEB 사이트 도메인에 등록된 정보만 가능합니다
+        # * 등록 : http://IP:8000 
+        # 'approval_url': reverse('cfbuy:approve'),
+        'approval_url': 'http://127.0.0.1:8000/buy/approve',
+        'fail_url':'http://127.0.0.1:8000/payFail',
+        'cancel_url':'http://127.0.0.1:8000/payCancel'
+    }
+    _res = requests.post(_url, data=_data, headers=_headers)
+    _result = _res.json()
+    request.session['tid'] = _result['tid']
+    return redirect(_result['next_redirect_pc_url'])
+    # request.session['tid'] = res.json()['tid']      # 결제 승인시 사용할 tid를 세션에 저장
+    # next_url = res.json()['next_redirect_pc_url']   # 결제 페이지로 넘어갈 url을 저장
+    # return redirect(next_url)
 
     return render(request, 'cfbuy/kakao_pay.html')
 
 def approval(request):
+    email = request.session['user']
     _admin_key = '6f1fe2f59f109a08501d463674bb96d7'
     _url = 'https://kapi.kakao.com/v1/payment/approve'
     _headers = {
@@ -173,16 +202,26 @@ def approval(request):
     _data = {
         'cid':'TC0ONETIME',
         'tid': request.session['tid'],
-        'partner_order_id':'partner_order_id',
-        'partner_user_id':'partner_user_id',
+        'partner_order_id': str(buy_id_list[0]),
+        'partner_user_id':  email,
         'pg_token': request.GET['pg_token']
     }
     _res = requests.post(_url, data=_data, headers=_headers)
     _result = _res.json()
+    print(_result)
     context = {
         'res': _result,
     }
     if _result.get('msg'):
+        cfbuy = Cfbuy.objects.get(id=buy_id_list[0])
+        cfbuy.delete()
+        buy_id_list.clear()
+        basket_id_list.clear()
         return redirect('/')
     else:
+        for b in basket_id_list:
+            basketdetail = Basketdetail.objects.get(id=b)
+            basketdetail.delete()
+        basket_id_list.clear()
+        buy_id_list.clear()
         return render(request, 'cfbuy/approval.html', context)
