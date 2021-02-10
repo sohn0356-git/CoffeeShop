@@ -25,7 +25,6 @@ app_name = 'cfuser'
 
 urlpatterns = [
     url(r'^$', index, name='index'),
-    url(r'^user/$', UserLV.as_view(), name='userlist'),
     url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^logout/$', logout, name='logout'),

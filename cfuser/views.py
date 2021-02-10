@@ -53,9 +53,6 @@ def logout(request):
     return redirect('/')
 
 
-class UserLV(ListView):
-    model = Cfuser
-
 def cart(request):
     user = Cfuser.objects.get(email=request.session['user'])
     baskets = Basketdetail.objects.filter(buyer=user).order_by('-id')

@@ -99,6 +99,3 @@ def comment_write(request, pk, id):
     return redirect(reverse('cfboard:board_detail', kwargs={'pk': pk, 'id' : id}))
     # return render(request, 'cfboard/cfboard_detail.html', {'board' : board, 'pk' : pk, 'id' : id,  'errors':errors})
 
-
-class BoardLV(ListView):
-    model = Cfboard
