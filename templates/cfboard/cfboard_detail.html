@@ -171,7 +171,10 @@
   </div>
 
   <a class="btn btn-primary float-right" href="{% url 'cfboard:boards' pk %}" role="button">목록</a>
-  <a class="btn float-right" style="background-color: gray; margin-right: 5px;" href="#" role="button">삭제</a>
+  <form action="{% url 'cfboard:boards' pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn float-right" style="background-color: gray; margin-right: 5px;" name="delete" value='{{ id }}' role="button">삭제</button>
+  </form>
 </div>
 
 
@@ -196,7 +199,7 @@
             {% csrf_token %}
               <div id="div_id_username" class="form-group required">
                   <div class="controls form-group d-flex w-100 ">
-                      <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
+                      <input class="input-md  textinput textInput form-control" id="id_username" name='contents' placeholder="Write your review" type="text" />
                       <button type="submit" class="btn border-radius-0  m-0 w-25">POST</button>
                   </div>
               </div>

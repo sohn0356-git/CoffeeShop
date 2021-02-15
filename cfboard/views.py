@@ -31,11 +31,17 @@ def board_detail(request, pk, id):
 def boards(request, pk):
     res_data = {'pk' : pk}
     boardname = Boardcode.objects.get(id=pk)
+    if request.method=="POST":
+        delete_id = request.POST.get('delete')
+        delete_board = Cfboard.objects.filter(id=delete_id)
+        if delete_board:
+            delete_board.delete()
     try:
-        board_lists = Cfboard.objects.filter(boardname=boardname).order_by('-id')
+        board_lists = Cfboard.objects.filter(boardname=boardname).order_by('id')
         board_list = []
         for idx, board in enumerate(board_lists):
             board_list.append([idx+1,board])
+        board_list.reverse()
         res_data['boardname'] = boardname
         res_data['boards'] = board_list
         paginator = Paginator(board_list, 8) # Show 25 contacts per page.
