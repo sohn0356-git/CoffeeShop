@@ -68,6 +68,15 @@
 
 * board 첫 화면 설계
 
+　
+
+<img src="./md-images/board_comment_front.jpg" height = "480" width="960">
+
+* comment 화면 설계
+
+　
+
+#### 테이블 설계
 
 　
 
@@ -101,23 +110,25 @@
 
 #### URL 설계
 
-| URL 패턴                                | 뷰 이름                |               설명               |
-| --------------------------------------- | ---------------------- | :------------------------------: |
-| /                                       | index                  |  들어왔을 때 처음 보여지는 화면  |
-| /user                                   | UserLV(ListView)       |       사용자 리스트를 출력       |
-| /register                               | RegisterView(FormView) |  새로운 사용자를 등록하는 화면   |
-| /login                                  | LoginView(FormView)    |         로그인 하는 화면         |
-| /logout                                 | logout                 |        로그아웃 하는 화면        |
-| /board/(?P<pk>\d{1})                    | boards                 |  게시판별로 글을 출력하는 화면   |
-| /board/(?P<pk>\d{1})/create             | board_write            |   게시판에 글을 생성하는 화면    |
-| /board/(?P<pk>\d{1})/detail/(?P<id>\d+) | board_detail           |                                  |
-| /board/list                             | BoardLV(ListView)      | 게시판의 모든 글을 출력하는 화면 |
-|                                         |                        |                                  |
-|                                         |                        |                                  |
+| URL 패턴                                        | 뷰 이름                |               설명               |
+| ----------------------------------------------- | ---------------------- | :------------------------------: |
+| /                                               | index                  |  들어왔을 때 처음 보여지는 화면  |
+| /user                                           | UserLV(ListView)       |       사용자 리스트를 출력       |
+| /register                                       | RegisterView(FormView) |  새로운 사용자를 등록하는 화면   |
+| /login                                          | LoginView(FormView)    |         로그인 하는 화면         |
+| /logout                                         | logout                 |        로그아웃 하는 화면        |
+| /board/(?P<pk>\d{1})                            | boards                 |  게시판별로 글을 출력하는 화면   |
+| /board/(?P<pk>\d{1})/create                     | board_write            |   게시판에 글을 생성하는 화면    |
+| /board/(?P<pk>\d{1})/detail/(?P<id>\d+)         | board_detail           |                                  |
+| /board/(?P<pk>\d{1})/detail/(?P<id>\d+)/comment | comment_write          |        댓글 작성하는 화면        |
+| /board/list                                     | BoardLV(ListView)      | 게시판의 모든 글을 출력하는 화면 |
+|                                                 |                        |                                  |
+|                                                 |                        |                                  |
 
 　
 
 #### 작업/코딩 순서
+
 
 | 작업순서          | 관련 명령/파일    | 필요한 작업 내용                                             |
 | ----------------- | ----------------- | ------------------------------------------------------------ |
@@ -160,4 +171,3 @@
 |                   | cfboard.views     | board_write기능 추가                                         |
 |                   | templates         | cfboard_list.html, cfboard_write.html, cfboard.html 추가     |
 |                   | cfboard.views     | board_detail 추가 -----(210130)-----                         |
-
