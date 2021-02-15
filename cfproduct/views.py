@@ -1,8 +1,5 @@
 from django.shortcuts import render, reverse, redirect
 from django.core.paginator import Paginator
-from django.db.models.expressions import Window
-from django.db.models.functions import RowNumber
-from django.db.models import F
 import json
 
 from cfproduct.models import *
@@ -17,12 +14,6 @@ def coffee(request, pk):
     cfcode = Coffeecode.objects.get(id=pk)
     try:
         coffee_list = Cfproduct.objects.filter(cfcode=cfcode).order_by('id')
-        coffee_list = coffee_list.annotate(row_number=Window(
-            expression=RowNumber(),
-            partition_by=[F('cfcode')])
-        )
-        for c in coffee_list:
-            c.row_number = c.row_number%3
         res_data['cfcode'] = cfcode
         res_data['coffee_list'] = coffee_list
         paginator = Paginator(coffee_list, 6) # Show 25 contacts per page.
@@ -51,13 +42,10 @@ def product_detail(request,id):
     cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
     res_data['cftooptions'] = cftooptions
     comments = Cfcomment.objects.filter(coffee=cfproduct)
-    comments = comments.annotate(row_number=Window(
-            expression=RowNumber(),
-            partition_by=[F('coffee')])
-        )
-    for c in comments:
-        c.row_number = c.row_number%2
-    res_data['comments'] = comments
+    comment = []
+    for idx, c in enumerate(comments):
+        comment.append([(idx+1)%2, c])
+    res_data['comments'] = comment
     option_set = set()
     price_info = {}
     for cftooption in cftooptions:

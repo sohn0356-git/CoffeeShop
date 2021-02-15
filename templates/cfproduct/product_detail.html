@@ -209,10 +209,10 @@
                     <div class="commentBox">
                         <ul class="list-unstyled">
                             {% for comment in comments %}
-                            {% if comment.row_number == 0 %} 
-                                <li><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></li>
+                            {% if comment.0 == 0 %} 
+                                <li><span class="profileText">{{ comment.1.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.1.user }}</span></li>
                             {% else %}
-                                <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
+                                <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.1.user }}</span><span class="profileText">{{ comment.1.contents }}</span></li>
                             {% endif %}
                             {% endfor %}
                         </ul>
