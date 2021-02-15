@@ -25,7 +25,7 @@ def coffee(request, pk):
             c.row_number = c.row_number%3
         res_data['cfcode'] = cfcode
         res_data['coffee_list'] = coffee_list
-        paginator = Paginator(coffee_list, 6) # Show 25 contacts per page.
+        paginator = Paginator(coffee_list, 6) # Show 6 contacts per page.
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         res_data['page_obj'] = page_obj
