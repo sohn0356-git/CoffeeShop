@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^graph/$',show_graph,name='graph'),
     url(r'^kakao/$',kakaopay,name='kakao_pay'),
     url(r'^approve/$',approval,name='approve'),
-    url(r'^test/$',TemplateView.as_view(template_name='cfbuy/test.html'),name='test'),
+    url(r'^cancel/$',TemplateView.as_view(template_name='cfbuy/payCancel.html'),name='cancel'),
+    url(r'^fail/$',TemplateView.as_view(template_name='cfbuy/payFail.html'),name='fail'),
 ]
