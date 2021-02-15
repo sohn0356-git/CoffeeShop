@@ -98,6 +98,16 @@
 
 　
 
+#### 테이블 설계
+
+<img src="./md-images/love_erd.jpg" height = "960" width="1280">
+
+* ERD 설계
+
+　
+
+
+
 #### URL 설계
 
 | URL 패턴                                        | 뷰 이름                |               설명               |
@@ -119,51 +129,45 @@
 
 #### 작업/코딩 순서
 
-| 작업순서          | 관련 명령/파일      | 필요한 작업 내용                                             |
-| ----------------- | ------------------- | ------------------------------------------------------------ |
-| 뼈대 만들기 💀     | startproject        | coffeeshop project생성                                       |
-|                   | settings.py         | templates, static경로 지정                                   |
-|                   | migrate             |                                                              |
-|                   | createsuperuser     | root 계정생성                                                |
-|                   | startapp            | cfuser생성                                                   |
-|                   | settings.py         | cfuser app 추가-----(210125)-----                            |
-|                   | startapp            | cfboard생성                                                  |
-|                   | settings.py         | cfboard app 추가-----(210126)-----                           |
-|                   | startapp            | cfproduct생성                                                |
-|                   | settings.py         | cfproduct app 추가-----(210202)-----                         |
-|                   |                     |                                                              |
-| 모델 코딩하기 📚   | cfuser.models.py    | email, name, password, phone, level, register_date를 맴버로 갖는 Cfuser 클래스 생성(models.Model상속) |
-|                   | cfuser.admin.py     | admin페이지에 Cfuser 추가                                    |
-|                   | makemigrations      |                                                              |
-|                   | migrate             | -----(210125)-----                                           |
-|                   | cfboard.models.py   | category, boardname, userid, title, reg_date, views, content, displosure을 맴버로 갖는 Cfboard 클래스 생성(models.Model상속) |
-|                   | cfboard.admin.py    | admin페이지에 Cfboard,Boardcode,Boardcate 추가               |
-|                   | makemigrations      |                                                              |
-|                   | migrate             | -----(210126)-----                                           |
-|                   | cfproduct.models.py |                                                              |
-|                   | cfuser.admin.py     |                                                              |
-|                   | makemigrations      |                                                              |
-|                   | migrate             | -----(210202)-----                                           |
-|                   |                     |                                                              |
-| URLconf 코딩하기🔧 | Coffeeshop.urls     | admin과 cfuser url 정리                                      |
-|                   | cfuser.urls         | cfuser의 url정리                                             |
-|                   | cfuser.views        | index, RegisterView, LoginView, logout, UserLV 생성          |
-|                   | cfuser.forms        | RegisterForm, LoginForm 생성                                 |
-|                   | templates           | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
-|                   | Coffeeshop.urls     | admin과 cfboard url 정리                                     |
-|                   | cfboard_list.html   | boardlist를 출력하는 html생성                                |
-|                   | cfboard.urls        | cfboard의 url정리-----(210126)-----                          |
-|                   | board.html          | board.html 생성 (게시판 틀)                                  |
-|                   | boardwrite.html     | boardwrite.html 생성(게시판 글쓰기 틀), base.html 수정       |
-|                   | boarddetail.html    | boarddetail.html 생성(게시판 상세보기 폼),  글쓰기 폼에 summernote 적용 |
-|                   |                     |                                                              |
-|                   |                     |                                                              |
-|                   |                     |                                                              |
-|                   |                     |                                                              |
-|                   | cfboard.views       | board_write기능 추가                                         |
-|                   | templates           | cfboard_list.html, cfboard_write.html, cfboard.html 추가     |
-|                   | cfboard.views       | board_detail 추가 -----(210130)-----                         |
-|                   |                     |                                                              |
-|                   |                     |                                                              |
-|                   |                     |                                                              |
 
+| 작업순서          | 관련 명령/파일    | 필요한 작업 내용                                             |
+| ----------------- | ----------------- | ------------------------------------------------------------ |
+| 뼈대 만들기 💀     | startproject      | coffeeshop project생성                                       |
+|                   | settings.py       | templates, static경로 지정                                   |
+|                   | migrate           |                                                              |
+|                   | createsuperuser   | root 계정생성                                                |
+|                   | startapp          | cfuser생성                                                   |
+|                   | settings.py       | cfuser app 추가-----(210125)-----                            |
+|                   | startapp          | cfboard생성                                                  |
+|                   | settings.py       | cfboard app 추가-----(210126)-----                           |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
+| 모델 코딩하기 📚   | cfuser.models.py  | email, name, password, phone, level, register_date를 맴버로 갖는 Cfuser 클래스 생성(models.Model상속) |
+|                   | cfuser.admin.py   | admin페이지에 Cfuser 추가                                    |
+|                   | makemigrations    |                                                              |
+|                   | migrate           | -----(210125)-----                                           |
+|                   | cfboard.models.py | category, boardname, userid, title, reg_date, views, content, displosure을 맴버로 갖는 Cfboard 클래스 생성(models.Model상속) |
+|                   | cfboard.admin.py  | admin페이지에 Cfboard,Boardcode,Boardcate 추가               |
+|                   | makemigrations    |                                                              |
+|                   | migrate           | -----(210126)-----                                           |
+| URLconf 코딩하기🔧 | Coffeeshop.urls   | admin과 cfuser url 정리                                      |
+|                   | cfuser.urls       | cfuser의 url정리                                             |
+|                   | cfuser.views      | index, RegisterView, LoginView, logout, UserLV 생성          |
+|                   | cfuser.forms      | RegisterForm, LoginForm 생성                                 |
+|                   | templates         | base.html, index.html, login,html, register.html, cfuser_list.html 생성-----(210125)----- |
+|                   | Coffeeshop.urls   | admin과 cfboard url 정리                                     |
+|                   | cfboard_list.html | boardlist를 출력하는 html생성                                |
+|                   | cfboard.urls      | cfboard의 url정리-----(210126)-----                          |
+|                   | board.html        | board.html 생성 (게시판 틀)                                  |
+|                   | boardwrite.html   | boardwrite.html 생성(게시판 글쓰기 틀), base.html 수정       |
+|                   | boarddetail.html  | boarddetail.html 생성(게시판 상세보기 폼),  글쓰기 폼에 summernote 적용 |
+|                   | cart.html         | cart.html (장바구니 페이지) 생성                             |
+|                   | buy_page.html     | buy_page.html(구매 상세 페이지) 생성                         |
+|                   | order.html        | order.html(구매이력 조회 페이지) 생성                        |
+|                   | graph.html        | graph.html(관리자그래프 페이지) 생성                         |
+|                   | map.html          | map.html(지도 페이지) 생성                                   |
+|                   |                   |                                                              |
+|                   |                   |                                                              |
+|                   | cfboard.views     | board_write기능 추가                                         |
+|                   | templates         | cfboard_list.html, cfboard_write.html, cfboard.html 추가     |
+|                   | cfboard.views     | board_detail 추가 -----(210130)-----                         |

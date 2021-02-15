@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+<style>
+
+    div#backbody{
+        margin: 80px 0 60px 0;
+        background-color: #f5f5f0;
+        font-size: 13pt;
+        min-width: 1100px;
+        width: 100%;
+        padding: 50px 0;
+    }
+
+    #frame{
+        width: 80%;
+        margin: 0 auto;
+        padding: 50px 50px;
+        background-color: #fff; 
+    }
+
+    #frame2{
+        border-bottom: solid 1px #e0e0eb;
+        padding: 20px 0;
+    }
+
+    .home{
+        float:right;
+        clear: both;
+    }
+
+    ol{
+        list-style: square;
+    }
+
+    table#productInfo{
+        border: solid 1px #e0e0eb;
+        border-collapse: collapse;
+        background-color: #f5f5f0;
+        width: 100%;
+        font-size: 10pt;
+    }
+
+    table#productInfo th, td{
+        border: solid 1px #e0e0eb;
+        text-align: center;
+        padding: 20px 0;
+    }
+</style>
+
+
+<div id="backbody">
+    <div id="frame">
+        <form method="POST">
+            {% csrf_token %}
+            <div id="frame2">
+                <span style="font-size: 16pt; font-weight: bold;">주문조회</span>
+                <span class="home">홈 > 주문조회</span>
+                <span> </span>
+            </div>
+            <br/>
+
+            <div style="border: solid 1px #e0e0eb; background-color:#f5f5f0; padding: 10px 10px; font-size: 13pt; font-weight: bold;"></div>
+            <br/>
+            <div id="search">
+                <div style="border: solid 1px gray; padding: 20px;">
+                    <input type="date" name="start_date" style="padding: 3px;" /> ~ <input type="date" name="end_date" style="padding: 3px;" />&nbsp;
+
+                    <button type=submit name="search" value="set" style="border: solid 1px gray; font-size: 12pt; font-weight: bold; background-color: #6699ff; color:#f5f5f0;">조회</button>
+                    <button type=submit name="search" value="reset" style="border: solid 1px gray; font-size: 12pt; font-weight: bold; background-color: rgb(155, 155, 155); color: rgb(17, 14, 14);">초기화</button>
+                    
+                </div>
+
+                <ol style="padding: 10px 20px; font-size: 10pt; color: gray;">
+                    <li>기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
+                    <li>취소/교환/반품 신청은 주문완료일 기준 30일까지 가능합니다.</li>
+                </ol>
+            </div>
+
+            <br/><br/>
+
+            <span style="font-size: 10pt; font-weight: bold; display: inline-block; padding: 10px 10px;">주문 상품 정보</span>
+            <table id="productInfo">
+                <thead>
+                    <tr>
+                        <th>주문일자[주문번호]</th>
+                        <th style="width: 450px;">상품정보</th>
+                        <th>수량</th>
+                        <th>상품구매금액</th>
+                        <th>배송메시지</th>
+                    </tr>
+                </thead>
+                {% if order_list %}
+                    <tbody style="background-color: #fff">
+                        {% for order in order_list %}
+                        <tr>
+                            <td>{{ order.0.buy_date }}[{{ order.0.id }}]</td>
+                            <td>
+                                {% for cfselects in order.1 %}
+                                    <hr/>
+                                    <p>
+                                        {{ cfselects.0.cfoption.coffee_id }}
+                                    </p>
+                                    {% for cfselect in cfselects %}    
+                                        <span>{{ cfselect.cfoption.option_id }}</span>
+                                    {% endfor %}     
+                                    <hr/>                           
+                                {% endfor %}
+                            </td>  
+                            <td>
+                                {% for detail in order.2 %}
+                                <p>
+                                    {%if detail.quantity %}
+                                        <span>{{ detail.quantity }}개</span>
+                                    {% endif %}
+                                </p>
+                                {% endfor %}
+                            </td>     
+                            <td>
+                                {% for detail in order.2 %}
+                                <p>
+                                    <span>{{ detail.amount }}원</span>
+                                </p>
+                                {% endfor %}
+                            </td> 
+                            <td>
+                                <span>{{ order.0.delivery_msg }}</span>
+                            </td> 
+                        </tr> 
+                        {% endfor %}  
+                    </tbody>
+            </table> 
+            {% else %}
+        </table>
+                <div style="text-align: center;">
+                    <span style="display: inline-block; padding-top: 30px;">주문 내역이 없습니다.</span>
+                </div>
+                {% endif %}
+                
+        </form>
+    </div>
+</div>
+
+{% endblock  %}

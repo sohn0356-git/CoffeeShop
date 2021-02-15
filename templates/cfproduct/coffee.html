@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Coffee</h1>
+    {% for coffee in coffee_list %}
+    <li>
+    {% if coffee.image %}
+        <img src="{{ coffee.image.url }}" width="300px" height="300px">
+        <p></p>
+    {% endif %}
+    <span><a href="{% url 'cfproduct:cfselect' coffee.id %}">{{ coffee.name }}</a></span><span>{{ coffee.price }}</span>
+    </li>
+    {% endfor %}
+</body>
+</html>

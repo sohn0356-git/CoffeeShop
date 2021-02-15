@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+<script>
+    var msg;
+    if("{{ msg }}")
+    {
+      msg = JSON.parse("{{ msg|escapejs }}");
+      alert(msg['error']);
+      delete msg.error;
+    }
+    
+</script>
+
+<style>
+    .card{
+        margin: 80px 0 50px 0;
+    }
+    .card-body{
+        background-color: #f9f9fa;
+    }
+    .d-flex > span > img{
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+      display: inline-flex;
+    }
+</style>
+
+<div class="container">
+<div class="row flex-lg-nowrap">
+  <div class="col">
+    <div class="row">
+      <div class="col mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="e-profile">
+              <div class="row">
+                <div class="col-12 col-sm-auto mb-3" style="margin:0 auto;">
+                  <div class="mx-auto">
+                    <div class="d-flex">
+                      <span><img src="{{ user.image.url }}"></span>
+                    </div>
+                  </div>
+                </div>
+                <form class="form" method="POST" novalidate="" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <div class="col d-flex flex-column flex-sm-row mb-3">
+                  <div class="text-center text-sm-left mb-2 mb-sm-0">
+                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ user.email }}</h4>  
+                    <div class="mt-2">                        
+                      <input type="file" class="form-control" name="image">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul class="nav nav-tabs">
+                <li class="nav-item"><a href="" class="active nav-link">Profile</a></li>
+              </ul>
+              <div class="tab-content pt-3">
+                <div class="tab-pane active">
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>이름</label>
+                              <input class="form-control" type="text" name="name" value="{{ user.name }}" placeholder="이름" value="이름" />
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>전화번호</label>
+                              <input class="form-control" type="text" name="phone" value="{{ user.phone }}" placeholder="전화번호" value="전화번호" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 mb-3">
+                        <div class="mb-2"><b>Change Password</b></div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>New Password</label>
+                              <input class="pw form-control" id="password_1" name="password" type="password" placeholder="••••••">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
+                              <input class="pw form-control" id="password_2" name="repassword" type="password" placeholder="••••••"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                        <div class="mb-2"><b>광고 수신 동의</b></div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="custom-controls-stacked px-2">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="notifications-blog" checked="">
+                                <label class="custom-control-label" for="notifications-blog">광고</label>
+                              </div>
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="notifications-news" checked="">
+                                <label class="custom-control-label" for="notifications-news">이벤트/알림</label>
+                              </div>
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="notifications-offers" checked="">
+                                <label class="custom-control-label" for="notifications-offers">SMS</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col d-flex justify-content-end">
+                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}

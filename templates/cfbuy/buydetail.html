@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>buy detail</h1>
+    <img src="{{ coffee.image.url }}" width="300px" height="300px">
+    <br/>
+    <span><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></span>
+    
+    <span>{
+        {% for select in select_list %}
+            <span>{{ select.cfoption.option_id }} </span>
+        {% endfor %}
+    }</span>
+
+    <span>{{ quantity }}개</span>
+    <button><a href="#">결제하기</a></button>
+</body>
+</html>

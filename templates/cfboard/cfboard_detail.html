@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+<style>
+  h2{
+    margin: 90px 0 25px 0;
+    text-align: center;
+    font-size: 20px;
+    color: #e6a756;
+  }
+  .media-header{
+    background-color: #e6a756;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+  h4{
+    color: black;
+    text-align: center;
+  }
+
+  h3{
+    margin-top: 50px;
+    color: black;
+  }
+  .media-body{
+    margin: 40px 0 40px 0;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    opacity: 0.8;
+  }
+  span{
+    font-size: 15px;
+  }
+  p{
+    font-size: 15px;
+    font-weight: bolder;
+  }
+  .reply-form {
+    opacity: 0.8;
+    margin-top: 40px;
+    padding: 37px;
+    width: 1000px;
+  }
+
+  .textInput {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      width: 500px;
+      height: 45px;
+      margin: 0 !important;
+  }
+  .textInput:focus {
+      box-shadow: none;
+      outline: none
+  }
+  .commentBox ul .profileBox {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #002247;
+      color: rgb(93, 95, 95);
+      font-weight: 700;
+  }
+  .commentBox ul li .profileBox {
+      background-color: #222;
+  }
+
+  .profileText {
+      border-radius: 7px;
+      padding: 10px;
+      position: relative;
+      background-color: #e0efff;
+      display: inline-block;
+      margin-left: 15px;
+      width: 50%;
+  }
+  .profileText::before {
+      content: '';
+      position: absolute;
+      left: -9px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0px;
+      height: 0px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 10px solid #e0efff;
+      z-index: 1;
+  }
+  .commentBox{
+    margin: 60px 0 0 40px;
+  }
+  .commentBox ul li {
+      display: flex;
+      align-items: center;
+  }
+  .commentBox ul ol .profileText::before {
+      left: unset;
+      right: -9px;
+      transform: translateY(-50%) rotate(175deg);
+  }
+  .commentBox ul ol .profileText {
+      text-align: right;
+  }
+  .commentBox ul li .profileText {
+    text-align: left;
+  }
+  div#div_id_username {
+      margin-top: 2%;
+  }
+  .commentBox ul .profileText {
+      margin-right: 15px
+  }
+  .commentBox ul ol{
+      text-align: right;
+      margin: 20px 0;
+      justify-content: right;
+  }
+  .commentBox ul li{
+    text-align: left;
+    margin: 20px 0;
+    justify-content: left;
+  }
+  .btn{
+    background-color: #e6a756;
+  }
+
+</style>
+
+<script>
+  $(document).ready(function(){
+    var elem = document.getElementById('contents')
+    elem.innerHTML = elem.innerText;
+  });  
+</script>
+{% endblock %}
+
+{% block contents %}
+
+{% if errors %}
+      <script>
+        alert('빈칸을 다 채워주세요!');
+      </script>
+{% endif %}
+<h2>{{ boardname }}</h2>
+
+
+<div class="container">
+  <div class="well">
+      <div class="media-body">
+        <div class="media-header">
+        <br>
+
+        <h4 id="media-heading">{{ board.title }}</h4>
+        <p class="text-right">작성자 : {{ board.writer }}</p>
+      </div>
+          <p id='contents'>
+            {{ board.contents }}
+          </p>
+          <hr/>
+          <ul class="list-inline list-unstyled">
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : {{ board.registered_dttm }} </span></li>
+            <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : {{ board.hits }}</span></li>         
+			    </ul>
+      </div>
+  </div>
+
+  <a class="btn btn-primary float-right" href="{% url 'cfboard:boards' pk %}" role="button">목록</a>
+  <form action="{% url 'cfboard:boards' pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn float-right" style="background-color: gray; margin-right: 5px;" name="delete" value='{{ id }}' role="button">삭제</button>
+  </form>
+</div>
+
+
+<div class="container my-2">
+  <div class="row mt-4">
+    <div class="col-md-9">
+          {% if comments %}
+              <div class="commentBox">
+                  <ul class="list-unstyled">
+                      {% for comment in comments %}
+                        {% if comment.user == user %}
+                        
+                          <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span><span class="profileText">{{ comment.contents }}</span></li>
+                        {% else%}
+                          <ol><span class="profileText">{{ comment.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.user }}</span></ol>
+                        {% endif %}
+                      {% endfor %}
+                  </ul>
+              </div>
+          {% endif %}
+          <form class="reply-form" method="post" action="{% url 'cfboard:board_comment' pk id %}">
+            {% csrf_token %}
+              <div id="div_id_username" class="form-group required">
+                  <div class="controls form-group d-flex w-100 ">
+                      <input class="input-md  textinput textInput form-control" id="id_username" name='contents' placeholder="Write your review" type="text" />
+                      <button type="submit" class="btn border-radius-0  m-0 w-25">POST</button>
+                  </div>
+              </div>
+          </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

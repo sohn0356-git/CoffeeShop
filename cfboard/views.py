@@ -2,9 +2,6 @@ from django.shortcuts import render, reverse, redirect
 from django.views.generic import ListView, TemplateView
 from django.core.paginator import Paginator
 
-from django.db.models.expressions import Window
-from django.db.models.functions import RowNumber
-from django.db.models import F
 from cfboard.models import *
 from cfuser.models import Cfuser
 
@@ -34,13 +31,17 @@ def board_detail(request, pk, id):
 def boards(request, pk):
     res_data = {'pk' : pk}
     boardname = Boardcode.objects.get(id=pk)
+    if request.method=="POST":
+        delete_id = request.POST.get('delete')
+        delete_board = Cfboard.objects.filter(id=delete_id)
+        if delete_board:
+            delete_board.delete()
     try:
-        board_list = Cfboard.objects.filter(boardname=boardname).order_by('-id')
-        board_list = board_list.annotate(row_number=Window(
-            expression=RowNumber(),
-            partition_by=[F('boardname')],
-            order_by=F('id').desc())
-        )
+        board_lists = Cfboard.objects.filter(boardname=boardname).order_by('id')
+        board_list = []
+        for idx, board in enumerate(board_lists):
+            board_list.append([idx+1,board])
+        board_list.reverse()
         res_data['boardname'] = boardname
         res_data['boards'] = board_list
         paginator = Paginator(board_list, 8) # Show 25 contacts per page.
@@ -56,6 +57,7 @@ def boards(request, pk):
 def board_write(request, pk):
     errors = []
     boardname = Boardcode.objects.get(id=pk)
+    catelist = Boardcate.objects.all()
     print('here',request)
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
@@ -78,7 +80,7 @@ def board_write(request, pk):
             return redirect(reverse('cfboard:boards', kwargs={'pk': pk}))
     
 
-    return render(request, 'cfboard/cfboard_write.html', {'errors':errors, 'pk':pk})
+    return render(request, 'cfboard/cfboard_write.html', {'errors':errors, 'pk':pk, 'catelist':catelist})
 
 
 def comment_write(request, pk, id):
@@ -98,6 +100,3 @@ def comment_write(request, pk, id):
     return redirect(reverse('cfboard:board_detail', kwargs={'pk': pk, 'id' : id}))
     # return render(request, 'cfboard/cfboard_detail.html', {'board' : board, 'pk' : pk, 'id' : id,  'errors':errors})
 
-
-class BoardLV(ListView):
-    model = Cfboard

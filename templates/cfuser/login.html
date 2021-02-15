@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block header %}
+<style>
+
+h1{
+  color: #e6a756;
+  font-size: 2em;
+  text-align: center;
+}
+.center_div{
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+.btn{
+  background-color: #e6a756;
+  margin: 50px 0 50px 0;
+  border-radius: 10px;
+  padding: 10px 30px 10px 30px;
+}
+.btn-register{
+  margin-left: 15px;
+  margin-bottom: 50px;
+  font-size: 20px;
+  text-decoration: none;
+  color: lightsalmon;
+}
+.btn-register:hover{
+  color: #e6a756;
+}
+</style>
+{% endblock %}
+
+
+{% block contents %}
+
+<div>
+  <div class="row">
+    <h1 class="col-md-6 container center_div">LOGIN</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 container center_div">
+    {{ error }}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 container center_div">
+
+    <form method="POST" action=".">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group text-white">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+          placeholder="{{ field.label }}" name="{{ field.name }}" />
+      </div>
+      {% if field.errors %}
+      <span style="color: rgb(184, 41, 6)">{{ field.errors }}</span>
+      {% endif %}
+      {% endfor %}
+      <button type="submit" class="btn btn-block">Login</button>
+      <a class="btn-register" href="{% url 'cfuser:register' %}">Create Account?</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

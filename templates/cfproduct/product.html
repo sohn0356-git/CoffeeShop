@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block contents %}
+<style>
+    .row{
+        margin: 80px auto;
+    }
+    .price{
+        color: white;
+    }
+    h3{
+        margin-top: 60px;
+        color: #e6a756;
+        text-align: center;
+    }
+    h3 > a{
+        text-decoration: none;
+        color:#e6a756;
+    }
+    h3 > a:hover{
+        color: #d3841c;
+    }
+    .add-to-cart{
+        text-decoration: none;
+        color: #e6a756;
+    }
+    .add-to-cart:hover{
+        color: #d3841c;
+    }
+    .price{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .pagination{
+        margin: 0 auto;
+      }
+    span{
+        color: #ce8f3d;
+    }
+    span > a{
+        color: #ce8f3d;
+    }
+
+</style>
+<div class="container ">
+    <h3 class="h3"></h3>
+    <div class="row center-block">
+        {% for coffee in page_obj %}
+                <div class="imgbox" style="width: 350px; margin: 0 auto;">
+                    <div class="product-grid">
+                    {% if coffee.image %}                    
+                        <div class="product-image" width="300px" height="300px">
+                                <img class="pic" src="{{ coffee.image.url }}" width="300px" height="300px">
+                        </div>
+                    {% endif %}
+                        <div class="product-content">
+                            <h3 class="title-1"><a href="{% url 'cfproduct:coffee_detail' coffee.id %}">{{ coffee.name }}</a></h3>
+                            <div class="price">{{ coffee.price }}원</div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}  
+    </div>
+</div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

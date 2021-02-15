@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include
+from django.conf.urls.static import static
+from CoffeeShop import settings
 from django.conf.urls import url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('cfuser.urls')),
     url(r'^board/', include('cfboard.urls')),
-]
+    url(r'^coffee/', include('cfproduct.urls')),
+    url(r'^buy/', include('cfbuy.urls')),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

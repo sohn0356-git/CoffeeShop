@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+
+
+{% block contents %}
+
+<style>
+    #chart_div{
+        margin: 40px 0 50px 20px;
+    }
+    .btn{
+        width: 150px;
+        height: 40px;
+        margin: 80px 0 0 30px;
+        text-decoration: none;
+        background-color: #e6a958;
+        color: #fff;
+    }
+    .btn:hover{
+        background-color: #d3841c;
+    }
+
+   
+</style>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    var sold_cf = JSON.parse("{{ sold_cf|escapejs }}");
+    var names = JSON.parse("{{ names|escapejs }}");
+    var name_list = ["SINGLE ORIGINS", "BLEND", "EASY COFFEE"];
+    var idx = 0;
+    console.log(sold_cf);
+    console.log(names);
+    google.charts.load('current', {'packages':['corechart']}).then(function(){
+        
+    $("#btn-1").click(function(){
+        idx = 0;
+        var chart_data =[];
+        var col = ['Month'];
+        console.log(names["SINGLE ORIGIN"]);
+        for(name in names[name_list[idx]])
+        {
+            col.push(names[name_list[idx]][name]);
+        }
+        chart_data.push(col);
+        for(cf in sold_cf[name_list[idx]])
+        {
+            var row = [cf];
+            for(quan in sold_cf[name_list[idx]][cf])
+            {
+                row.push(sold_cf[name_list[idx]][cf][quan]);
+            }
+            chart_data.push(row);
+        }
+        var data = google.visualization.arrayToDataTable(chart_data);
+
+        var options = {
+            title : '월간 커피 판매량(SINGLE ORIGINS)',
+            vAxis: {title: '커피'},
+            hAxis: {title: 'Month'},
+            seriesType: 'bars',
+            series: {8: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    })
+    $("#btn-2").click(function(){
+        idx = 1;
+        var chart_data =[];
+        var col = ['Month'];
+        for(name in names[name_list[idx]])
+        {
+            col.push(names[name_list[idx]][name]);
+        }
+        chart_data.push(col);
+        for(cf in sold_cf[name_list[idx]])
+        {
+            var row = [cf];
+            for(quan in sold_cf[name_list[idx]][cf])
+            {
+                row.push(sold_cf[name_list[idx]][cf][quan]);
+            }
+            chart_data.push(row);
+        }
+        var data = google.visualization.arrayToDataTable(chart_data);
+
+        var options = {
+            title : '월간 커피 판매량(BLEND)',
+            vAxis: {title: '커피'},
+            hAxis: {title: 'Month'},
+            seriesType: 'bars',
+            series: {8: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+        
+    })
+    $("#btn-3").click(function(){
+        idx = 2;
+        var chart_data =[];
+        var col = ['Month'];
+        for(name in names[name_list[idx]])
+        {
+            col.push(names[name_list[idx]][name]);
+        }
+        chart_data.push(col);
+        for(cf in sold_cf[name_list[idx]])
+        {
+            var row = [cf];
+            for(quan in sold_cf[name_list[idx]][cf])
+            {
+                row.push(sold_cf[name_list[idx]][cf][quan]);
+            }
+            chart_data.push(row);
+        }
+        var data = google.visualization.arrayToDataTable(chart_data);
+
+        var options = {
+            title : '월간 커피 판매량(EASY COFFEE)',
+            vAxis: {title: '커피'},
+            hAxis: {title: 'Month'},
+            seriesType: 'bars',
+            series: {8: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    })
+});
+</script>
+
+<input class="btn" id="btn-1" type="button" value="SINGLE ORIGINS" />
+<input class="btn" id="btn-2" type="button" value="BLEND" />
+<input class="btn" id="btn-3" type="button" value="EASY COFFEE" />
+
+<div id="chart_div" style="width: 1200px; height: 800px;"></div>
+
+
+
+{% endblock %}
+
+
+
+  
+

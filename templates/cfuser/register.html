@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block header %}
+<style>
+    h1{
+        color: #e6a756;
+        font-size: 2em;
+    }
+    #form-wrap{
+        margin: 15px 0 15px 0;
+    }
+    input{
+        margin-bottom: 30px;
+    }
+    .center_div{
+      margin-top: 20px;
+    }
+    .btn{
+        border-radius: 10px;
+        padding: 10px 15px 10px 15px;
+        background-color: #e6a756;
+    }
+    .btn:hover{
+      background-color: rgb(231, 157, 45);
+    }
+</style>
+{% endblock %}
+{% block contents %}
+<div class="row mt-7">
+  <div class="col-md-6 container center_div">
+    <h1>Register</h1>
+  </div>
+</div>
+<div class="row mt-7">
+  <div class="col-md-6 container center_div">
+    {{ error }}
+  </div>
+</div>
+<div id="form-wrap" class="row mt-7">
+  <div class="col-md-6 container center_div">
+    <form method="POST" action=".">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group text-white">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+          placeholder="{{ field.label }}" name="{{ field.name }}" />
+      </div>
+      {% if field.errors %}
+      <span style="color: rgb(184, 41, 6)">{{ field.errors }}</span>
+      {% endif %}
+      {% endfor %}
+      <button type="submit" class="btn btn-block">회원가입</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

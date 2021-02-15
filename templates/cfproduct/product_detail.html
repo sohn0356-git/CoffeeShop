@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block contents %}
+
+<style>
+    a{
+        text-decoration: none;
+    }
+    .card{
+        margin: 100px 0 50px 0;
+    }
+    .preview{
+        background-color: white;
+        text-align: center;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+    .tab-pane{
+        margin-top: 50px;
+    }
+    li{
+        list-style: none;
+    }
+    .count{
+        width: 30px;
+    }
+    .action{
+        margin: 30px 0 30px 0;
+    }
+    .action > .add-to-cart > a{
+        text-decoration: none;
+        color: #e0e0eb;
+    }
+    .action > .like > .fa > a{
+        text-decoration: none;
+        color: #fff;
+    }
+    .reply-form {
+    opacity: 0.8;
+    margin-top: 40px;
+    padding: 37px;
+    }
+
+    .textInput {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        width: 40%;
+        height: 45px;
+        margin: 0 !important;
+    }
+    .textInput:focus {
+        box-shadow: none;
+        outline: none
+    }
+    .commentBox ul .profileBox {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #002247;
+        color: rgb(93, 95, 95);
+        font-size: 25px;
+        font-weight: 700;
+    }
+    .commentBox ul li:nth-child(even) .profileBox {
+        background-color: #222;
+    }
+    .profileText {
+        border-radius: 7px;
+        padding: 10px;
+        position: relative;
+        background-color: #e0efff;
+        display: inline-block;
+        margin-left: 15px;
+        width: 50%;
+    }
+    .profileText::before {
+        content: '';
+        position: absolute;
+        left: -9px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0px;
+        height: 0px;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid #e0efff;
+        z-index: 1;
+    }
+    .commentBox ul li {
+        display: flex;
+        align-items: center;
+    }
+    .commentBox ul li:nth-child(even) .profileText::before {
+        left: unset;
+        right: -9px;
+        transform: translateY(-50%) rotate(175deg);
+    }
+
+    .commentBox ul li:nth-child(even) .profileText {
+        text-align: left;
+    }
+    div#div_id_username {
+        margin-top: 2%;
+    }
+    .commentBox ul li:nth-child(even) .profileText {
+        margin-left: 0;
+        margin-right: 15px
+    }
+    .commentBox ul li:nth-child(even) {
+        text-align: right;
+        margin: 20px 0;
+        justify-content: flex-end;
+    }
+    .btn-comment{
+        background-color: #e6a756;
+    }
+    .nav-item-sub{
+        text-decoration: none;
+        background-color: gray;
+        color: white;
+    }
+    .nav-item-sub:hover{
+        color: white;
+    }
+
+    
+
+    
+
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="container-fliud">
+            <div class="wrapper row">
+                <div class="preview col-md-6">  
+                    <div class="preview-pic tab-content">
+                        {% if coffee.image %}
+                            <div class="tab-pane active" id="pic-1"><img src="{{ coffee.image.url }}" width="300px" height="300px"></div>
+                        {% endif %}                      
+                    </div>        
+                </div>             
+                    <div class="details col-md-6">
+                        <br>
+                        <h3 class="product-title">{{ coffee.name }}</h3>
+                        <h4 class="price">가격 : <span>{{ coffee.price }}원</span></h4>
+                        
+                            <li>
+                            <hr/>
+                            {% for option_title in option_set %}
+                                <li style="padding-right: 30px;">
+                                    <label>{{ option_title }} :</label>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="{{ option_title }}" onchange="handleOnChange(this)">
+                                        {% for cftooption in cftooptions %}
+                                            {%if cftooption.option_id.code_option == option_title %}
+                                                <option value="{{ cftooption.id }}">{{ cftooption.option_id.option }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </li>
+                                <hr/>
+                            {% endfor %}
+                            </li>
+                            <form method="post" action="{% url 'cfproduct:buy_detail' %}" id="select_form">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ coffee.id }}">
+                                <section id="options">
+                                    
+                                </section>
+                                <hr/>
+                                <br>
+                                <section>
+                                    <p id="price" style="text-align: right; padding-right:30px">최종합산 금액 : 0원</p>
+                                </section>
+                                <hr/>
+                                <div class="action">
+                                    {% if request.session.user %}
+                                        <button class="add-to-cart btn btn-secondary" type="submit" name="buy" value="cart">장바구니 추가</button>
+                                        <button class="like btn btn-primary" type="submit" name="buy" value="buy"><span class="fa fa-heart">구매하기</span></button>
+                                    {% else %}
+                                        <button class="add-to-cart btn btn-secondary" type="button" name="buy" value="cart"><a href="{% url 'cfuser:login' %}">장바구니</a></button>
+                                        <button class="like btn btn-primary" type="button" name="buy" value="buy"><span class="fa fa-heart"><a href="{% url 'cfuser:login' %}">구매하기</a></span></button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12 ">
+        <nav>
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item-sub nav-link active" id="nav-review-tab" data-toggle="tab" href="#nav-review" role="tab" aria-controls="nav-review" aria-selected="true">구매후기</a>
+            <a class="nav-item-sub nav-link" id="nav-detail-tab" data-toggle="tab" href="#nav-detail" role="tab" aria-controls="nav-detail" aria-selected="false">상세정보</a>
+          </div>
+        </nav>
+        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+            <div class="col-md-12 tab-pane fade show active" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                {% if comments %}
+                    <div class="commentBox">
+                        <ul class="list-unstyled">
+                            {% for comment in comments %}
+                            {% if comment.0 == 0 %} 
+                                <li><span class="profileText">{{ comment.1.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.1.user }}</span></li>
+                            {% else %}
+                                <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.1.user }}</span><span class="profileText">{{ comment.1.contents }}</span></li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if request.session.user %}
+                <form class="reply-form tab-pane col-md-12" method="post" action="{% url 'cfproduct:coffee_comment' id %}">
+                    {% csrf_token %}
+                    <div id="div_id_username" class="form-group required">
+                        <div class="controls form-group d-flex">
+                            <input class="input-md  textinput textInput form-control" id="id_username" name=contents placeholder="Write your review" type="text" />
+                            <button type="submit" class="btn-comment btn border-radius-0">POST</button>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
+                Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
+            </div>
+        </div>
+      
+      </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+
+<script>
+    var total_sum = 0;
+    var options = {};
+    var cnt = 0;
+    var param = {};
+    var price_info = JSON.parse("{{ priceJson|escapejs }}");
+    var selector = document.querySelectorAll(".form-select")
+    function update_form(){
+        var test = JSON.stringify(param)
+        var el = document.createElement("input");
+        el.type = "hidden";
+        el.name = "option";
+        el.value = test;
+        document.getElementById('select_form').appendChild(el)
+        console.log(test);
+        document.getElementById('price').innerText = "최종합산 금액 : "+total_sum+"원 ";
+    }
+
+    function setBtn(num){
+        $('#option'+num+' > .__count_range input[count_range]').click(function(e){
+            e.preventDefault();
+            var type = $(this).attr('count_range');
+            var $count = $(this).parent().children('input.count');
+            var count_val = $count.val(); // min 1
+            var arr = param[num];
+            if(type=='m'){
+                if(count_val<=1){
+                    return;
+                }
+            $count.val(parseInt(count_val)-1);
+            total_sum -= arr[arr.length-1]
+            arr[arr.length-2]--;
+            }else if(type=='p'){
+                $count.val(parseInt(count_val)+1);
+                total_sum += arr[arr.length-1]
+                arr[arr.length-2]++;
+            }
+            update_form();
+        });
+    }; 
+    
+    function remove_div(num){
+        document.getElementById('option'+num).remove()
+        var arr = param[num];
+        total_sum -= arr[arr.length-1]*arr[arr.length-2];
+        param[num] = [];
+        update_form();
+        console.log(param)
+    }
+
+    function add_option(){
+        var div = document.createElement('div');
+        div.setAttribute("id", "option"+cnt);
+        div.innerHTML = `<div class="__count_range text-right"> 
+                <span class= "text-left" id='result`+cnt+`'></span>
+                <span onclick="remove_div(`+cnt+`)" style="cursor: pointer;"><img src="{% static 'img/cancel.png' %}" width=35px;></span>
+                <input value="-" count_range="m" type="button">
+                <input class="count" value="1" readonly="" name="quantity">
+                <input value="+" count_range="p" type="button">
+                </div> `
+        document.getElementById('options').appendChild(div);
+        setBtn(cnt);
+    }
+    function handleOnChange(e){
+        var sum = price_info['base'];
+        if(e.selectedIndex != 0){
+            options[e.options[0].text] = e.options[e.selectedIndex].text          
+        }
+        if(Object.keys(options).length == price_info['len']){
+            var option_arr = []
+            var text = "{ ";
+            for(option in options){
+                text += option + " : " + options[option]+" ";
+            }
+            text += "}";
+            for(var i=0;i<selector.length;i++)
+            {
+                sum += price_info[selector[i].options[selector[i].selectedIndex].value];
+                option_arr.push(selector[i].options[selector[i].selectedIndex].value);
+                selector[i].selectedIndex=0;                
+            }
+            cnt++;
+            option_arr.push(1);
+            option_arr.push(sum);
+            total_sum += sum;
+            param[cnt]=option_arr;
+            options={};            
+            console.log(sum);
+            add_option();
+            update_form();
+            document.getElementById('result'+cnt).innerText = text;            
+        }        
+    };
+    $(document).ready(function(){
+        var pro_elements = document.querySelectorAll('li > .profileBox');
+        var com_elements = document.querySelectorAll('li > .profileText');
+        for(var elem in pro_elements){
+            var str = pro_elements[elem].innerText
+            str = str.substring(0,1);
+            pro_elements[elem].innerText = str;
+            str = com_elements[elem].innerText + ' (' + str + '**)';
+            com_elements[elem].innerText = str;
+        }
+    });
+
+
+
+
+    
+
+
+</script>
+{% endblock %}

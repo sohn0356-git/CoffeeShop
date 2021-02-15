@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block header %}
+<style>
+  h1{
+    margin: 105px 0 70px 0;
+    color: #e6a756;
+    text-align: center;
+    font-size: 1.5em;
+  }
+  .table{
+    font-weight: bolder;
+    margin-bottom: 80px;
+    background-color: #e6a756;
+    color: black;
+    border-radius: 8px;
+    opacity: 0.7;
+  }
+  tr{
+    font-size: 16px;
+  }
+  .btn{
+    background-color:#e6a756 ;
+    color: black;
+    opacity: 0.7;
+  }
+  .btn:hover{
+    background-color: #ce8f3d;
+  }
+  #title-link{
+    color: black;
+  }
+  #btn-write{
+    color: black;
+  }
+  .pagination{
+    margin-top: 100px;
+  }
+  span{
+    color: #ce8f3d;
+  }
+  span > a{
+    color: #ce8f3d;
+  }
+
+</style>
+
+{% endblock %}
+
+{% block contents %}
+
+
+
+<table class="table table-hover">
+  <h1>{{ boardname }}</h1>
+  {% if boards %}
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">카테고리</th>
+        <th scope="col">제목</th>
+        <th scope="col">작성자</th>
+        <th scope="col">작성일</th>
+        <th scope="col">조회</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for board in page_obj %}
+      <tr>
+        <th scope="row">{{ board.0 }}</th>
+        <td>{{ board.1.catename }}</td>
+        <td><a href="{% url 'cfboard:board_detail' pk board.1.id %}" id="title-link">{{ board.1.title }}</a></td>
+        <td>{{ board.1.writer }}</td>
+        <td>{{ board.1.registered_dttm }}</td>
+        <td>{{ board.1.hits }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+  
+  {% if request.session.user %}
+    {% if pk == '1' %}
+      {% if request.session.mode == 'admin' %}
+      <div class="form-row float-right">
+        <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}" id="btn-write">글쓰기</a></button>
+      </div>
+      {% endif %}
+    {% else %}
+      <div class="form-row float-right">
+        <button type="button" class="btn"><a href="{% url 'cfboard:board_create' pk %}" id="btn-write">글쓰기</a></button>
+      </div>
+    {% endif %}
+  {% endif %}
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+
+{% endblock %}

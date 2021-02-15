@@ -1,6 +1,10 @@
 from django.db import models
 
 # Create your models here.
+import os
+from uuid import uuid4
+from django.utils import timezone
+
 
 class Cfuser(models.Model):
     email = models.EmailField(verbose_name='이메일')
@@ -12,6 +16,7 @@ class Cfuser(models.Model):
             ('admin', 'admin'),
             ('user', 'user')
         ))
+    image = models.ImageField(blank=True, null=True, upload_to="images", default='profile.png')
     register_date = models.DateTimeField(auto_now_add=True, verbose_name='가입일자')
 
     def __str__(self):

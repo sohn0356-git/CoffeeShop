@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+<style>
+    div.mainbody{
+        margin: 80px 0 60px 0;
+        background-color: #f5f5f0;
+        font-size: 13pt;
+        min-width: 1100px;
+        width: 100%;
+        padding: 50px 0;
+    }
+    #frame{
+        width: 80%;
+        margin: 0 auto;
+        padding: 50px 50px;
+        background-color: #fff;
+    }
+
+    #frame2{
+        border-bottom: solid 1px #e0e0eb;
+        padding-bottom: 10px;
+    }
+    .home{
+        float: right;
+        clear: both;
+    }
+    table.calculation1{
+        clear: both;
+        border: solid 1px #e0e0eb;
+        border-collapse: collapse;
+        background-color: #f5f5f0;
+        width: 100%;
+        font-size: 10pt;
+    }
+    table.calculation1 th{
+        border: solid 1px #e0e0eb;
+        padding: 10px 0;
+        text-align: center;
+    }
+    table.calculation1 td{
+        border: solid 1px #e0e0eb;
+        text-align: center;
+    }
+
+    table.calculation2{
+        border: solid 1px #e0e0eb;
+        border-collapse: collapse;
+        background-color: #f5f5f0;
+        width: 100%;
+        font-size: 10pt;
+    }
+
+    table.calculation2 th{
+        border: solid 1px #e0e0eb;
+        text-align: center;
+    }
+
+    table.calculation2 td{
+        border: solid 1px #e0e0eb;
+        text-align: center;
+    }
+
+    .price{
+        font-size: 20pt;
+        font-weight: bold;
+    }
+    .btn{
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        font-size: 13px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .backBtn{
+        background: #fff;
+        border: solid 1px gray;
+    }
+    .footerbtn{
+        float: right;
+        font-weight: bolder;
+        font-size: 12pt;
+        border-radius: 3px;
+    }
+    #allProduct, #productclear, #footerbtn{
+        padding: 11px 25px;
+    }
+    #allProduct{
+        background-color: #264d73;
+        color: #fff;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+    #productClear{
+        background-color: gray;
+        color: #fff;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+    .aa:hover{
+        cursor: pointer;
+    }
+</style>
+<script>
+    
+    $(document).ready(function(){
+
+        $("#notproduct").hide();
+
+            $(".calculation1 thead input:checkbox[id=check]").click(function(){
+            var bool = $(this).prop("checked");
+                $(".calculation1 tbody input:checkbox[name=checkbox]").prop("checked", bool);
+        });  
+    });
+</script>
+<div class="mainbody">
+    <div id="frame">
+        <form>
+            <div id="frame2">
+                <span style="font-size: 16pt; font-weight: bold;">장바구니</span>
+                <span class="home">홈 > 장바구니</span>
+                <span></span> 
+            </div>
+            <br/>
+
+            <div>
+                <table class="calculation1">
+                    <tr>
+                        <th class="buy">상품목록</th>
+
+                    </tr>
+                </table>
+            </div>
+        </form>
+        <br/>
+
+        <div>
+            <table class="calculation1">
+                <thead>
+                    <tr>
+                        <th colspan="10" style="text-align: left; padding-left: 10px;">일반상품({{ baskets|length }})</th>
+                    </tr>
+                    <tr>
+                        <th><input type="checkbox" name="checkbox" id="check" /></th>
+                        <th><span>이미지</span></th>
+                        <th style="width: 250px;"><span>상품정보</span></th>
+                        <th>판매가</th>
+                        <th>수량</th>
+                        <th>합계</th>
+                    </tr>
+                </thead>
+                <form method="POST">
+                    {% csrf_token %}
+                    <tbody id="calculation1tbody">
+                        {% for basket in baskets %}
+                                <tr id="calculation1_tr1" style="height: 90px; background-color: #fff;">
+                                    <td><input type="checkbox" name="checkbox" id="check" value="{{ basket.0.id }}" /></td>
+                                    {% if basket.1.0.cfoption.coffee_id.image %}
+                                        <td style="border-left: none; border-right:none;"><img style="width: 70px; height: 70px;" src="{{ basket.1.0.cfoption.coffee_id.image.url }}"></td>
+                                    {% endif %}
+                                    <td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
+                                        <p>{{ basket.1.0.cfoption.coffee_id.name }}</p>
+                                        <span>{</span>
+                                            {% for options in basket.1 %}
+                                                <span style="font-size:small;">{{ options.cfoption.option_id }}</span>
+                                            {% endfor %}
+                                        <span>}</span>
+                                    </td>
+                                    <td>
+                                        {{ basket.0.amount }}
+                                    </td>
+                                    <td>
+                                        {{ basket.0.quantity }}
+                                    </td>
+                                    <td>
+                                        {{ basket.0.total }}
+                                    </td>
+                                </tr>
+                            {% endfor %}                    
+                    </tbody>
+                
+                    <tfoot>
+                        <tr style="height: 60px;">
+                            <td colspan="4" style="border-right: none; text-align:left; padding-left:10px;">
+                                <span>[현재 장바구니에 추가하신 상품입니다.]</span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div style="margin: 10px 0;">
+                    <span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
+                    <button type="submit" class="btn default btndelete" id="choiceProductDelete" name="btn" value="delete" style="background-color: gray; color:#fff">삭제하기</button>&nbsp;
+                    <span class="clearboth"></span>
+                </div>
+                <br/><br/>
+                <br/><br/>
+
+                <div align="center">
+                    <button type="submit" class="btn default" name="btn" value="allbuy" id="allProduct">전체상품주문</button>
+                    <button type="submit" class="btn default backBtn" name="btn" value="selectbuy" id="productClear">선택상품주문</button>
+
+                    <span class="clearboth"></span>
+                </div>
+            </form>
+            <br/><br/><br/><br/><br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
