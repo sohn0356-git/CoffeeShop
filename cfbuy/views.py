@@ -17,7 +17,6 @@ def buy_complete(request):
     baskets = request.POST.get('baskets')
     if baskets:
         baskets = eval(baskets)
-        print(baskets)
         for b in baskets:
             basket_id_list.append(b)
 
@@ -71,8 +70,8 @@ def order_list(request):
     res_data={}
     user = Cfuser.objects.get(email=request.session['user'])
     orders = None
-    if request.method == "POST":
-        print(request.POST)
+    print(request.POST)
+    if request.method == "POST" and request.POST.get('search')!='reset':
         startdate = request.POST.get('start_date')
         enddate = request.POST.get('end_date')
         if startdate and enddate:
@@ -208,7 +207,6 @@ def approval(request):
     }
     _res = requests.post(_url, data=_data, headers=_headers)
     _result = _res.json()
-    print(_result)
     context = {
         'res': _result,
     }

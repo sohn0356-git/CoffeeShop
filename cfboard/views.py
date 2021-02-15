@@ -2,9 +2,6 @@ from django.shortcuts import render, reverse, redirect
 from django.views.generic import ListView, TemplateView
 from django.core.paginator import Paginator
 
-from django.db.models.expressions import Window
-from django.db.models.functions import RowNumber
-from django.db.models import F
 from cfboard.models import *
 from cfuser.models import Cfuser
 
@@ -35,12 +32,10 @@ def boards(request, pk):
     res_data = {'pk' : pk}
     boardname = Boardcode.objects.get(id=pk)
     try:
-        board_list = Cfboard.objects.filter(boardname=boardname).order_by('-id')
-        board_list = board_list.annotate(row_number=Window(
-            expression=RowNumber(),
-            partition_by=[F('boardname')],
-            order_by=F('id').desc())
-        )
+        board_lists = Cfboard.objects.filter(boardname=boardname).order_by('-id')
+        board_list = []
+        for idx, board in enumerate(board_lists):
+            board_list.append([idx+1,board])
         res_data['boardname'] = boardname
         res_data['boards'] = board_list
         paginator = Paginator(board_list, 8) # Show 25 contacts per page.

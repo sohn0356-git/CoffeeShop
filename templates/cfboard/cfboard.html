@@ -67,12 +67,12 @@
     <tbody>
       {% for board in page_obj %}
       <tr>
-        <th scope="row">{{ board.row_number }}</th>
-        <td>{{ board.catename }}</td>
-        <td><a href="{% url 'cfboard:board_detail' pk board.id %}" id="title-link">{{ board.title }}</a></td>
-        <td>{{ board.writer }}</td>
-        <td>{{ board.registered_dttm }}</td>
-        <td>{{ board.hits }}</td>
+        <th scope="row">{{ board.0 }}</th>
+        <td>{{ board.1.catename }}</td>
+        <td><a href="{% url 'cfboard:board_detail' pk board.1.id %}" id="title-link">{{ board.title }}</a></td>
+        <td>{{ board.1.writer }}</td>
+        <td>{{ board.1.registered_dttm }}</td>
+        <td>{{ board.1.hits }}</td>
       </tr>
       {% endfor %}
     </tbody>
