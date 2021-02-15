@@ -80,7 +80,7 @@ def cart(request):
 
             if btn=='selectbuy':
                 for checkbox in checkboxs:
-                    basketdetail = Basketdetail.objects.filter(id=checkbox)
+                    basketdetail = Basketdetail.objects.get(id=checkbox)
                     if basketdetail:
                         basketdetails.append(basketdetail)
             elif btn=='allbuy' :
@@ -91,7 +91,9 @@ def cart(request):
 
             res_data['baskets'] = checkboxs
             
+            
             for basketdetail in basketdetails:
+                print(basketdetail)
                 options_info.append([])
                 options_info_id.append([])
                 option_list = []

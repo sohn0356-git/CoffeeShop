@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
-{% block contents %}
+{% block header %}
+
 <style>
   h2{
     margin: 90px 0 25px 0;
@@ -129,8 +130,17 @@
     background-color: #e6a756;
   }
 
-
 </style>
+
+<script>
+  $(document).ready(function(){
+    var elem = document.getElementById('contents')
+    elem.innerHTML = elem.innerText;
+  });  
+</script>
+{% endblock %}
+
+{% block contents %}
 
 {% if errors %}
       <script>
@@ -149,7 +159,7 @@
         <h4 id="media-heading">{{ board.title }}</h4>
         <p class="text-right">작성자 : {{ board.writer }}</p>
       </div>
-          <p>
+          <p id='contents'>
             {{ board.contents }}
           </p>
           <hr/>
@@ -193,4 +203,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}
