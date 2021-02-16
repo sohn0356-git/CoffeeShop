@@ -102,7 +102,7 @@
     }
 
     .commentBox ul li:nth-child(even) .profileText {
-        text-align: left;
+        text-align: right;
     }
     div#div_id_username {
         margin-top: 2%;
@@ -128,9 +128,9 @@
         color: white;
     }
 
-    
 
-    
+
+
 
 </style>
 
@@ -138,18 +138,18 @@
     <div class="card">
         <div class="container-fliud">
             <div class="wrapper row">
-                <div class="preview col-md-6">  
+                <div class="preview col-md-6">
                     <div class="preview-pic tab-content">
                         {% if coffee.image %}
                             <div class="tab-pane active" id="pic-1"><img src="{{ coffee.image.url }}" width="300px" height="300px"></div>
-                        {% endif %}                      
-                    </div>        
-                </div>             
+                        {% endif %}
+                    </div>
+                </div>
                     <div class="details col-md-6">
                         <br>
                         <h3 class="product-title">{{ coffee.name }}</h3>
                         <h4 class="price">가격 : <span>{{ coffee.price }}원</span></h4>
-                        
+
                             <li>
                             <hr/>
                             {% for option_title in option_set %}
@@ -170,7 +170,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="id" value="{{ coffee.id }}">
                                 <section id="options">
-                                    
+
                                 </section>
                                 <hr/>
                                 <br>
@@ -209,10 +209,30 @@
                     <div class="commentBox">
                         <ul class="list-unstyled">
                             {% for comment in comments %}
-                            {% if comment.0 == 0 %} 
-                                <li><span class="profileText">{{ comment.1.contents }}</span><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.1.user }}</span></li>
+                            {% if comment.0 == 0 %}
+                                <li>
+                                    {% if request.session.user == comment.1.user.email %}
+                                        <form class="comment_form" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name='delete' value='{{ comment.1.id }}'>
+                                            <input type='image' src="{% static 'img/cancel.png' %}" width="55px" alt="submit">
+                                        </form>
+                                    {% endif %}
+                                    <span class="profileText">{{ comment.1.contents }}</span>
+                                    <span class="profileBox" style="background: no-repeat center/140% url('{{ comment.1.user.image.url }}');">{{ comment.1.user }}</span>
+                                </li>
                             {% else %}
-                                <li><span class="profileBox" style="background: no-repeat center/140% url('{{ comment.user.image.url }}');">{{ comment.1.user }}</span><span class="profileText">{{ comment.1.contents }}</span></li>
+                                <li>
+                                    <span class="profileBox" style="background: no-repeat center/140% url('{{ comment.1.user.image.url }}');">{{ comment.1.user }}</span>
+                                    <span class="profileText">{{ comment.1.contents }}</span>
+                                    {% if request.session.user == comment.1.user.email %}
+                                        <form class="comment_form" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name='delete' value='{{ comment.1.id }}'>
+                                            <input type='image' src="{% static 'img/cancel.png' %}" width="55px" alt="submit">
+                                        </form>
+                                    {% endif %}
+                                </li>
                             {% endif %}
                             {% endfor %}
                         </ul>
@@ -234,7 +254,7 @@
                 Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
             </div>
         </div>
-      
+
       </div>
     </div>
 </div>
@@ -283,8 +303,8 @@
             }
             update_form();
         });
-    }; 
-    
+    };
+
     function remove_div(num){
         document.getElementById('option'+num).remove()
         var arr = param[num];
@@ -297,7 +317,7 @@
     function add_option(){
         var div = document.createElement('div');
         div.setAttribute("id", "option"+cnt);
-        div.innerHTML = `<div class="__count_range text-right"> 
+        div.innerHTML = `<div class="__count_range text-right">
                 <span class= "text-left" id='result`+cnt+`'></span>
                 <span onclick="remove_div(`+cnt+`)" style="cursor: pointer;"><img src="{% static 'img/cancel.png' %}" width=35px;></span>
                 <input value="-" count_range="m" type="button">
@@ -310,7 +330,7 @@
     function handleOnChange(e){
         var sum = price_info['base'];
         if(e.selectedIndex != 0){
-            options[e.options[0].text] = e.options[e.selectedIndex].text          
+            options[e.options[0].text] = e.options[e.selectedIndex].text
         }
         if(Object.keys(options).length == price_info['len']){
             var option_arr = []
@@ -323,19 +343,19 @@
             {
                 sum += price_info[selector[i].options[selector[i].selectedIndex].value];
                 option_arr.push(selector[i].options[selector[i].selectedIndex].value);
-                selector[i].selectedIndex=0;                
+                selector[i].selectedIndex=0;
             }
             cnt++;
             option_arr.push(1);
             option_arr.push(sum);
             total_sum += sum;
             param[cnt]=option_arr;
-            options={};            
+            options={};
             console.log(sum);
             add_option();
             update_form();
-            document.getElementById('result'+cnt).innerText = text;            
-        }        
+            document.getElementById('result'+cnt).innerText = text;
+        }
     };
     $(document).ready(function(){
         var pro_elements = document.querySelectorAll('li > .profileBox');
@@ -352,7 +372,7 @@
 
 
 
-    
+
 
 
 </script>

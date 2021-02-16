@@ -178,8 +178,8 @@ def kakaopay(request):
         # * 등록 : http://IP:8000 
         # 'approval_url': reverse('cfbuy:approve'),
         'approval_url': 'http://127.0.0.1:8000/buy/approve',
-        'fail_url':'http://127.0.0.1:8000/payFail',
-        'cancel_url':'http://127.0.0.1:8000/payCancel'
+        'fail_url':'http://127.0.0.1:8000/fail',
+        'cancel_url':'http://127.0.0.1:8000/cancel'
     }
     _res = requests.post(_url, data=_data, headers=_headers)
     _result = _res.json()
@@ -223,3 +223,17 @@ def approval(request):
         basket_id_list.clear()
         buy_id_list.clear()
         return render(request, 'cfbuy/approval.html', context)
+
+def payFail(request):
+    cfbuy = Cfbuy.objects.get(id=buy_id_list[0])
+    cfbuy.delete()
+    buy_id_list.clear()
+    basket_id_list.clear()
+    return render(request, 'payFail.html')
+    
+def payCancel(request):
+    cfbuy = Cfbuy.objects.get(id=buy_id_list[0])
+    cfbuy.delete()
+    buy_id_list.clear()
+    basket_id_list.clear()
+    return render(request, 'payCancel.html')

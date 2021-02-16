@@ -40,6 +40,11 @@ class RegisterForm(forms.Form):
         password = cleaned_data.get('password')
         re_password = cleaned_data.get('re_password')
 
+        if email:
+            cfuser = Cfuser.objects.filter(email=email)
+            if cfuser:
+                self.add_error('email', '동일한 아이디가 존재합니다.')
+
         if password and re_password:
             if password != re_password:
                 self.add_error('password', '비밀번호가 서로 다릅니다.')

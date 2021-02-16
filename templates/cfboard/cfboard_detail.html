@@ -28,7 +28,7 @@
     background-color: white;
     border: 2px solid black;
     border-radius: 10px;
-    opacity: 0.8;
+    opacity: 0.8;;
   }
   span{
     font-size: 15px;
@@ -136,6 +136,15 @@
   $(document).ready(function(){
     var elem = document.getElementById('contents')
     elem.innerHTML = elem.innerText;
+    var pro_elements = document.querySelectorAll('.profileBox');
+    var com_elements = document.querySelectorAll('.profileText');
+    for(var elem in pro_elements){
+        var str = pro_elements[elem].innerText
+        str = str.substring(0,1);
+        pro_elements[elem].innerText = str;
+        str = com_elements[elem].innerText + ' (' + str + '**)';
+        com_elements[elem].innerText = str;
+    }
   });  
 </script>
 {% endblock %}
@@ -157,13 +166,13 @@
         <br>
 
         <h4 id="media-heading">{{ board.title }}</h4>
-        <p class="text-right">작성자 : {{ board.writer }}</p>
+        <p class="text-right" style="padding: 0 10px;">작성자 : {{ board.writer }}</p>
       </div>
-          <p id='contents'>
+          <p id='contents' style="padding: 0 10px;">
             {{ board.contents }}
           </p>
           <hr/>
-          <ul class="list-inline list-unstyled">
+          <ul class="list-inline list-unstyled" style="padding: 0 10px;">
             <li><span><i class="glyphicon glyphicon-calendar"></i> 작성일 : {{ board.registered_dttm }} </span></li>
             <li><span><i class="glyphicon glyphicon-calendar"></i> 조회수 : {{ board.hits }}</span></li>         
 			    </ul>
@@ -171,10 +180,12 @@
   </div>
 
   <a class="btn btn-primary float-right" href="{% url 'cfboard:boards' pk %}" role="button">목록</a>
-  <form action="{% url 'cfboard:boards' pk %}" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn float-right" style="background-color: gray; margin-right: 5px;" name="delete" value='{{ id }}' role="button">삭제</button>
-  </form>
+  {% if request.session.user == user.email %}
+    <form action="{% url 'cfboard:boards' pk %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn float-right" style="background-color: gray; margin-right: 5px;" name="delete" value='{{ id }}' role="button">삭제</button>
+    </form>
+  {% endif %}
 </div>
 
 

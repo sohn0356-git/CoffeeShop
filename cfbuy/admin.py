@@ -10,7 +10,7 @@ class BuydetailAdmin(admin.ModelAdmin):
     list_display = ('id', 'buy_info')
     
 class BasketdetailAdmin(admin.ModelAdmin):
-    list_display = ('id',)
+    list_display = ('id', 'buyer')
 
 class CfselectAdmin(admin.ModelAdmin):
     list_display = ('id', 'cfoption', 'buy', 'basket')

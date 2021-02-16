@@ -41,6 +41,10 @@ def product_detail(request,id):
     res_data['id'] = id
     cftooptions = CftoOption.objects.filter(coffee_id=cfproduct)
     res_data['cftooptions'] = cftooptions
+    if request.method == "POST":
+        delete_comment = Cfcomment.objects.filter(id=request.POST.get('delete'))
+        if delete_comment:
+            delete_comment[0].delete()
     comments = Cfcomment.objects.filter(coffee=cfproduct)
     comment = []
     for idx, c in enumerate(comments):
